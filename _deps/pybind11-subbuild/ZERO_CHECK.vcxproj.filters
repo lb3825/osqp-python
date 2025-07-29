@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\pybind11-subbuild\CMakeFiles\e38290b0b077bf2af1be0e7c714cee49\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{6D571C05-A0F7-3440-901A-CFC192A799BA}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

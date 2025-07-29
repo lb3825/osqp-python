@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\src\osqp_api.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\OSQPLIB.dir\$(Configuration)\auxil.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\OSQPLIB.dir\$(Configuration)\error.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\OSQPLIB.dir\$(Configuration)\scaling.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\OSQPLIB.dir\$(Configuration)\util.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\OSQPLIB.dir\$(Configuration)\polish.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\OSQPLIB.dir\$(Configuration)\derivative.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\OSQPLIB.dir\$(Configuration)\interrupt_windows.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\OSQPLIB.dir\$(Configuration)\timing_windows.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\OSQPLIB.dir\$(Configuration)\codegen.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\OSQPLIB.dir\$(Configuration)\csc_math.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\OSQPLIB.dir\$(Configuration)\csc_utils.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\OSQPLIB.dir\$(Configuration)\algebra_libs.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\OSQPLIB.dir\$(Configuration)\vector.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\OSQPLIB.dir\$(Configuration)\matrix.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\OSQPLIB.dir\$(Configuration)\SuiteSparse_config.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\OSQPLIB.dir\$(Configuration)\amd_1.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\OSQPLIB.dir\$(Configuration)\amd_2.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\OSQPLIB.dir\$(Configuration)\amd_aat.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\OSQPLIB.dir\$(Configuration)\amd_control.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\OSQPLIB.dir\$(Configuration)\amd_defaults.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\OSQPLIB.dir\$(Configuration)\amd_info.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\OSQPLIB.dir\$(Configuration)\amd_order.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\OSQPLIB.dir\$(Configuration)\amd_post_tree.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\OSQPLIB.dir\$(Configuration)\amd_postorder.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\OSQPLIB.dir\$(Configuration)\amd_preprocess.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\OSQPLIB.dir\$(Configuration)\amd_valid.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\OSQPLIB.dir\$(Configuration)\kkt.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\OSQPLIB.dir\$(Configuration)\qdldl_interface.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-build\qdldlobject.dir\$(Configuration)\qdldl.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Object Libraries">
+      <UniqueIdentifier>{B4CF71AF-894C-3AE3-8290-D66ADED1FA68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{619194B5-59E1-3F42-9482-23B2B2E0B932}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

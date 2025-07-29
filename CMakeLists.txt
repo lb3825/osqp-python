@@ -17,7 +17,24 @@ include(FetchContent)
 # 03/05/24 - Use modern python discovery
 set(PYBIND11_FINDPYTHON "ON")
 
-find_package(pybind11 CONFIG REQUIRED)
+# Try to find pybind11, if not found, fetch it
+find_package(pybind11 CONFIG QUIET)
+if(NOT pybind11_FOUND)
+    message(STATUS "pybind11 not found, fetching from GitHub...")
+    FetchContent_Declare(
+        pybind11
+        GIT_REPOSITORY https://github.com/pybind/pybind11.git
+        GIT_TAG v2.11.1
+    )
+    FetchContent_MakeAvailable(pybind11)
+else()
+    message(STATUS "Found pybind11: ${pybind11_DIR}")
+endif()
+
+# find_package(pybind11 CONFIG REQUIRED)
+
+# Find Python before configuring OSQP
+find_package(Python COMPONENTS Interpreter Development REQUIRED)
 
 # 03/05/24 - Workaround because OSQP CMakeLists.txt is using old variable names
 set(PYTHON_FOUND "ON")
@@ -27,11 +44,27 @@ message(STATUS "Fetching/configuring OSQP")
 list(APPEND CMAKE_MESSAGE_INDENT "  ")
 FetchContent_Declare(
   osqp
-  GIT_REPOSITORY https://github.com/osqp/osqp.git
-  GIT_TAG v1.0.0
+#   GIT_REPOSITORY https://github.com/osqp/osqp.git
+  GIT_REPOSITORY https://github.com/lb3825/osqp.git
+  GIT_TAG restarts
 )
 list(POP_BACK CMAKE_MESSAGE_INDENT)
 FetchContent_MakeAvailable(osqp)
+
+# Define the module name if not already set
+if(NOT DEFINED OSQP_EXT_MODULE_NAME)
+    set(OSQP_EXT_MODULE_NAME "osqp")
+endif()
+
+if(${OSQP_ALGEBRA_BACKEND} STREQUAL "builtin")
+    set(OSQP_EXT_MODULE_NAME "ext_builtin")
+elseif(${OSQP_ALGEBRA_BACKEND} STREQUAL "mkl")
+    set(OSQP_EXT_MODULE_NAME "osqp_mkl")
+elseif(${OSQP_ALGEBRA_BACKEND} STREQUAL "cuda")
+    set(OSQP_EXT_MODULE_NAME "osqp_cuda")
+else()
+    set(OSQP_EXT_MODULE_NAME "osqp")
+endif()
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/bindings.cpp.in
                ${CMAKE_CURRENT_SOURCE_DIR}/src/bindings.cpp)

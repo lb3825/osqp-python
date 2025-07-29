@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{58972F57-BA23-3C6C-8B85-DEF2019E88B3}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>qdldl-populate</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\CMakeFiles\28844dd8569d2b1f52901b062ca4dffc\qdldl-populate-mkdir.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Creating directories for 'qdldl-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -Dcfgdir=/Debug -P C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/qdldl-populate-prefix/tmp/qdldl-populate-mkdirs.cmake
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E touch C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/qdldl-populate-prefix/src/qdldl-populate-stamp/Debug/qdldl-populate-mkdir
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\src\qdldl-populate-stamp\Debug\qdldl-populate-mkdir</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\CMakeFiles\28844dd8569d2b1f52901b062ca4dffc\qdldl-populate-download.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Performing download step (git clone) for 'qdldl-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\Users\baice\Documents\GitHub\osqp-python\_deps
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/qdldl-populate-prefix/tmp/qdldl-populate-gitclone.cmake
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E touch C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/qdldl-populate-prefix/src/qdldl-populate-stamp/Debug/qdldl-populate-download
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\src\qdldl-populate-stamp\qdldl-populate-gitinfo.txt;C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\src\qdldl-populate-stamp\Debug\qdldl-populate-mkdir;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\src\qdldl-populate-stamp\Debug\qdldl-populate-download</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\CMakeFiles\28844dd8569d2b1f52901b062ca4dffc\qdldl-populate-update.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Performing update step for 'qdldl-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-src
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -Dcan_fetch=YES -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/qdldl-populate-prefix/tmp/qdldl-populate-gitupdate.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\tmp\qdldl-populate-gitupdate.cmake;C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\src\qdldl-populate-stamp\qdldl-populate-update-info.txt;C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\src\qdldl-populate-stamp\Debug\qdldl-populate-download;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\src\qdldl-populate-stamp\Debug\qdldl-populate-update</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</VerifyInputsAndOutputsExist>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\CMakeFiles\28844dd8569d2b1f52901b062ca4dffc\qdldl-populate-patch.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No patch step for 'qdldl-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E touch C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/qdldl-populate-prefix/src/qdldl-populate-stamp/Debug/qdldl-populate-patch
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\src\qdldl-populate-stamp\qdldl-populate-patch-info.txt;C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\src\qdldl-populate-stamp\Debug\qdldl-populate-update;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\src\qdldl-populate-stamp\Debug\qdldl-populate-patch</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</VerifyInputsAndOutputsExist>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\CMakeFiles\28844dd8569d2b1f52901b062ca4dffc\qdldl-populate-configure.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No configure step for 'qdldl-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E touch C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/qdldl-populate-prefix/src/qdldl-populate-stamp/Debug/qdldl-populate-configure
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\tmp\qdldl-populate-cfgcmd.txt;C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\src\qdldl-populate-stamp\Debug\qdldl-populate-patch;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\src\qdldl-populate-stamp\Debug\qdldl-populate-configure</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\CMakeFiles\28844dd8569d2b1f52901b062ca4dffc\qdldl-populate-build.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No build step for 'qdldl-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E touch C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/qdldl-populate-prefix/src/qdldl-populate-stamp/Debug/qdldl-populate-build
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\src\qdldl-populate-stamp\Debug\qdldl-populate-configure;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\src\qdldl-populate-stamp\Debug\qdldl-populate-build</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\CMakeFiles\28844dd8569d2b1f52901b062ca4dffc\qdldl-populate-install.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No install step for 'qdldl-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E touch C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/qdldl-populate-prefix/src/qdldl-populate-stamp/Debug/qdldl-populate-install
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\src\qdldl-populate-stamp\Debug\qdldl-populate-build;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\src\qdldl-populate-stamp\Debug\qdldl-populate-install</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\CMakeFiles\28844dd8569d2b1f52901b062ca4dffc\qdldl-populate-test.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No test step for 'qdldl-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E touch C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/qdldl-populate-prefix/src/qdldl-populate-stamp/Debug/qdldl-populate-test
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\src\qdldl-populate-stamp\Debug\qdldl-populate-install;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\src\qdldl-populate-stamp\Debug\qdldl-populate-test</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\CMakeFiles\28cb6fb0368a4bcd12c74f0d83ef1d0a\qdldl-populate-complete.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Completed 'qdldl-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E make_directory C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/CMakeFiles/Debug
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E touch C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/CMakeFiles/Debug/qdldl-populate-complete
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E touch C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/qdldl-populate-prefix/src/qdldl-populate-stamp/Debug/qdldl-populate-done
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\src\qdldl-populate-stamp\Debug\qdldl-populate-install;C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\src\qdldl-populate-stamp\Debug\qdldl-populate-mkdir;C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\src\qdldl-populate-stamp\Debug\qdldl-populate-download;C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\src\qdldl-populate-stamp\Debug\qdldl-populate-update;C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\src\qdldl-populate-stamp\Debug\qdldl-populate-patch;C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\src\qdldl-populate-stamp\Debug\qdldl-populate-configure;C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\src\qdldl-populate-stamp\Debug\qdldl-populate-build;C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\src\qdldl-populate-stamp\Debug\qdldl-populate-test;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\CMakeFiles\Debug\qdldl-populate-complete</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</VerifyInputsAndOutputsExist>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\CMakeFiles\6e850668eb73865e2ba038359ec382ff\qdldl-populate.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"></Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\CMakeFiles\Debug\qdldl-populate-complete;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\CMakeFiles\qdldl-populate</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</VerifyInputsAndOutputsExist>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -SC:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild -BC:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild --check-stamp-file C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\CMakeFiles\4.1.0-rc1\CMakeSystem.cmake;C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\qdldl-populate-prefix\tmp\qdldl-populate-mkdirs.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\CMakeGenericSystem.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\CMakeInitializeConfigs.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\ExternalProject.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\ExternalProject\PatchInfo.txt.in;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\ExternalProject\RepositoryInfo.txt.in;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\ExternalProject\UpdateInfo.txt.in;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\ExternalProject\cfgcmd.txt.in;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\ExternalProject\gitclone.cmake.in;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\ExternalProject\gitupdate.cmake.in;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\ExternalProject\mkdirs.cmake.in;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\ExternalProject\shared_internal_commands.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\Platform\Windows-Initialize.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\Platform\Windows.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\Platform\WindowsPaths.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\CMakeFiles\qdldl-populate">
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\ZERO_CHECK.vcxproj">
+      <Project>{343F6595-D652-3A74-B25A-3855570BA294}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
