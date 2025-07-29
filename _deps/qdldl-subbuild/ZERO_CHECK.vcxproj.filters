@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-subbuild\CMakeFiles\6e850668eb73865e2ba038359ec382ff\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{57621664-FDAF-302D-AB23-AFF47ED2A458}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

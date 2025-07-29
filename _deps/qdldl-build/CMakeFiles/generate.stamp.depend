@@ -1,0 +1,8 @@
+# CMake generation dependency list for this directory.
+C:/Users/baice/Documents/GitHub/osqp-python/CMakeFiles/cmake.verify_globs
+C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-src/CMakeLists.txt
+C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-src/configure/qdldl_types.h.in
+C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-src/configure/qdldl_version.h.in
+C:/Users/baice/Documents/Softwares/cmake-4.1.0-rc1-windows-x86_64/cmake-4.1.0-rc1-windows-x86_64/share/cmake-4.1/Modules/CMakeDependentOption.cmake
+C:/Users/baice/Documents/Softwares/cmake-4.1.0-rc1-windows-x86_64/cmake-4.1.0-rc1-windows-x86_64/share/cmake-4.1/Modules/CheckCXXCompilerFlag.cmake
+C:/Users/baice/Documents/Softwares/cmake-4.1.0-rc1-windows-x86_64/cmake-4.1.0-rc1-windows-x86_64/share/cmake-4.1/Modules/GNUInstallDirs.cmake

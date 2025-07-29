@@ -1,0 +1,10 @@
+# CMake generation dependency list for this directory.
+C:/Users/baice/Documents/GitHub/osqp-python/CMakeFiles/cmake.verify_globs
+C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/lin_sys/qdldl/qdldl.cmake
+C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/builtin/CMakeLists.txt
+C:/Users/baice/Documents/Softwares/cmake-4.1.0-rc1-windows-x86_64/cmake-4.1.0-rc1-windows-x86_64/share/cmake-4.1/Modules/ExternalProject/shared_internal_commands.cmake
+C:/Users/baice/Documents/Softwares/cmake-4.1.0-rc1-windows-x86_64/cmake-4.1.0-rc1-windows-x86_64/share/cmake-4.1/Modules/FetchContent.cmake
+C:/Users/baice/Documents/Softwares/cmake-4.1.0-rc1-windows-x86_64/cmake-4.1.0-rc1-windows-x86_64/share/cmake-4.1/Modules/FetchContent/CMakeLists.cmake.in
+C:/Users/baice/Documents/Softwares/cmake-4.1.0-rc1-windows-x86_64/cmake-4.1.0-rc1-windows-x86_64/share/cmake-4.1/Modules/FindGit.cmake
+C:/Users/baice/Documents/Softwares/cmake-4.1.0-rc1-windows-x86_64/cmake-4.1.0-rc1-windows-x86_64/share/cmake-4.1/Modules/FindPackageHandleStandardArgs.cmake
+C:/Users/baice/Documents/Softwares/cmake-4.1.0-rc1-windows-x86_64/cmake-4.1.0-rc1-windows-x86_64/share/cmake-4.1/Modules/FindPackageMessage.cmake

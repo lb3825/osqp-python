@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-subbuild/CMakeFiles/osqp-populate"
+		},
+		{
+			"file" : "C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-subbuild/CMakeFiles/a9f3334818a75d27e773baf4c570da8b/osqp-populate.rule"
+		},
+		{
+			"file" : "C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-subbuild/CMakeFiles/14763a5a7281113bd4024b8326b1cfb2/osqp-populate-complete.rule"
+		},
+		{
+			"file" : "C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-subbuild/CMakeFiles/ff645031a89ca971ed06c640c575776b/osqp-populate-build.rule"
+		},
+		{
+			"file" : "C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-subbuild/CMakeFiles/ff645031a89ca971ed06c640c575776b/osqp-populate-configure.rule"
+		},
+		{
+			"file" : "C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-subbuild/CMakeFiles/ff645031a89ca971ed06c640c575776b/osqp-populate-download.rule"
+		},
+		{
+			"file" : "C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-subbuild/CMakeFiles/ff645031a89ca971ed06c640c575776b/osqp-populate-install.rule"
+		},
+		{
+			"file" : "C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-subbuild/CMakeFiles/ff645031a89ca971ed06c640c575776b/osqp-populate-mkdir.rule"
+		},
+		{
+			"file" : "C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-subbuild/CMakeFiles/ff645031a89ca971ed06c640c575776b/osqp-populate-patch.rule"
+		},
+		{
+			"file" : "C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-subbuild/CMakeFiles/ff645031a89ca971ed06c640c575776b/osqp-populate-test.rule"
+		},
+		{
+			"file" : "C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-subbuild/CMakeFiles/ff645031a89ca971ed06c640c575776b/osqp-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"osqp-populate"
+		],
+		"name" : "osqp-populate"
+	}
+}

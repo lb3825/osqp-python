@@ -1,0 +1,10 @@
+^C:\USERS\BAICE\DOCUMENTS\GITHUB\OSQP-PYTHON\_DEPS\OSQP-SUBBUILD\CMAKEFILES\A9F3334818A75D27E773BAF4C570DA8B\GENERATE.STAMP.RULE
+setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -SC:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-subbuild -BC:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-subbuild --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-subbuild/osqp-populate.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

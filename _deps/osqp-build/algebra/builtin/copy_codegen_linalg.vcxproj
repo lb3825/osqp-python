@@ -1,0 +1,1128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{CC742284-F936-3507-9FA4-18E10544B78A}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>copy_codegen_linalg</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\CMakeFiles\4bb450bb6f8005d1220420a3a30405e7\algebra_impl.h.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copying algebra_impl.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/builtin/algebra_impl.h C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/algebra_impl.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\builtin\algebra_impl.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\algebra_impl.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying algebra_impl.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/builtin/algebra_impl.h C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/algebra_impl.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\builtin\algebra_impl.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\algebra_impl.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Copying algebra_impl.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/builtin/algebra_impl.h C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/algebra_impl.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\builtin\algebra_impl.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\algebra_impl.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Copying algebra_impl.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/builtin/algebra_impl.h C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/algebra_impl.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\builtin\algebra_impl.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\algebra_impl.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\CMakeFiles\4bb450bb6f8005d1220420a3a30405e7\csc_math.h.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copying csc_math.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/csc_math.h C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/csc_math.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\csc_math.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\csc_math.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying csc_math.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/csc_math.h C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/csc_math.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\csc_math.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\csc_math.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Copying csc_math.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/csc_math.h C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/csc_math.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\csc_math.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\csc_math.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Copying csc_math.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/csc_math.h C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/csc_math.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\csc_math.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\csc_math.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\CMakeFiles\4bb450bb6f8005d1220420a3a30405e7\csc_utils.h.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copying csc_utils.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/csc_utils.h C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/csc_utils.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\csc_utils.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\csc_utils.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying csc_utils.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/csc_utils.h C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/csc_utils.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\csc_utils.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\csc_utils.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Copying csc_utils.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/csc_utils.h C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/csc_utils.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\csc_utils.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\csc_utils.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Copying csc_utils.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/csc_utils.h C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/csc_utils.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\csc_utils.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\csc_utils.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\CMakeFiles\4bb450bb6f8005d1220420a3a30405e7\kkt.h.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copying kkt.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/kkt.h C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/kkt.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\kkt.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\kkt.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying kkt.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/kkt.h C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/kkt.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\kkt.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\kkt.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Copying kkt.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/kkt.h C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/kkt.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\kkt.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\kkt.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Copying kkt.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/kkt.h C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/kkt.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\kkt.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\kkt.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\CMakeFiles\4bb450bb6f8005d1220420a3a30405e7\qdldl.h.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copying qdldl.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-src/include/qdldl.h C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/qdldl.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-src\include\qdldl.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying qdldl.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-src/include/qdldl.h C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/qdldl.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-src\include\qdldl.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Copying qdldl.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-src/include/qdldl.h C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/qdldl.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-src\include\qdldl.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Copying qdldl.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-src/include/qdldl.h C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/qdldl.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-src\include\qdldl.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\CMakeFiles\4bb450bb6f8005d1220420a3a30405e7\qdldl_interface.h.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copying qdldl_interface.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/lin_sys/qdldl/qdldl_interface.h C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/qdldl_interface.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\lin_sys\qdldl\qdldl_interface.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl_interface.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying qdldl_interface.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/lin_sys/qdldl/qdldl_interface.h C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/qdldl_interface.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\lin_sys\qdldl\qdldl_interface.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl_interface.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Copying qdldl_interface.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/lin_sys/qdldl/qdldl_interface.h C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/qdldl_interface.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\lin_sys\qdldl\qdldl_interface.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl_interface.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Copying qdldl_interface.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/lin_sys/qdldl/qdldl_interface.h C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/qdldl_interface.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\lin_sys\qdldl\qdldl_interface.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl_interface.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\CMakeFiles\4bb450bb6f8005d1220420a3a30405e7\qdldl_types.h.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copying qdldl_types.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/lin_sys/qdldl/qdldl_codegen_types.h.in C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/qdldl_types.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\lin_sys\qdldl\qdldl_codegen_types.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl_types.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying qdldl_types.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/lin_sys/qdldl/qdldl_codegen_types.h.in C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/qdldl_types.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\lin_sys\qdldl\qdldl_codegen_types.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl_types.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Copying qdldl_types.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/lin_sys/qdldl/qdldl_codegen_types.h.in C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/qdldl_types.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\lin_sys\qdldl\qdldl_codegen_types.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl_types.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Copying qdldl_types.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/lin_sys/qdldl/qdldl_codegen_types.h.in C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/qdldl_types.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\lin_sys\qdldl\qdldl_codegen_types.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl_types.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\CMakeFiles\4bb450bb6f8005d1220420a3a30405e7\qdldl_version.h.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copying qdldl_version.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-build/include/qdldl_version.h C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/qdldl_version.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-build\include\qdldl_version.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl_version.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying qdldl_version.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-build/include/qdldl_version.h C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/qdldl_version.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-build\include\qdldl_version.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl_version.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Copying qdldl_version.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-build/include/qdldl_version.h C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/qdldl_version.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-build\include\qdldl_version.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl_version.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Copying qdldl_version.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-build/include/qdldl_version.h C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/inc/private/qdldl_version.h
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-build\include\qdldl_version.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl_version.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\CMakeFiles\1e229ae4fe59851f536e49df63e7b496\algebra_libs.c.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copying algebra_libs.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/builtin/algebra_libs.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/algebra_libs.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\builtin\algebra_libs.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\algebra_libs.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying algebra_libs.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/builtin/algebra_libs.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/algebra_libs.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\builtin\algebra_libs.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\algebra_libs.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Copying algebra_libs.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/builtin/algebra_libs.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/algebra_libs.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\builtin\algebra_libs.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\algebra_libs.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Copying algebra_libs.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/builtin/algebra_libs.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/algebra_libs.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\builtin\algebra_libs.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\algebra_libs.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\CMakeFiles\1e229ae4fe59851f536e49df63e7b496\csc_math.c.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copying csc_math.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/csc_math.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/csc_math.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\csc_math.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\csc_math.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying csc_math.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/csc_math.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/csc_math.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\csc_math.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\csc_math.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Copying csc_math.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/csc_math.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/csc_math.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\csc_math.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\csc_math.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Copying csc_math.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/csc_math.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/csc_math.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\csc_math.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\csc_math.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\CMakeFiles\1e229ae4fe59851f536e49df63e7b496\csc_utils.c.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copying csc_utils.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/csc_utils.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/csc_utils.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\csc_utils.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\csc_utils.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying csc_utils.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/csc_utils.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/csc_utils.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\csc_utils.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\csc_utils.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Copying csc_utils.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/csc_utils.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/csc_utils.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\csc_utils.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\csc_utils.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Copying csc_utils.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/csc_utils.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/csc_utils.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\csc_utils.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\csc_utils.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\CMakeFiles\1e229ae4fe59851f536e49df63e7b496\kkt.c.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copying kkt.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/kkt.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/kkt.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\kkt.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\kkt.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying kkt.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/kkt.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/kkt.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\kkt.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\kkt.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Copying kkt.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/kkt.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/kkt.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\kkt.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\kkt.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Copying kkt.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/kkt.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/kkt.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\kkt.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\kkt.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\CMakeFiles\1e229ae4fe59851f536e49df63e7b496\matrix.c.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copying matrix.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/builtin/matrix.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/matrix.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\builtin\matrix.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\matrix.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying matrix.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/builtin/matrix.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/matrix.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\builtin\matrix.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\matrix.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Copying matrix.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/builtin/matrix.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/matrix.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\builtin\matrix.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\matrix.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Copying matrix.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/builtin/matrix.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/matrix.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\builtin\matrix.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\matrix.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\CMakeFiles\1e229ae4fe59851f536e49df63e7b496\qdldl.c.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copying qdldl.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-src/src/qdldl.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/qdldl.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-src\src\qdldl.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\qdldl.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying qdldl.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-src/src/qdldl.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/qdldl.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-src\src\qdldl.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\qdldl.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Copying qdldl.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-src/src/qdldl.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/qdldl.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-src\src\qdldl.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\qdldl.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Copying qdldl.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-src/src/qdldl.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/qdldl.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-src\src\qdldl.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\qdldl.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\CMakeFiles\1e229ae4fe59851f536e49df63e7b496\qdldl_interface.c.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copying qdldl_interface.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/lin_sys/qdldl/qdldl_interface.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/qdldl_interface.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\lin_sys\qdldl\qdldl_interface.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\qdldl_interface.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying qdldl_interface.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/lin_sys/qdldl/qdldl_interface.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/qdldl_interface.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\lin_sys\qdldl\qdldl_interface.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\qdldl_interface.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Copying qdldl_interface.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/lin_sys/qdldl/qdldl_interface.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/qdldl_interface.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\lin_sys\qdldl\qdldl_interface.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\qdldl_interface.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Copying qdldl_interface.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/_common/lin_sys/qdldl/qdldl_interface.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/qdldl_interface.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\lin_sys\qdldl\qdldl_interface.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\qdldl_interface.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\CMakeFiles\1e229ae4fe59851f536e49df63e7b496\vector.c.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copying vector.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/builtin/vector.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/vector.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\builtin\vector.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\vector.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying vector.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/builtin/vector.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/vector.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\builtin\vector.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\vector.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Copying vector.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/builtin/vector.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/vector.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\builtin\vector.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\vector.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Copying vector.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E copy C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/builtin/vector.c C:/Users/baice/Documents/GitHub/osqp-python/codegen_src/src/vector.c
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\builtin\vector.c;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\vector.c</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\CMakeFiles\3472588d40066f04d3fb09167061a539\copy_codegen_linalg.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"></Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\algebra_impl.h;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\algebra_libs.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\vector.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\matrix.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\csc_math.h;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\csc_math.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\csc_utils.h;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\csc_utils.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\kkt.h;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\kkt.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl_interface.h;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\qdldl_interface.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\qdldl.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl.h;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl_version.h;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl_types.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\algebra\builtin\CMakeFiles\copy_codegen_linalg</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</VerifyInputsAndOutputsExist>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'"></Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\algebra_impl.h;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\algebra_libs.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\vector.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\matrix.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\csc_math.h;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\csc_math.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\csc_utils.h;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\csc_utils.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\kkt.h;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\kkt.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl_interface.h;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\qdldl_interface.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\qdldl.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl.h;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl_version.h;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl_types.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\algebra\builtin\CMakeFiles\copy_codegen_linalg</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</VerifyInputsAndOutputsExist>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'"></Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\algebra_impl.h;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\algebra_libs.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\vector.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\matrix.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\csc_math.h;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\csc_math.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\csc_utils.h;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\csc_utils.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\kkt.h;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\kkt.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl_interface.h;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\qdldl_interface.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\qdldl.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl.h;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl_version.h;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl_types.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\algebra\builtin\CMakeFiles\copy_codegen_linalg</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</VerifyInputsAndOutputsExist>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'"></Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\algebra_impl.h;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\algebra_libs.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\vector.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\matrix.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\csc_math.h;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\csc_math.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\csc_utils.h;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\csc_utils.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\kkt.h;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\kkt.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl_interface.h;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\qdldl_interface.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\src\qdldl.c;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl.h;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl_version.h;C:\Users\baice\Documents\GitHub\osqp-python\codegen_src\inc\private\qdldl_types.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\algebra\builtin\CMakeFiles\copy_codegen_linalg</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</VerifyInputsAndOutputsExist>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\builtin\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/builtin/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -SC:/Users/baice/Documents/GitHub/osqp-python -BC:/Users/baice/Documents/GitHub/osqp-python --check-stamp-file C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-build/algebra/builtin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\CMakeFiles\cmake.verify_globs;C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\lin_sys\qdldl\qdldl.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\ExternalProject\shared_internal_commands.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\FetchContent.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\FetchContent\CMakeLists.cmake.in;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\FindGit.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\FindPackageHandleStandardArgs.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\FindPackageMessage.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\algebra\builtin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/builtin/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -SC:/Users/baice/Documents/GitHub/osqp-python -BC:/Users/baice/Documents/GitHub/osqp-python --check-stamp-file C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-build/algebra/builtin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\CMakeFiles\cmake.verify_globs;C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\lin_sys\qdldl\qdldl.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\ExternalProject\shared_internal_commands.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\FetchContent.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\FetchContent\CMakeLists.cmake.in;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\FindGit.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\FindPackageHandleStandardArgs.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\FindPackageMessage.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\algebra\builtin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/builtin/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -SC:/Users/baice/Documents/GitHub/osqp-python -BC:/Users/baice/Documents/GitHub/osqp-python --check-stamp-file C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-build/algebra/builtin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\CMakeFiles\cmake.verify_globs;C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\lin_sys\qdldl\qdldl.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\ExternalProject\shared_internal_commands.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\FetchContent.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\FetchContent\CMakeLists.cmake.in;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\FindGit.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\FindPackageHandleStandardArgs.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\FindPackageMessage.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\algebra\builtin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-src/algebra/builtin/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -SC:/Users/baice/Documents/GitHub/osqp-python -BC:/Users/baice/Documents/GitHub/osqp-python --check-stamp-file C:/Users/baice/Documents/GitHub/osqp-python/_deps/osqp-build/algebra/builtin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\CMakeFiles\cmake.verify_globs;C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-src\algebra\_common\lin_sys\qdldl\qdldl.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\ExternalProject\shared_internal_commands.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\FetchContent.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\FetchContent\CMakeLists.cmake.in;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\FindGit.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\FindPackageHandleStandardArgs.cmake;C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\share\cmake-4.1\Modules\FindPackageMessage.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\algebra\builtin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\baice\Documents\GitHub\osqp-python\_deps\osqp-build\algebra\builtin\CMakeFiles\copy_codegen_linalg">
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\baice\Documents\GitHub\osqp-python\ZERO_CHECK.vcxproj">
+      <Project>{77FF0D4B-807C-3CCA-B26B-AA150919D198}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

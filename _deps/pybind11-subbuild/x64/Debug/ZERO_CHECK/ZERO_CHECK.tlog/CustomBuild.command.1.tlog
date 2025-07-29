@@ -1,0 +1,10 @@
+^C:\USERS\BAICE\DOCUMENTS\GITHUB\OSQP-PYTHON\_DEPS\PYBIND11-SUBBUILD\CMAKEFILES\E38290B0B077BF2AF1BE0E7C714CEE49\GENERATE.STAMP.RULE
+setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -SC:/Users/baice/Documents/GitHub/osqp-python/_deps/pybind11-subbuild -BC:/Users/baice/Documents/GitHub/osqp-python/_deps/pybind11-subbuild --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/baice/Documents/GitHub/osqp-python/_deps/pybind11-subbuild/pybind11-populate.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

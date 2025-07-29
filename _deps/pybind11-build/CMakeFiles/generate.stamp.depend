@@ -1,0 +1,20 @@
+# CMake generation dependency list for this directory.
+C:/Users/baice/Documents/GitHub/osqp-python/CMakeFiles/cmake.verify_globs
+C:/Users/baice/Documents/GitHub/osqp-python/_deps/pybind11-src/CMakeLists.txt
+C:/Users/baice/Documents/GitHub/osqp-python/_deps/pybind11-src/tools/JoinPaths.cmake
+C:/Users/baice/Documents/GitHub/osqp-python/_deps/pybind11-src/tools/pybind11Common.cmake
+C:/Users/baice/Documents/GitHub/osqp-python/_deps/pybind11-src/tools/pybind11NewTools.cmake
+C:/Users/baice/Documents/Softwares/cmake-4.1.0-rc1-windows-x86_64/cmake-4.1.0-rc1-windows-x86_64/share/cmake-4.1/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake
+C:/Users/baice/Documents/Softwares/cmake-4.1.0-rc1-windows-x86_64/cmake-4.1.0-rc1-windows-x86_64/share/cmake-4.1/Modules/CMakeDependentOption.cmake
+C:/Users/baice/Documents/Softwares/cmake-4.1.0-rc1-windows-x86_64/cmake-4.1.0-rc1-windows-x86_64/share/cmake-4.1/Modules/CMakePackageConfigHelpers.cmake
+C:/Users/baice/Documents/Softwares/cmake-4.1.0-rc1-windows-x86_64/cmake-4.1.0-rc1-windows-x86_64/share/cmake-4.1/Modules/CheckCXXCompilerFlag.cmake
+C:/Users/baice/Documents/Softwares/cmake-4.1.0-rc1-windows-x86_64/cmake-4.1.0-rc1-windows-x86_64/share/cmake-4.1/Modules/CheckCXXSourceCompiles.cmake
+C:/Users/baice/Documents/Softwares/cmake-4.1.0-rc1-windows-x86_64/cmake-4.1.0-rc1-windows-x86_64/share/cmake-4.1/Modules/FindPackageHandleStandardArgs.cmake
+C:/Users/baice/Documents/Softwares/cmake-4.1.0-rc1-windows-x86_64/cmake-4.1.0-rc1-windows-x86_64/share/cmake-4.1/Modules/FindPackageMessage.cmake
+C:/Users/baice/Documents/Softwares/cmake-4.1.0-rc1-windows-x86_64/cmake-4.1.0-rc1-windows-x86_64/share/cmake-4.1/Modules/FindPython.cmake
+C:/Users/baice/Documents/Softwares/cmake-4.1.0-rc1-windows-x86_64/cmake-4.1.0-rc1-windows-x86_64/share/cmake-4.1/Modules/FindPython/Support.cmake
+C:/Users/baice/Documents/Softwares/cmake-4.1.0-rc1-windows-x86_64/cmake-4.1.0-rc1-windows-x86_64/share/cmake-4.1/Modules/GNUInstallDirs.cmake
+C:/Users/baice/Documents/Softwares/cmake-4.1.0-rc1-windows-x86_64/cmake-4.1.0-rc1-windows-x86_64/share/cmake-4.1/Modules/Internal/CheckCompilerFlag.cmake
+C:/Users/baice/Documents/Softwares/cmake-4.1.0-rc1-windows-x86_64/cmake-4.1.0-rc1-windows-x86_64/share/cmake-4.1/Modules/Internal/CheckFlagCommonConfig.cmake
+C:/Users/baice/Documents/Softwares/cmake-4.1.0-rc1-windows-x86_64/cmake-4.1.0-rc1-windows-x86_64/share/cmake-4.1/Modules/Internal/CheckSourceCompiles.cmake
+C:/Users/baice/Documents/Softwares/cmake-4.1.0-rc1-windows-x86_64/cmake-4.1.0-rc1-windows-x86_64/share/cmake-4.1/Modules/WriteBasicConfigVersionFile.cmake

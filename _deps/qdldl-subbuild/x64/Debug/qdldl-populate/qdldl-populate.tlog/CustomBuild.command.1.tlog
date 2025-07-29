@@ -1,0 +1,150 @@
+^C:\USERS\BAICE\DOCUMENTS\GITHUB\OSQP-PYTHON\_DEPS\QDLDL-SUBBUILD\CMAKEFILES\28844DD8569D2B1F52901B062CA4DFFC\QDLDL-POPULATE-MKDIR.RULE
+setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -Dcfgdir=/Debug -P C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/qdldl-populate-prefix/tmp/qdldl-populate-mkdirs.cmake
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E touch C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/qdldl-populate-prefix/src/qdldl-populate-stamp/Debug/qdldl-populate-mkdir
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\USERS\BAICE\DOCUMENTS\GITHUB\OSQP-PYTHON\_DEPS\QDLDL-SUBBUILD\CMAKEFILES\28844DD8569D2B1F52901B062CA4DFFC\QDLDL-POPULATE-DOWNLOAD.RULE
+setlocal
+cd C:\Users\baice\Documents\GitHub\osqp-python\_deps
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/qdldl-populate-prefix/tmp/qdldl-populate-gitclone.cmake
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E touch C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/qdldl-populate-prefix/src/qdldl-populate-stamp/Debug/qdldl-populate-download
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\USERS\BAICE\DOCUMENTS\GITHUB\OSQP-PYTHON\_DEPS\QDLDL-SUBBUILD\CMAKEFILES\28844DD8569D2B1F52901B062CA4DFFC\QDLDL-POPULATE-UPDATE.RULE
+setlocal
+cd C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-src
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -Dcan_fetch=YES -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/qdldl-populate-prefix/tmp/qdldl-populate-gitupdate.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\USERS\BAICE\DOCUMENTS\GITHUB\OSQP-PYTHON\_DEPS\QDLDL-SUBBUILD\CMAKEFILES\28844DD8569D2B1F52901B062CA4DFFC\QDLDL-POPULATE-PATCH.RULE
+setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E touch C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/qdldl-populate-prefix/src/qdldl-populate-stamp/Debug/qdldl-populate-patch
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\USERS\BAICE\DOCUMENTS\GITHUB\OSQP-PYTHON\_DEPS\QDLDL-SUBBUILD\CMAKEFILES\28844DD8569D2B1F52901B062CA4DFFC\QDLDL-POPULATE-CONFIGURE.RULE
+setlocal
+cd C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E touch C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/qdldl-populate-prefix/src/qdldl-populate-stamp/Debug/qdldl-populate-configure
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\USERS\BAICE\DOCUMENTS\GITHUB\OSQP-PYTHON\_DEPS\QDLDL-SUBBUILD\CMAKEFILES\28844DD8569D2B1F52901B062CA4DFFC\QDLDL-POPULATE-BUILD.RULE
+setlocal
+cd C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E touch C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/qdldl-populate-prefix/src/qdldl-populate-stamp/Debug/qdldl-populate-build
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\USERS\BAICE\DOCUMENTS\GITHUB\OSQP-PYTHON\_DEPS\QDLDL-SUBBUILD\CMAKEFILES\28844DD8569D2B1F52901B062CA4DFFC\QDLDL-POPULATE-INSTALL.RULE
+setlocal
+cd C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E touch C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/qdldl-populate-prefix/src/qdldl-populate-stamp/Debug/qdldl-populate-install
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\USERS\BAICE\DOCUMENTS\GITHUB\OSQP-PYTHON\_DEPS\QDLDL-SUBBUILD\CMAKEFILES\28844DD8569D2B1F52901B062CA4DFFC\QDLDL-POPULATE-TEST.RULE
+setlocal
+cd C:\Users\baice\Documents\GitHub\osqp-python\_deps\qdldl-build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E touch C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/qdldl-populate-prefix/src/qdldl-populate-stamp/Debug/qdldl-populate-test
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\USERS\BAICE\DOCUMENTS\GITHUB\OSQP-PYTHON\_DEPS\QDLDL-SUBBUILD\CMAKEFILES\28CB6FB0368A4BCD12C74F0D83EF1D0A\QDLDL-POPULATE-COMPLETE.RULE
+setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E make_directory C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/CMakeFiles/Debug
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E touch C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/CMakeFiles/Debug/qdldl-populate-complete
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -E touch C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/qdldl-populate-prefix/src/qdldl-populate-stamp/Debug/qdldl-populate-done
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\USERS\BAICE\DOCUMENTS\GITHUB\OSQP-PYTHON\_DEPS\QDLDL-SUBBUILD\CMAKEFILES\6E850668EB73865E2BA038359EC382FF\QDLDL-POPULATE.RULE
+setlocal
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\USERS\BAICE\DOCUMENTS\GITHUB\OSQP-PYTHON\_DEPS\QDLDL-SUBBUILD\CMAKELISTS.TXT
+setlocal
+C:\Users\baice\Documents\Softwares\cmake-4.1.0-rc1-windows-x86_64\cmake-4.1.0-rc1-windows-x86_64\bin\cmake.exe -SC:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild -BC:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild --check-stamp-file C:/Users/baice/Documents/GitHub/osqp-python/_deps/qdldl-subbuild/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
