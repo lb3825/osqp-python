@@ -415,6 +415,37 @@ PYBIND11_MODULE(@OSQP_EXT_MODULE_NAME@, m) {
     .def_readwrite("rho_is_vec", &OSQPSettings::rho_is_vec)
     .def_readwrite("sigma", &OSQPSettings::sigma)
     .def_readwrite("alpha", &OSQPSettings::alpha)
+    .def_readwrite("beta", &OSQPSettings::beta)
+    .def_readwrite("lambd", &OSQPSettings::lambd)
+    .def_readwrite("restart_necessary", &OSQPSettings::restart_necessary)
+    .def_readwrite("restart_artificial", &OSQPSettings::restart_artificial)
+    .def_readwrite("ini_rest_len", &OSQPSettings::ini_rest_len)
+    .def_property("restart_type",
+        [](const OSQPSettings& s) { return std::string(s.restart_type); },
+        [](OSQPSettings& s, const std::string& value) {
+            strncpy(s.restart_type, value.c_str(), OSQP_MAX_RESTART_TYPE_LEN - 1);
+            s.restart_type[OSQP_MAX_RESTART_TYPE_LEN - 1] = '\0';
+        }
+    )
+    .def_property("halpern_scheme",
+        [](const OSQPSettings& s) { return std::string(s.halpern_scheme); },
+        [](OSQPSettings& s, const std::string& value) {
+            strncpy(s.halpern_scheme, value.c_str(), OSQP_MAX_HALPERN_SCHEME_LEN - 1);
+            s.halpern_scheme[OSQP_MAX_HALPERN_SCHEME_LEN - 1] = '\0';
+        }
+    )
+    .def_readwrite("adaptive_rho_tolerance_greater", &OSQPSettings::adaptive_rho_tolerance_greater)
+    .def_readwrite("adaptive_rho_tolerance_less", &OSQPSettings::adaptive_rho_tolerance_less)
+    .def_readwrite("adaptive_rest", &OSQPSettings::adaptive_rest)
+    .def_readwrite("alpha_adjustment_reflected_halpern", &OSQPSettings::alpha_adjustment_reflected_halpern)
+    .def_readwrite("rho_custom_condition", &OSQPSettings::rho_custom_condition)
+    .def_readwrite("custom_average_rest", &OSQPSettings::custom_average_rest)
+    .def_readwrite("adapt_rho_on_restart", &OSQPSettings::adapt_rho_on_restart)
+    .def_readwrite("vector_rho_in_averaged_KKT", &OSQPSettings::vector_rho_in_averaged_KKT)
+    .def_readwrite("rho_custom_tolerance", &OSQPSettings::rho_custom_tolerance)
+    .def_readwrite("xi", &OSQPSettings::xi)
+    .def_readwrite("plot", &OSQPSettings::plot)
+    .def_readwrite("halpern_step_first_inner_iter", &OSQPSettings::halpern_step_first_inner_iter)
 
     // Settings - CG
     .def_readwrite("cg_max_iter", &OSQPSettings::cg_max_iter)
@@ -474,6 +505,8 @@ PYBIND11_MODULE(@OSQP_EXT_MODULE_NAME@, m) {
     .def_readwrite("obj_val", &OSQPInfo::obj_val)
     .def_readonly("prim_res", &OSQPInfo::prim_res)
     .def_readonly("dual_res", &OSQPInfo::dual_res)
+    .def_readonly("duality_gap", &OSQPInfo::duality_gap)
+    .def_readonly("restart", &OSQPInfo::restart)
     .def_readonly("iter", &OSQPInfo::iter)
     .def_readonly("rho_updates", &OSQPInfo::rho_updates)
     .def_readonly("rho_estimate", &OSQPInfo::rho_estimate)

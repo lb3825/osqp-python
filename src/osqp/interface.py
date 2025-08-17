@@ -315,6 +315,7 @@ class OSQP:
             )
             settings_changed = True
 
+        # print("dictionary: ", self.ext.OSQPSettings.__dict__.keys())
         for k in self.ext.OSQPSettings.__dict__:
             if not k.startswith('__'):
                 if k in kwargs:
