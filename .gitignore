@@ -129,3 +129,16 @@ src/osqp/_version.py
 
 # files that are modified in the build process
 src/osqp/bindings.cpp
+
+
+
+CMakeFiles/
+INSTALL.vcxproj
+INSTALL.vcxproj.filters
+ZERO_CHECK.vcxproj
+ZERO_CHECK.vcxproj.filters
+cmake_install.cmake
+ext.sln
+ext_builtin.vcxproj
+ext_builtin.vcxproj.filters
+src/bindings.cpp
