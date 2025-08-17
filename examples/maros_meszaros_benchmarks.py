@@ -499,6 +499,8 @@ if __name__ == '__main__':
     parser.add_argument("--plot", type=int, default=1, help="Parameter to pass to the osqp solver in order for it to temporary store each iteration for ploting purposes")
     parser.add_argument("--save_stat", type=int, default=0, help="Save the setup time, solve time, run time, primal residual, dual residual, duality gap, and the number of restarts. This is a binary either 0 or 1.")
     parser.add_argument("--save_all", type=int, default=0, help="Store all of the iterations for each problem ran (For usecase where problem_name = 'ALL'). This is a binary either 0 or 1.")
+    parser.add_argument("--restart_comb", type=str, default="none", help="Restart framework used for the combination generation (e.g. 'none', 'halpern', 'reflected halpern', or 'averaged').")
+    parser.add_argument("--comb_count", type=int, default=1, help="Number of combinations to try (-1 means all).")
     
     # Parse arguments
     args = parser.parse_args()
@@ -513,6 +515,8 @@ if __name__ == '__main__':
     plot = args.plot
     save_stats = args.save_stat
     save_all = args.save_all
+    restart_comb = args.restart_comb
+    comb_count = args.comb_count
     
     if (save_stats != 0) and (save_stats != 1):
         print(f"save_stats must be 0 or 1")
@@ -520,6 +524,14 @@ if __name__ == '__main__':
         
     if (save_all != 0) and (save_all != 1):
         print(f"save_all must be 0 or 1")
+        sys.exit(1)
+        
+    if (restart_comb != "none") and (restart_comb != "halpern") and (restart_comb != "reflected halpern") and (restart_comb != "averaged"):
+        print(f"restart_comb must be either 'none', 'halpern', 'reflected halpern', or 'averaged' ")
+        sys.exit(1)
+    
+    if (comb_count <= 0) and (comb_count != -1):
+        print(f"comb_count must be a positive integer or -1")
         sys.exit(1)
     
     
@@ -613,9 +625,15 @@ if __name__ == '__main__':
         #       This requires a lot of free memory on the system 
         #       (my pc can't load all of these combinations, roughly 60 million comb.)
         
-        halpern_combination_array = halpern_combinations()
-        # reflected_halpern_combination_array = reflected_halpern_combinations()
-        # averaged_combination_array = averaged_combinations()
+        if (restart_comb == "halpern"):
+            print("restart_comb == 'halpern'")
+            combination_array = halpern_combinations()
+        elif (restart_comb == "reflected halpern"):
+            combination_array = reflected_halpern_combinations()
+        elif (restart_comb == "averaged"):
+            combination_array = averaged_combinations()
+        elif (restart_comb == "none"):
+            combination_array = [{}]
           
         all_param_dict = {
             "restart_type": "-1",
@@ -716,11 +734,17 @@ if __name__ == '__main__':
             'vector_rho_in_averaged_KKT': 1
         }
         
-        # for i in range(len(halpern_combination_array)):
-        for i in range(1):
-            current_comb = halpern_combination_array[i]
-            # prob.setup(P, q, A, l, u, plot=plot, scaling=0, eps_abs=1e-6, eps_rel=0, max_iter=25000, **current_comb)
-            prob.setup(P, q, A, l, u, plot=plot, scaling=0, eps_abs=1e-6, eps_rel=0, max_iter=25000, **current_set)
+        if (comb_count > len(combination_array)):
+            comb_count = len(combination_array)
+            print(f"comb_count is set to the len(combination_array) [{len(combination_array)}]")
+        
+        if (comb_count == -1):
+            comb_count = len(combination_array)
+            
+        for i in range(comb_count):
+            current_comb = combination_array[i]
+            prob.setup(P, q, A, l, u, plot=plot, scaling=0, eps_abs=1e-6, eps_rel=0, max_iter=25000, time_limit=1e3, **current_comb)
+            # prob.setup(P, q, A, l, u, plot=plot, scaling=0, eps_abs=1e-6, eps_rel=0, max_iter=25000, **current_set)
             
             
             # Settings can be changed using .update_settings()
@@ -753,11 +777,11 @@ if __name__ == '__main__':
                 }
                 
                 # Adding paramters
-                halpern_comb_keys = list(halpern_combination_array[i].keys())
+                comb_keys = list(combination_array[i].keys())
                 all_param_dict_keys = list(all_param_dict.keys())
                 
                 for key in all_param_dict_keys:
-                    stats_data[key] = halpern_combination_array[i][key] if key in halpern_comb_keys else all_param_dict[key]
+                    stats_data[key] = combination_array[i][key] if key in comb_keys else all_param_dict[key]
                 
                 # Writing to .csv file and adding header if needed
                 file_exists = os.path.exists(stat_file)
