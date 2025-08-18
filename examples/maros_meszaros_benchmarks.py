@@ -489,6 +489,9 @@ if __name__ == '__main__':
     #     print("Example: py maros_meszaros_benchmarks.py HS21")
     #     print("Available problems are .mat files in qpbenchmark/maros_meszaros_qpbenchmark/data/")
     #     sys.exit(1)
+
+    array_task_id = os.environ.get("SLURM_ARRAY_TASK_ID")
+    print(f"Current SLURM array task ID: {array_task_id}")
     
     parser = argparse.ArgumentParser(description="Run Maros-Meszaros benchmarks.")
     parser.add_argument("problem_name", type=str, help="Name of the problem (e.g., HS21 or 'random').")
@@ -541,7 +544,7 @@ if __name__ == '__main__':
     
     # Construct path to the qpbenchmark data directory
     # Navigate from osqp-python/examples to qpbenchmark/maros_meszaros_qpbenchmark/data
-    qpbenchmark_data_dir = os.path.join(script_dir, "..", "..", "qpbenchmark", "maros_meszaros_qpbenchmark", "data")
+    qpbenchmark_data_dir = os.path.join(script_dir, "..", "..", "maros_meszaros_qpbenchmark", "data")
     qpbenchmark_data_dir = os.path.abspath(qpbenchmark_data_dir)
     
     if problem_name != "RANDOM":
@@ -575,6 +578,45 @@ if __name__ == '__main__':
         # Paths is not important for randomly generated problems
         paths = ["random"]
         print("Running randomly generated problem")
+
+    
+    # Generate the set of all possible combinations
+    #       This requires a lot of free memory on the system 
+    #       (my pc can't load all of these combinations, roughly 60 million comb.)
+    
+    if (restart_comb == "halpern"):
+        print("restart_comb == 'halpern'")
+        combination_array = halpern_combinations()
+    elif (restart_comb == "reflected halpern"):
+        combination_array = reflected_halpern_combinations()
+    elif (restart_comb == "averaged"):
+        combination_array = averaged_combinations()
+    elif (restart_comb == "none"):
+        combination_array = [{}]
+        
+    all_param_dict = {
+        "restart_type": "-1",
+        "alpha": -1,
+        "rho_is_vec": -1,
+        "adaptive_rho_tolerance_greater": -1,
+        "adaptive_rho_tolerance_less": -1,
+        "rho_custom_condition": -1,
+        "rho_custom_tolerance": -1,
+        "adapt_rho_on_restart": -1,
+        "custom_average_rest": -1,
+        "beta": -1,
+        "ini_rest_len": -1,
+        "lambd": -1,
+        "xi": -1,
+        "vector_rho_in_averaged_KKT": -1,
+        "halpern_scheme": "-1",
+        "alpha_adjustment_reflected_halpern": -1,
+        "adaptive_rest": -1,
+        "restart_necessary": -1,
+        "restart_artificial": -1,
+        "halpern_step_first_inner_iter": -1
+    }
+
 
     for path in paths:
         if problem_name != "RANDOM":
@@ -620,43 +662,6 @@ if __name__ == '__main__':
         
         # Create an OSQP object
         prob = osqp.OSQP()
-        
-        # Generate the set of all possible combinations
-        #       This requires a lot of free memory on the system 
-        #       (my pc can't load all of these combinations, roughly 60 million comb.)
-        
-        if (restart_comb == "halpern"):
-            print("restart_comb == 'halpern'")
-            combination_array = halpern_combinations()
-        elif (restart_comb == "reflected halpern"):
-            combination_array = reflected_halpern_combinations()
-        elif (restart_comb == "averaged"):
-            combination_array = averaged_combinations()
-        elif (restart_comb == "none"):
-            combination_array = [{}]
-          
-        all_param_dict = {
-            "restart_type": "-1",
-            "alpha": -1,
-            "rho_is_vec": -1,
-            "adaptive_rho_tolerance_greater": -1,
-            "adaptive_rho_tolerance_less": -1,
-            "rho_custom_condition": -1,
-            "rho_custom_tolerance": -1,
-            "adapt_rho_on_restart": -1,
-            "custom_average_rest": -1,
-            "beta": -1,
-            "ini_rest_len": -1,
-            "lambd": -1,
-            "xi": -1,
-            "vector_rho_in_averaged_KKT": -1,
-            "halpern_scheme": "-1",
-            "alpha_adjustment_reflected_halpern": -1,
-            "adaptive_rest": -1,
-            "restart_necessary": -1,
-            "restart_artificial": -1,
-            "halpern_step_first_inner_iter": -1
-        }
         
 
         # Setup workspace
@@ -766,14 +771,15 @@ if __name__ == '__main__':
                 
                 # Solution details
                 stats_data = {
-                    "problem name": problem_name,
+                    "problem name": name,
                     "setup time": res.info.setup_time,
                     "solve time": res.info.solve_time,
                     "run time": res.info.run_time,
                     "primal residual": res.info.prim_res,
                     "dual residual": res.info.dual_res,
                     "duality gap": res.info.duality_gap,
-                    "restart": res.info.restart
+                    "restart": res.info.restart,
+                    "iterations": res.info.iter
                 }
                 
                 # Adding paramters

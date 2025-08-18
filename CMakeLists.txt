@@ -45,11 +45,12 @@ list(APPEND CMAKE_MESSAGE_INDENT "  ")
 FetchContent_Declare(
   osqp
 #   GIT_REPOSITORY https://github.com/osqp/osqp.git
-#   GIT_REPOSITORY https://github.com/lb3825/osqp.git
-    SOURCE_DIR "C:/Users/baice/Documents/GitHub/osqp"
+  GIT_REPOSITORY https://github.com/lb3825/osqp.git
+    # SOURCE_DIR "C:/Users/baice/Documents/GitHub/osqp"
+    # SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../osqp"
 #   GIT_TAG v1.0.0
 #   GIT_TAG restarts
-#   GIT_TAG plot
+  GIT_TAG plot
 )
 list(POP_BACK CMAKE_MESSAGE_INDENT)
 FetchContent_MakeAvailable(osqp)
