@@ -18,6 +18,10 @@ import optuna
 from optuna.storages import JournalStorage
 from optuna.storages.journal import JournalFileBackend
 import traceback
+import gurobipy as gp
+from gurobipy import GRB
+import cvxpy as cp
+# import scs
 
 # Global configuration constants
 PATHS = None
@@ -31,6 +35,18 @@ PLOT = None
 SAVE_STATS = None
 SAVE_ALL = None
 ALL_PARAM_DICT = None
+CLUSTER = None
+PATH_LESS_200 = [
+    "AUG2D.mat", "AUG2DC.mat", "AUG3D.mat", "AUG3DC.mat",
+    "AUG3DCQP.mat", "AUG3DQP.mat","CVXQP2_M.mat", "CVXQP2_S.mat",
+    "CVXQP3_S.mat", "DPKLO1.mat", "DUAL1.mat", "DUAL2.mat",
+    "DUAL3.mat", "DUAL4.mat", "DUALC8.mat", "GENHS28.mat",
+    "GOULDQP3.mat", "HS21.mat", "HS35.mat", "HS35MOD.mat",
+    "HS51.mat", "HS52.mat", "HS53.mat", "HS76.mat", "LASER.mat",
+    "LOTSCHD.mat", "PRIMAL1.mat", "PRIMAL2.mat", "PRIMAL3.mat",
+    "PRIMAL4.mat", "QAFIRO.mat", "QPTEST.mat", "QSC205.mat",
+    "STCQP1.mat", "STCQP2.mat", "TAME.mat"
+]
 
 
 def generate_random_qp(n, m, p_scale=0.1, p_rank=None, seed=42):
@@ -536,8 +552,8 @@ def determine_prob_date(path):
     if PROBLEM_NAME != "RANDOM":
         # Define problem data
         name = os.path.basename(path)[:-4]
-        print(f"name: {name}")
-        print(f"Solving problem: {name}")
+        # print(f"name: {name}")
+        # print(f"Solving problem: {name}")
 
         try:
             mat_dict = spio.loadmat(path)
@@ -563,7 +579,7 @@ def determine_prob_date(path):
         u[u < -9e19] = -np.inf
     else:
         name = "Random Problem"
-        print(f"name: {name}")
+        # print(f"name: {name}")
         print(f"Solving problem: {name}")
         P, q, A, l, u = generate_random_qp(
             n,
@@ -681,8 +697,30 @@ def problem_solver(
         
         # prob.setup(P, q, A, l, u, plot=plot, scaling=0, eps_abs=1e-6, eps_rel=0, max_iter=25000, time_limit=1e3, **current_comb)
         # prob.setup(P, q, A, l, u, plot=plot, verbose=False, time_limit=1e3, **current_comb)
-        prob.setup(P, q, A, l, u, plot=PLOT, verbose=False, eps_abs=1e-6, eps_rel=1e-6, time_limit=1e3, max_iter=10000, **current_comb)
+        prob.setup(P, q, A, l, u, plot=PLOT, verbose=False, eps_abs=1e-6, eps_rel=1e-6, eps_prim_inf=1e-6, eps_dual_inf=1e-6, time_limit=1e3, max_iter=25000, **current_comb)
+        # prob.setup(P, q, A, l, u, verbose=False, eps_abs=1e-6, eps_rel=1e-6, time_limit=1e3, max_iter=25000)
         # prob.setup(P, q, A, l, u, plot=plot, scaling=0, eps_abs=1e-6, eps_rel=0, max_iter=25000, **current_set)
+        
+        
+        # # Using CVXPY
+        # x = cp.Variable(P.shape[0])
+        # obj = cp.Minimize(0.5 * cp.quad_form(x, P) + q.T @ x)
+        # constraints = [l <= A @ x, A @ x <= u]
+        # prob = cp.Problem(obj, constraints)
+        # prob.solve(solver=cp.GUROBI, FeasibilityTol=1e-6, OptimalityTol=1e-6)
+        
+        
+        # # Using Gurobi
+        # model = gp.Model("problems")
+        # x = model.addMVar(P.shape[0], lb=-GRB.INFINITY, name="x")
+        # obj = x @ P @ x + q @ x
+        # model.setObjective(obj, GRB.MINIMIZE)
+        # model.addConstr(A @ x >= l, name="lower_bounds")
+        # model.addConstr(A @ x <= u, name="upper_bounds")
+        # model.setParam("FeasibilityTol", 1e-7)
+        # model.setParam("OptimalityTol", 1e-9)
+        # model.setParam("TimeLimit", 60)
+        # model.optimize()
         
         
         # Settings can be changed using .update_settings()
@@ -691,14 +729,15 @@ def problem_solver(
         # Solve problem
         res = prob.solve(raise_error=False)
         
-        print('Setup time:', res.info.setup_time)
-        print('Solve time:', res.info.solve_time)
+        # print('Setup time:', res.info.setup_time)
+        # print('Solve time:', res.info.solve_time)
+        print('Problem name:', name)
         print('Run time:', res.info.run_time)
         print('Status:', res.info.status)
-        print('Primal Residual:', res.info.prim_res)
-        print('Dual Residual:', res.info.dual_res)
-        print('Duality Gap:', res.info.duality_gap)
-        print('Number of restarts:', res.info.restart)
+        # print('Primal Residual:', res.info.prim_res)
+        # print('Dual Residual:', res.info.dual_res)
+        # print('Duality Gap:', res.info.duality_gap)
+        # print('Number of restarts:', res.info.restart)
         
         # Collect results
         setup_times.append(res.info.setup_time)
@@ -717,6 +756,8 @@ def problem_solver(
         if SAVE_STATS:
             # saving_stats_csv(name, res, combination_array, all_param_dict, task_id)
             saving_stats_csv(name, res, current_comb, task_id)
+            # saving_stats_csv(name, prob, current_comb, task_id)
+            # saving_stats_csv(name, model, current_comb, task_id)
             # stat_file = "../../osqp/plot/stats.csv"
             
             # # Solution details
@@ -765,6 +806,9 @@ def problem_solver(
             # if os.path.exists(master_file):
             #     df.to_csv(master_file, mode='a', header=True, index=False, float_format="%.3e")
             #     # df.to_csv(master_file, mode='a', header=True, index=False)
+            
+        if ((res.info.iter >= 24900) or (res.info.status == 'problem non convex')) and (path in PATH_LESS_200):
+            raise optuna.TrialPruned()
 
 
     # Convert lists to numpy arrays
@@ -786,7 +830,12 @@ def problem_solver(
 
 # def saving_stats_csv(name, res, combination_array, all_param_dict, task_id):
 def saving_stats_csv(name, res, current_comb, task_id):
-    stat_file = "../../osqp/plot/stats.csv"
+    if CLUSTER == "della_stellato":
+        stat_file = "../../osqp/plot/stats.csv"
+    elif CLUSTER == "della":
+        stat_file = "../../osqp/plot/stats_della.csv"
+    
+    # stat_file = "../../osqp/plot/stats_orig_osqp.csv"
             
     # Solution details
     stats_data = {
@@ -801,6 +850,9 @@ def saving_stats_csv(name, res, current_comb, task_id):
         "restart": res.info.restart,
         "iterations": res.info.iter,
         "task_id": task_id
+        
+        # "run time": res.solver_stats.solve_time,
+        # "status": res.status == gp.GRB.OPTIMAL
     }
     
     # Adding paramters
@@ -858,8 +910,8 @@ def run_locally(
     combination_array
 ):
     # num_cpus = int(int(multiprocessing.cpu_count()) / 2.0)
-    # num_cpus = int(multiprocessing.cpu_count()) - 4
-    num_cpus = 40
+    num_cpus = int(multiprocessing.cpu_count())
+    num_cpus = 30
     print(f"Using {num_cpus} CPUs for {len(combination_array)} total tasks")
     # print(f"task_id = {task_id}")
     
@@ -872,7 +924,8 @@ def run_locally(
     )
     
     with multiprocessing.Pool(processes=num_cpus) as pool:
-        results = pool.map(task_func, range(len(combination_array)))
+        # results = pool.map(task_func, range(len(combination_array)))
+        results = pool.map(task_func, range(60))
     
     return results
 
@@ -943,12 +996,15 @@ def objective(trial):
     conditions = [
         res['status'] == 'solved',
         res['status'] == 'problem non convex',
-        res['status'] == 'maximum iterations reached'
+        (res['status'] == 'maximum iterations reached') or (res['status'] == 'solved inaccurate'),
     ]
     default = 1e5
     
     # solve_time_geom = geom_mean(res['solve_time'])
-    solve_time_geom = geom_mean(np.select(conditions, [res['solve_time'], res['solve_time'] + 1e10, res['solve_time'] + 1e3], default=default))
+    # For pure OSQP it is 2.234657228416994
+    # solve_time_geom = geom_mean(np.select(conditions, [res['solve_time'], res['solve_time'] + 1e10, res['solve_time'] + 1e3], default=default))
+    # For pure OSQP it is 2.2339318361299707
+    solve_time_geom = geom_mean(np.select(conditions, [res['solve_time'], 1e15, 1e4 + res['solve_time'] + ((res['prim_res'] + res['dual_res'] + np.abs(res['duality_gap'])) / (1e-6))], default=default))
     
     # Geometric mean of primal residual
     # prim_res_geom = geom_mean(res['prim_res'])
@@ -970,9 +1026,13 @@ def objective(trial):
 
 
 def run_optimization(_):
+    if CLUSTER == "della_stellato":
+        journal_log_file_path = "./journal.log"
+    elif CLUSTER == "della":
+        journal_log_file_path = "./journal_della.log"
     study = optuna.create_study(
         study_name="journal_storage_multiprocess",
-        storage=JournalStorage(JournalFileBackend(file_path="./journal.log")),
+        storage=JournalStorage(JournalFileBackend(file_path=journal_log_file_path)),
         load_if_exists=True, # Useful for multi-process or multi-node optimization.
         sampler=optuna.samplers.CmaEsSampler()
     )
@@ -981,12 +1041,18 @@ def run_optimization(_):
 
 def run_optuna():
     # num_cpus = int(int(multiprocessing.cpu_count()) / 2.0)
-    num_cpus = int(multiprocessing.cpu_count()) - 4
-    # num_cpus = 30
-    print(f"Using {num_cpus} CPUs for {len(combination_array)} total tasks")
+    # num_cpus = max(1, int(multiprocessing.cpu_count()) - 2)
+    if CLUSTER == "della_stellato":
+        num_cpus = 34
+    elif CLUSTER == "della":
+        num_cpus = 40
+    # print(f"Using {num_cpus} CPUs for {len(combination_array)} total tasks")
     
     with multiprocessing.Pool(processes=num_cpus) as pool:
-        results = pool.map(run_optimization, range(10))
+        if CLUSTER == "della_stellato":
+            results = pool.map(run_optimization, range(34))
+        elif CLUSTER == "della":
+            results = pool.map(run_optimization, range(40))
     
     return results
 
@@ -1007,7 +1073,7 @@ if __name__ == '__main__':
         #     sys.exit(1)
 
         array_task_id = os.environ.get("SLURM_ARRAY_TASK_ID")
-        print(f"Current SLURM array task ID: {array_task_id}")
+        # print(f"Current SLURM array task ID: {array_task_id}")
         
         parser = argparse.ArgumentParser(description="Run Maros-Meszaros benchmarks.")
         parser.add_argument("problem_name", type=str, help="Name of the problem (e.g., HS21 or 'random').")
@@ -1020,6 +1086,7 @@ if __name__ == '__main__':
         parser.add_argument("--save_all", type=int, default=0, help="Store all of the iterations for each problem ran (For usecase where problem_name = 'ALL'). This is a binary either 0 or 1.")
         parser.add_argument("--restart_comb", type=str, default="none", help="Restart framework used for the combination generation (e.g. 'none', 'halpern', 'reflected_halpern', or 'averaged').")
         parser.add_argument("--comb_count", type=int, default=1, help="Number of combinations to try (-1 means all).")
+        parser.add_argument("--cluster", type=str, help="Name of the cluster used, either 'della' or 'della_stellato'")
         
         # Parse arguments
         args = parser.parse_args()
@@ -1045,6 +1112,7 @@ if __name__ == '__main__':
         SAVE_ALL = args.save_all
         restart_comb = args.restart_comb
         comb_count = args.comb_count
+        CLUSTER = args.cluster
         
         # if (save_stats != 0) and (save_stats != 1):
         if (SAVE_STATS != 0) and (SAVE_STATS != 1):
@@ -1063,10 +1131,14 @@ if __name__ == '__main__':
         if (comb_count <= 0) and (comb_count != -1):
             print(f"comb_count must be a positive integer or -1")
             sys.exit(1)
+            
+        if (CLUSTER != "della") and (CLUSTER != "della_stellato"):
+            print(f"cluster must be either 'della' or 'della_stellato'")
+            sys.exit(1)
         
         
         # print(f"problem_name {problem_name}")
-        print(f"problem_name {PROBLEM_NAME}")
+        # print(f"problem_name {PROBLEM_NAME}")
         # if problem_name == "RANDOM":
         if PROBLEM_NAME == "RANDOM":
             # print(f"n: {n}, m: {m}, seed: {seed}, p_scale: {p_scale}, p_rank: {p_rank}")
@@ -1087,7 +1159,10 @@ if __name__ == '__main__':
                 
             # if (problem_name == "ALL.mat"):
             if (PROBLEM_NAME == "ALL.mat"):
-                files = [f for f in os.listdir(qpbenchmark_data_dir) if f.endswith('.mat')]
+                exclude_probs = ['CONT-300.mat', 'CONT-201.mat', 'CONT-200.mat', 'BOYD2.mat']
+                
+                files = [f for f in os.listdir(qpbenchmark_data_dir) if (f.endswith('.mat')) and (f not in exclude_probs)]
+                
                 # paths = [os.path.join(qpbenchmark_data_dir, f) for f in files]
                 PATHS = [os.path.join(qpbenchmark_data_dir, f) for f in files]
             
@@ -1111,12 +1186,12 @@ if __name__ == '__main__':
                 PATHS = [problem_path]
         
             # print(f"Running problem: {problem_name}")
-            print(f"Running problem: {PROBLEM_NAME}")
+            # print(f"Running problem: {PROBLEM_NAME}")
         else:
             # Paths is not important for randomly generated problems
             # paths = ["random"]
             PATHS = ["random"]
-            print("Running randomly generated problem")
+            # print("Running randomly generated problem")
 
         
         # Generate the set of all possible combinations
@@ -1205,36 +1280,37 @@ if __name__ == '__main__':
         #         save_all, combination_array, all_param_dict, current_comb, i
         #     )
         
-        
-        end = time.time()
-        print(f"To solve all of the instance it took {end - start} seconds")
-        print(f"To solve all of the instance it took {(end - start) / 60.0} minutes")
-        print(f"To solve all of the instance it took {((end - start) / 60.0) / 60.0} hours")
-        
-        
-        
-        # Write an email message when the work is finished    
-        msg = EmailMessage()
-        msg['Subject'] = 'Python Jobs Report'
-        msg['From'] = 'emailsender062@gmail.com'
-        msg['To'] = 'lb3825@princeton.edu'
-        msg.set_content(f'Job Finished !!!! It took {(end - start) / 60.0} minutes')
+        if CLUSTER == "della_stellato":
+            end = time.time()
+            print(f"To solve all of the instance it took {end - start} seconds")
+            print(f"To solve all of the instance it took {(end - start) / 60.0} minutes")
+            print(f"To solve all of the instance it took {((end - start) / 60.0) / 60.0} hours")
+            
+            
+            
+            # Write an email message when the work is finished    
+            msg = EmailMessage()
+            msg['Subject'] = 'Python Jobs Report'
+            msg['From'] = 'emailsender062@gmail.com'
+            msg['To'] = 'lb3825@princeton.edu'
+            msg.set_content(f'Job Finished !!!! It took {(end - start) / 60.0} minutes')
 
-        # Gmail SMTP server setup
-        smtp_server = 'smtp.gmail.com'
-        smtp_port = 587
+            # Gmail SMTP server setup
+            smtp_server = 'smtp.gmail.com'
+            smtp_port = 587
 
-        # Sending the email
-        with smtplib.SMTP(smtp_server, smtp_port) as server:
-            server.starttls()
-            server.login('emailsender062@gmail.com', 'qull hdcu ivlb hubu')
-            server.send_message(msg)
+            # Sending the email
+            with smtplib.SMTP(smtp_server, smtp_port) as server:
+                server.starttls()
+                server.login('emailsender062@gmail.com', 'qull hdcu ivlb hubu')
+                server.send_message(msg)
 
-        print("Email sent successfully.")
+            print("Email sent successfully.")
     # except Exception as e:
     except BaseException as e:
-        tb = traceback.format_exc()
-        send_email('Python Jobs Report (ERROR)', f'Job failed with error:\n{tb}')
-        
-        print("Error email sent.")
+        if CLUSTER == "della_stellato":
+            tb = traceback.format_exc()
+            send_email('Python Jobs Report (ERROR)', f'Job failed with error:\n{tb}')
+            
+            print("Error email sent.")
         raise
