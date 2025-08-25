@@ -1110,9 +1110,10 @@ def objective(trial):
     #       the pure OSQP solver. This will then create an over emthasis on solvign a small subset of the hard problems rather than the overall solver
     #       efficiency. For this reason we divide by 1e-3 instead of 1e-6, this still puts an emthasis on solving those hard problems but evens out the
     #       emthasis on those problems. The min(np.abs(...), 1e15) is purely for numerical stability purposes.
+    scaled_prim_dual = np.minimum(np.abs((res['prim_res'] + res['dual_res']) / (1e-3)), 1e15)
     solve_time_geom = geom_mean(np.select(conditions, [res['solve_time'], 
                                                        1e15, 
-                                                       1e4 + res['solve_time'] + min(np.abs((res['prim_res'] + res['dual_res']) / (1e-3)), 1e15) + np.abs(res['duality_gap'])],
+                                                       1e4 + res['solve_time'] + scaled_prim_dual + np.abs(res['duality_gap'])],
                                           default=default))
     
     # Geometric mean of primal residual
