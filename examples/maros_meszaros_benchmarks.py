@@ -2,6 +2,7 @@ import osqp
 import os
 import sys
 import numpy as np
+import numpy.linalg as la
 from scipy import sparse
 import scipy.io as spio
 import scipy.sparse as spa
@@ -47,6 +48,10 @@ PATH_LESS_200 = [
     "PRIMAL4.mat", "QAFIRO.mat", "QPTEST.mat", "QSC205.mat",
     "STCQP1.mat", "STCQP2.mat", "TAME.mat"
 ]
+EPS_ABS         = 1e-6
+EPS_REL         = 1e-6
+EPS_PRIM_INF    = 1e-6
+EPS_DUAL_INF    = 1e-6
 
 
 def generate_random_qp(n, m, p_scale=0.1, p_rank=None, seed=42):
@@ -149,6 +154,66 @@ def send_email(subject, body):
         server.starttls()
         server.login('emailsender062@gmail.com', 'qull hdcu ivlb hubu')
         server.send_message(msg)
+        
+def accuracy_ratios(prob_name, x, y):
+    """
+    Returns:
+    (||primal residual||_inf / eps_pri) - 1
+    (||dual residual||_inf / eps_dua) - 1
+    (dua_gap / eps_dua_gap) - 1
+    """
+    
+    eps_abs = EPS_ABS
+    eps_rel = EPS_ABS
+    
+    # Get problem path
+    prob_path = get_problem_path(prob_name)
+    
+    # Get problem data
+    P, q, A, l, u, _, _, _ = determine_prob_date(prob_path)
+    
+    # Primal feasibility
+    print(f"Testing type(A): {type(A)}")
+    Ax = A.dot(x)
+    print(f"Testing type(Ax): {type(Ax)}")
+    
+    eps_pri = eps_abs + eps_rel * la.norm(Ax, np.inf)
+    pri_res = np.minimum(Ax - l, 0) + np.maximum(Ax - u, 0)
+    
+    # Dual feasibility
+    Px = P.dot(x)
+    Aty = A.T.dot(y)
+    eps_dua = eps_abs + eps_rel * np.max(
+        [la.norm(Px, np.inf), la.norm(q, np.inf), la.norm(Aty, np.inf)]
+    )
+    dua_res = Px + q + Aty
+    
+    # Duality gap
+    u_inf = np.isinf(u)
+    l_inf = np.isinf(l)
+    
+    u_notinf = u[~u_inf]
+    l_notinf = l[~l_inf]
+    y_notinf_u = y[~u_inf]
+    y_notinf_l = y[~l_inf]
+    
+    y_plus = np.maximum(y_notinf_u, 0)
+    y_minus = np.minimum(y_notinf_l, 0)
+    
+    supp_func = u_notinf.dot(y_plus) + l_notinf.dot(y_minus)
+    xPx = x.dot(Px)
+    qx = q.dot(x)
+    dua_gap = np.abs(xPx + qx + supp_func)
+    eps_dua_gap = eps_abs + eps_rel * np.max(
+        [np.abs(xPx), np.abs(qx), np.abs(supp_func)]
+    )
+    
+    primal_ratio = la.norm(pri_res, np.inf) / eps_pri
+    dua_ratio = la.norm(dua_res, np.inf) / eps_dua
+    duality_gap_ratio = dua_gap / eps_dua_gap
+    
+    return primal_ratio - 1, dua_ratio - 1, duality_gap_ratio - 1
+    
 
 def halpern_combinations():
     """
@@ -594,6 +659,31 @@ def determine_prob_date(path):
         
     return P, q, A, l, u, n, m, name
 
+def get_problem_path(problem_name):
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    qpbenchmark_data_dir = os.path.join(script_dir, "..", "..", "maros_meszaros_qpbenchmark", "data")
+    qpbenchmark_data_dir = os.path.abspath(qpbenchmark_data_dir)
+    
+    if not problem_name.upper().endswith('.mat'):
+        problem_name = problem_name.upper() + '.mat'
+    else:
+        problem_name = problem_name.upper()
+        
+    problem_path = os.path.join(qpbenchmark_data_dir, problem_name)
+    
+    if not os.path.exists(problem_path):
+        try:
+            files = [f for f in os.listdir(qpbenchmark_data_dir) if f.endswith('.mat')]
+            available = sorted([f[:-4] for f in files])  # Remove .mat extension
+            raise FileNotFoundError(
+                f"Problem '{problem_name[:-4]}' not found. "
+                f"Available problems: {available}"
+            )
+        except OSError:
+            raise FileNotFoundError(f"Problem directory not found: {qpbenchmark_data_dir}")
+        
+    return problem_path
+
 
 def problem_solver(
     # paths, problem_name, n, m, p_scale, p_rank, seed, plot, save_stats, 
@@ -613,6 +703,9 @@ def problem_solver(
     restarts = []
     iterations = []
     task_ids = []
+    prim_res_ratios = []
+    dua_res_ratios = []
+    duality_gap_res_ratios = []
     
     # for path in paths:
     for path in PATHS:
@@ -697,8 +790,8 @@ def problem_solver(
         
         # prob.setup(P, q, A, l, u, plot=plot, scaling=0, eps_abs=1e-6, eps_rel=0, max_iter=25000, time_limit=1e3, **current_comb)
         # prob.setup(P, q, A, l, u, plot=plot, verbose=False, time_limit=1e3, **current_comb)
-        prob.setup(P, q, A, l, u, plot=PLOT, verbose=False, eps_abs=1e-6, eps_rel=1e-6, eps_prim_inf=1e-6, eps_dual_inf=1e-6, time_limit=1e3, max_iter=25000, **current_comb)
-        # prob.setup(P, q, A, l, u, verbose=False, eps_abs=1e-6, eps_rel=1e-6, time_limit=1e3, max_iter=25000)
+        prob.setup(P, q, A, l, u, plot=PLOT, verbose=False, eps_abs=EPS_ABS, eps_rel=EPS_REL, eps_prim_inf=EPS_PRIM_INF, eps_dual_inf=EPS_DUAL_INF, time_limit=1e3, max_iter=25000, **current_comb)
+        # prob.setup(P, q, A, l, u, verbose=True, eps_abs=1e-6, eps_rel=1e-6, time_limit=1e3, pid_controller=1, pid_controller_log=1, max_iter=25000)
         # prob.setup(P, q, A, l, u, plot=plot, scaling=0, eps_abs=1e-6, eps_rel=0, max_iter=25000, **current_set)
         
         
@@ -807,7 +900,7 @@ def problem_solver(
             #     df.to_csv(master_file, mode='a', header=True, index=False, float_format="%.3e")
             #     # df.to_csv(master_file, mode='a', header=True, index=False)
             
-        if ((res.info.iter >= 24900) or (res.info.status == 'problem non convex')) and (path in PATH_LESS_200):
+        if ((res.info.iter >= 24900) or (res.info.status == 'problem non convex') or (res.info.status == 'unsolved')) and (path in PATH_LESS_200):
             raise optuna.TrialPruned()
 
 
@@ -941,6 +1034,14 @@ def objective(trial):
     current_comb["alpha"] = trial.suggest_float("alpha", 0 + small_num, 2 - small_num)
     current_comb["adaptive_rho_tolerance_greater"] = trial.suggest_float("adaptive_rho_tolerance_greater", 0 + small_num, 100)
     current_comb["adaptive_rho_tolerance_less"] = trial.suggest_float("adaptive_rho_tolerance_less", 0 + small_num, 100)
+    current_comb["pid_controller"] = trial.suggest_int("pid_controller", 0, 1)
+    if current_comb["pid_controller"] == 1:
+        current_comb["KP"] = trial.suggest_float("KP", -50, 50)
+        current_comb["KI"] = trial.suggest_float("KI", -50, 50)
+        # current_comb["pid_controller_sqrt"] = trial.suggest_int("pid_controller_sqrt", 0, 1)
+        # current_comb["pid_controller_sqrt_mult"] = trial.suggest_int("pid_controller_sqrt_mult", 0, 1)
+        # current_comb["pid_controller_sqrt_mult_2"] = trial.suggest_int("pid_controller_sqrt_mult_2", 0, 1)
+        # current_comb["pid_controller_log"] = trial.suggest_int("pid_controller_log", 0, 1)
     
     current_comb["rho_custom_condition"] = trial.suggest_int("rho_custom_condition", 0, 1)
     if current_comb["rho_custom_condition"] == 1:
@@ -996,15 +1097,23 @@ def objective(trial):
     conditions = [
         res['status'] == 'solved',
         res['status'] == 'problem non convex',
-        (res['status'] == 'maximum iterations reached') or (res['status'] == 'solved inaccurate'),
+        (res['status'] == 'maximum iterations reached') | (res['status'] == 'solved inaccurate')
     ]
     default = 1e5
     
     # solve_time_geom = geom_mean(res['solve_time'])
     # For pure OSQP it is 2.234657228416994
     # solve_time_geom = geom_mean(np.select(conditions, [res['solve_time'], res['solve_time'] + 1e10, res['solve_time'] + 1e3], default=default))
-    # For pure OSQP it is 2.2339318361299707
-    solve_time_geom = geom_mean(np.select(conditions, [res['solve_time'], 1e15, 1e4 + res['solve_time'] + ((res['prim_res'] + res['dual_res'] + np.abs(res['duality_gap'])) / (1e-6))], default=default))
+    # For pure OSQP it is 
+    # The prim_res and dual_res are typically small compared to 1e4, so I want to scale them up a little. Dividing by 1e-6 (the eps_abs/tolerance)
+    #       will work but the resulting geom_mean will be extremely large for all solvers as some prim_res and dual_res are 100 or even 1,000 even for
+    #       the pure OSQP solver. This will then create an over emthasis on solvign a small subset of the hard problems rather than the overall solver
+    #       efficiency. For this reason we divide by 1e-3 instead of 1e-6, this still puts an emthasis on solving those hard problems but evens out the
+    #       emthasis on those problems. The min(np.abs(...), 1e15) is purely for numerical stability purposes.
+    solve_time_geom = geom_mean(np.select(conditions, [res['solve_time'], 
+                                                       1e15, 
+                                                       1e4 + res['solve_time'] + min(np.abs((res['prim_res'] + res['dual_res']) / (1e-3)), 1e15) + np.abs(res['duality_gap'])],
+                                          default=default))
     
     # Geometric mean of primal residual
     # prim_res_geom = geom_mean(res['prim_res'])
@@ -1045,14 +1154,14 @@ def run_optuna():
     if CLUSTER == "della_stellato":
         num_cpus = 34
     elif CLUSTER == "della":
-        num_cpus = 40
+        num_cpus = 100
     # print(f"Using {num_cpus} CPUs for {len(combination_array)} total tasks")
     
     with multiprocessing.Pool(processes=num_cpus) as pool:
         if CLUSTER == "della_stellato":
             results = pool.map(run_optimization, range(34))
         elif CLUSTER == "della":
-            results = pool.map(run_optimization, range(40))
+            results = pool.map(run_optimization, range(200))
     
     return results
 
