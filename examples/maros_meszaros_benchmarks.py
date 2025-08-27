@@ -157,10 +157,12 @@ def send_email(subject, body):
         
 def accuracy_ratios(prob_name, x, y):
     """
+    Computes the current primal residual, dual residual, and duality gap
+    relative to the values neeeded for optimality
     Returns:
-    (||primal residual||_inf / eps_pri) - 1
-    (||dual residual||_inf / eps_dua) - 1
-    (dua_gap / eps_dua_gap) - 1
+    (||primal residual||_inf / eps_pri)
+    (||dual residual||_inf / eps_dua)
+    (dua_gap / eps_dua_gap)
     """
     
     eps_abs = EPS_ABS
@@ -173,9 +175,7 @@ def accuracy_ratios(prob_name, x, y):
     P, q, A, l, u, _, _, _ = determine_prob_date(prob_path)
     
     # Primal feasibility
-    print(f"Testing type(A): {type(A)}")
     Ax = A.dot(x)
-    print(f"Testing type(Ax): {type(Ax)}")
     
     eps_pri = eps_abs + eps_rel * la.norm(Ax, np.inf)
     pri_res = np.minimum(Ax - l, 0) + np.maximum(Ax - u, 0)
@@ -212,7 +212,7 @@ def accuracy_ratios(prob_name, x, y):
     dua_ratio = la.norm(dua_res, np.inf) / eps_dua
     duality_gap_ratio = dua_gap / eps_dua_gap
     
-    return primal_ratio - 1, dua_ratio - 1, duality_gap_ratio - 1
+    return primal_ratio, dua_ratio, duality_gap_ratio
     
 
 def halpern_combinations():
@@ -706,6 +706,7 @@ def problem_solver(
     prim_res_ratios = []
     dua_res_ratios = []
     duality_gap_res_ratios = []
+    integral_sums = []
     
     # for path in paths:
     for path in PATHS:
@@ -832,6 +833,9 @@ def problem_solver(
         # print('Duality Gap:', res.info.duality_gap)
         # print('Number of restarts:', res.info.restart)
         
+        # Compute the primal, dual, and duality gap ratios
+        primal_ratio, dua_ratio, duality_gap_ratio = accuracy_ratios(name, res.x, res.y)
+        
         # Collect results
         setup_times.append(res.info.setup_time)
         solve_times.append(res.info.solve_time)
@@ -843,12 +847,16 @@ def problem_solver(
         restarts.append(res.info.restart)
         iterations.append(res.info.iter)
         task_ids.append(task_id)
+        prim_res_ratios.append(primal_ratio)
+        dua_res_ratios.append(dua_ratio)
+        duality_gap_res_ratios.append(duality_gap_ratio)
+        integral_sums.append(res.info.integral_sum)
         
         # Save result statistics
         # if save_stats:
         if SAVE_STATS:
             # saving_stats_csv(name, res, combination_array, all_param_dict, task_id)
-            saving_stats_csv(name, res, current_comb, task_id)
+            saving_stats_csv(name, res, current_comb, task_id, primal_ratio, dua_ratio, duality_gap_ratio)
             # saving_stats_csv(name, prob, current_comb, task_id)
             # saving_stats_csv(name, model, current_comb, task_id)
             # stat_file = "../../osqp/plot/stats.csv"
@@ -900,7 +908,7 @@ def problem_solver(
             #     df.to_csv(master_file, mode='a', header=True, index=False, float_format="%.3e")
             #     # df.to_csv(master_file, mode='a', header=True, index=False)
             
-        if ((res.info.iter >= 24900) or (res.info.status == 'problem non convex') or (res.info.status == 'unsolved')) and (path in PATH_LESS_200):
+        if (((res.info.iter >= 24900) or (res.info.status == 'unsolved')) and (path in PATH_LESS_200)) or (res.info.status == 'problem non convex'):
             raise optuna.TrialPruned()
 
 
@@ -915,14 +923,18 @@ def problem_solver(
         'duality_gap': np.array(duality_gaps),
         'restart': np.array(restarts),
         'iterations': np.array(iterations),
-        'task_id': np.array(task_ids)
+        'task_id': np.array(task_ids),
+        'prim_res_ratios': np.array(prim_res_ratios),
+        'dua_res_ratios': np.array(dua_res_ratios),
+        'duality_gap_res_ratios': np.array(duality_gap_res_ratios),
+        'integral_sums': np.array(integral_sums)
     }
     
     return results
 
 
 # def saving_stats_csv(name, res, combination_array, all_param_dict, task_id):
-def saving_stats_csv(name, res, current_comb, task_id):
+def saving_stats_csv(name, res, current_comb, task_id, primal_ratio, dua_ratio, duality_gap_ratio):
     if CLUSTER == "della_stellato":
         stat_file = "../../osqp/plot/stats.csv"
     elif CLUSTER == "della":
@@ -938,11 +950,15 @@ def saving_stats_csv(name, res, current_comb, task_id):
         "run time": res.info.run_time,
         "status": res.info.status,
         "primal residual": res.info.prim_res,
+        "primal ratio": primal_ratio,
         "dual residual": res.info.dual_res,
+        "dual ratio": dua_ratio,
         "duality gap": res.info.duality_gap,
+        "duality gap ratio": duality_gap_ratio,
+        "integral_sum": res.info.integral_sum,
         "restart": res.info.restart,
         "iterations": res.info.iter,
-        "task_id": task_id
+        "task_id": task_id,
         
         # "run time": res.solver_stats.solve_time,
         # "status": res.status == gp.GRB.OPTIMAL
@@ -1047,7 +1063,8 @@ def objective(trial):
     if current_comb["rho_custom_condition"] == 1:
         current_comb["rho_custom_tolerance"] = trial.suggest_float("rho_custom_tolerance", 0 + small_num, 100)
         
-    current_comb["restart_type"] = trial.suggest_categorical("restart_type", ["none", "halpern", "reflected halpern", "averaged"])
+    # current_comb["restart_type"] = trial.suggest_categorical("restart_type", ["none", "halpern", "reflected halpern", "averaged"])
+    current_comb["restart_type"] = trial.suggest_categorical("restart_type", ["halpern", "reflected halpern", "averaged"])
     if current_comb["restart_type"] == "halpern":
         current_comb["adapt_rho_on_restart"] = trial.suggest_int("adapt_rho_on_restart", 0, 1)
         current_comb["beta"] = trial.suggest_float("beta", 0 + small_num, 1 - small_num)
@@ -1099,7 +1116,9 @@ def objective(trial):
         res['status'] == 'problem non convex',
         (res['status'] == 'maximum iterations reached') | (res['status'] == 'solved inaccurate')
     ]
-    default = 1e5
+    default = 1e6
+    
+    # For pure OSQP total run time is 543.947886066
     
     # solve_time_geom = geom_mean(res['solve_time'])
     # For pure OSQP it is 2.234657228416994
@@ -1109,12 +1128,16 @@ def objective(trial):
     #       will work but the resulting geom_mean will be extremely large for all solvers as some prim_res and dual_res are 100 or even 1,000 even for
     #       the pure OSQP solver. This will then create an over emthasis on solvign a small subset of the hard problems rather than the overall solver
     #       efficiency. For this reason we divide by 1e-3 instead of 1e-6, this still puts an emthasis on solving those hard problems but evens out the
-    #       emthasis on those problems. The min(np.abs(...), 1e15) is purely for numerical stability purposes.
-    scaled_prim_dual = np.minimum(np.abs((res['prim_res'] + res['dual_res']) / (1e-3)), 1e15)
+    #       emthasis on those problems. The min(np.abs(...), 1e10) is purely for numerical stability purposes.
+    scaled_prim_dual = np.minimum(np.abs((res['prim_res'] + res['dual_res']) / (1e-3)), 1e10)
+    # For pure OSQP solve_time_geom = 255.32010499705535
     solve_time_geom = geom_mean(np.select(conditions, [res['solve_time'], 
                                                        1e15, 
                                                        1e4 + res['solve_time'] + scaled_prim_dual + np.abs(res['duality_gap'])],
                                           default=default))
+    
+    
+    
     
     # Geometric mean of primal residual
     # prim_res_geom = geom_mean(res['prim_res'])
@@ -1146,7 +1169,7 @@ def run_optimization(_):
         load_if_exists=True, # Useful for multi-process or multi-node optimization.
         sampler=optuna.samplers.CmaEsSampler()
     )
-    study.optimize(objective, n_trials=1)
+    study.optimize(objective, n_trials=1, timeout=2500)
 
 
 def run_optuna():
@@ -1154,15 +1177,17 @@ def run_optuna():
     # num_cpus = max(1, int(multiprocessing.cpu_count()) - 2)
     if CLUSTER == "della_stellato":
         num_cpus = 34
+        # num_cpus = 1
     elif CLUSTER == "della":
-        num_cpus = 100
+        num_cpus = 128
     # print(f"Using {num_cpus} CPUs for {len(combination_array)} total tasks")
     
     with multiprocessing.Pool(processes=num_cpus) as pool:
         if CLUSTER == "della_stellato":
-            results = pool.map(run_optimization, range(34))
+            results = pool.map(run_optimization, range(250))
+            # results = pool.map(run_optimization, range(1))
         elif CLUSTER == "della":
-            results = pool.map(run_optimization, range(200))
+            results = pool.map(run_optimization, range(512))
     
     return results
 
@@ -1342,7 +1367,10 @@ if __name__ == '__main__':
             "adaptive_rest": -1,
             "restart_necessary": -1,
             "restart_artificial": -1,
-            "halpern_step_first_inner_iter": -1
+            "halpern_step_first_inner_iter": -1,
+            "pid_controller": -1,
+            "KP": -1,
+            "KI": -1
         }
 
         # Create an OSQP object
@@ -1370,15 +1398,15 @@ if __name__ == '__main__':
                 task_id, combination_array
             )
         else:
-            # # Multithreading
-            # results = run_locally(
-            #     # combination_array[:comb_count], paths, problem_name, n, m, p_scale, 
-            #     # p_rank, seed, plot, save_stats, save_all, all_param_dict
-            #     combination_array[:comb_count]
-            # )
+            # Multithreading
+            results = run_locally(
+                # combination_array[:comb_count], paths, problem_name, n, m, p_scale, 
+                # p_rank, seed, plot, save_stats, save_all, all_param_dict
+                combination_array[:comb_count]
+            )
             
-            # Optuna (Multi-process)
-            results = run_optuna()
+            # # Optuna (Multi-process)
+            # results = run_optuna()
         
         
             
