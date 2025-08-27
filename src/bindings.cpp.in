@@ -464,7 +464,7 @@ PYBIND11_MODULE(@OSQP_EXT_MODULE_NAME@, m) {
     .def_readwrite("KP", &OSQPSettings::KP)
     .def_readwrite("KI", &OSQPSettings::KI)
     .def_readwrite("KD", &OSQPSettings::KD)
-
+    .def_readwrite("negate_K", &OSQPSettings::negate_K)
 
 
     // Settings - Termination parameters
