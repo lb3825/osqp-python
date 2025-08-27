@@ -25,6 +25,7 @@ import cvxpy as cp
 # import scs
 
 # Global configuration constants
+START_TIMER = None
 PATHS = None
 PROBLEM_NAME = None
 N = None
@@ -690,6 +691,7 @@ def problem_solver(
     # save_all, combination_array, all_param_dict, current_comb, task_id
     current_comb, task_id
 ):
+    problem_time = time.time()
     prob = osqp.OSQP()
     
     # Prepare lists for each metric
@@ -908,7 +910,17 @@ def problem_solver(
             #     df.to_csv(master_file, mode='a', header=True, index=False, float_format="%.3e")
             #     # df.to_csv(master_file, mode='a', header=True, index=False)
             
-        if (((res.info.iter >= 24900) or (res.info.status == 'unsolved')) and (path in PATH_LESS_200)) or (res.info.status == 'problem non convex'):
+        
+        # Struggles to solve simple problems
+        if (((res.info.iter >= 24900) or (res.info.status == 'unsolved')) and (path in PATH_LESS_200)):
+            raise optuna.TrialPruned()
+        
+        # The run takes too long (over 5 times the pure OSQP implementation)
+        if time.time() - problem_time >= 2500:
+            raise optuna.TrialPruned()
+        
+        # Tells that a problem is not convex (solver fail)
+        if res.info.status == 'problem non convex':
             raise optuna.TrialPruned()
 
 
@@ -1052,8 +1064,12 @@ def objective(trial):
     current_comb["adaptive_rho_tolerance_less"] = trial.suggest_float("adaptive_rho_tolerance_less", 0 + small_num, 100)
     current_comb["pid_controller"] = trial.suggest_int("pid_controller", 0, 1)
     if current_comb["pid_controller"] == 1:
-        current_comb["KP"] = trial.suggest_float("KP", -50, 50)
-        current_comb["KI"] = trial.suggest_float("KI", -50, 50)
+        current_comb["KP"] = trial.suggest_float("KP", 0, 100)
+        current_comb["KI"] = trial.suggest_float("KI", 0, 100)
+        current_comb["negate_K"] = trial.suggest_int("negate_K", 0, 1)
+        if current_comb["negate_K"]:
+            current_comb["KP"] = -current_comb["KP"]
+            current_comb["KI"] = -current_comb["KI"]
         # current_comb["pid_controller_sqrt"] = trial.suggest_int("pid_controller_sqrt", 0, 1)
         # current_comb["pid_controller_sqrt_mult"] = trial.suggest_int("pid_controller_sqrt_mult", 0, 1)
         # current_comb["pid_controller_sqrt_mult_2"] = trial.suggest_int("pid_controller_sqrt_mult_2", 0, 1)
@@ -1136,8 +1152,11 @@ def objective(trial):
                                                        1e4 + res['solve_time'] + scaled_prim_dual + np.abs(res['duality_gap'])],
                                           default=default))
     
-    
-    
+    # Geometric mean of integral sum
+    integral_geom = geom_mean(np.select(conditions, [res['integral_sums'], 
+                                                       1e10, 
+                                                       1e2 + res['integral_sums']],
+                                          default=default))
     
     # Geometric mean of primal residual
     # prim_res_geom = geom_mean(res['prim_res'])
@@ -1155,10 +1174,12 @@ def objective(trial):
     # iterations_geom = geom_mean(res['iterations'])
     iterations_geom = geom_mean(np.select(conditions, [res['iterations'], res['iterations'] + 1e10, res['iterations'] + 1e3], default=default))
     
-    return solve_time_geom
+    # return solve_time_geom
+    return integral_geom
 
 
 def run_optimization(_):
+    print(f"run_optimization is ran in {START_TIMER - time.time()} seconds")
     if CLUSTER == "della_stellato":
         journal_log_file_path = "./journal.log"
     elif CLUSTER == "della":
@@ -1169,7 +1190,7 @@ def run_optimization(_):
         load_if_exists=True, # Useful for multi-process or multi-node optimization.
         sampler=optuna.samplers.CmaEsSampler()
     )
-    study.optimize(objective, n_trials=1, timeout=2500)
+    study.optimize(objective, n_trials=1)
 
 
 def run_optuna():
@@ -1177,7 +1198,7 @@ def run_optuna():
     # num_cpus = max(1, int(multiprocessing.cpu_count()) - 2)
     if CLUSTER == "della_stellato":
         num_cpus = 34
-        # num_cpus = 1
+        # num_cpus = 4
     elif CLUSTER == "della":
         num_cpus = 128
     # print(f"Using {num_cpus} CPUs for {len(combination_array)} total tasks")
@@ -1185,9 +1206,10 @@ def run_optuna():
     with multiprocessing.Pool(processes=num_cpus) as pool:
         if CLUSTER == "della_stellato":
             results = pool.map(run_optimization, range(250))
-            # results = pool.map(run_optimization, range(1))
+            # results = pool.map(run_optimization, range(40))
         elif CLUSTER == "della":
-            results = pool.map(run_optimization, range(512))
+            # results = pool.map(run_optimization, range(512))
+            results = pool.map(run_optimization, range(num_cpus * 4))
     
     return results
 
@@ -1370,7 +1392,8 @@ if __name__ == '__main__':
             "halpern_step_first_inner_iter": -1,
             "pid_controller": -1,
             "KP": -1,
-            "KI": -1
+            "KI": -1,
+            "negate_K": -1
         }
 
         # Create an OSQP object
@@ -1385,7 +1408,7 @@ if __name__ == '__main__':
 
 
         # Time the execution process
-        start = time.time()
+        START_TIMER = time.time()
 
 
         # Run it in parallel
@@ -1398,15 +1421,15 @@ if __name__ == '__main__':
                 task_id, combination_array
             )
         else:
-            # Multithreading
-            results = run_locally(
-                # combination_array[:comb_count], paths, problem_name, n, m, p_scale, 
-                # p_rank, seed, plot, save_stats, save_all, all_param_dict
-                combination_array[:comb_count]
-            )
+            # # Multithreading
+            # results = run_locally(
+            #     # combination_array[:comb_count], paths, problem_name, n, m, p_scale, 
+            #     # p_rank, seed, plot, save_stats, save_all, all_param_dict
+            #     combination_array[:comb_count]
+            # )
             
-            # # Optuna (Multi-process)
-            # results = run_optuna()
+            # Optuna (Multi-process)
+            results = run_optuna()
         
         
             
@@ -1420,9 +1443,9 @@ if __name__ == '__main__':
         
         if CLUSTER == "della_stellato":
             end = time.time()
-            print(f"To solve all of the instance it took {end - start} seconds")
-            print(f"To solve all of the instance it took {(end - start) / 60.0} minutes")
-            print(f"To solve all of the instance it took {((end - start) / 60.0) / 60.0} hours")
+            print(f"To solve all of the instance it took {end - START_TIMER} seconds")
+            print(f"To solve all of the instance it took {(end - START_TIMER) / 60.0} minutes")
+            print(f"To solve all of the instance it took {((end - START_TIMER) / 60.0) / 60.0} hours")
             
             
             
@@ -1431,7 +1454,7 @@ if __name__ == '__main__':
             msg['Subject'] = 'Python Jobs Report'
             msg['From'] = 'emailsender062@gmail.com'
             msg['To'] = 'lb3825@princeton.edu'
-            msg.set_content(f'Job Finished !!!! It took {(end - start) / 60.0} minutes')
+            msg.set_content(f'Job Finished !!!! It took {(end - START_TIMER) / 60.0} minutes')
 
             # Gmail SMTP server setup
             smtp_server = 'smtp.gmail.com'
