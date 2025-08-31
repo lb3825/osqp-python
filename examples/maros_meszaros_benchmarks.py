@@ -26,6 +26,9 @@ import cvxpy as cp
 
 # Global configuration constants
 START_TIMER = None
+# Set to 3 hours
+JOB_TIME_LIMIT = 3 * 60 * 60
+TIME_THRESHOLD = 2500
 PATHS = None
 PROBLEM_NAME = None
 N = None
@@ -795,7 +798,7 @@ def problem_solver(
         # prob.setup(P, q, A, l, u, plot=plot, verbose=False, time_limit=1e3, **current_comb)
         prob.setup(P, q, A, l, u, plot=PLOT, verbose=False, eps_abs=EPS_ABS, eps_rel=EPS_REL, eps_prim_inf=EPS_PRIM_INF, eps_dual_inf=EPS_DUAL_INF, time_limit=1e3, max_iter=25000, **current_comb)
         # prob.setup(P, q, A, l, u, verbose=True, eps_abs=1e-6, eps_rel=1e-6, time_limit=1e3, pid_controller=1, pid_controller_log=1, max_iter=25000)
-        # prob.setup(P, q, A, l, u, plot=plot, scaling=0, eps_abs=1e-6, eps_rel=0, max_iter=25000, **current_set)
+        prob.setup(P, q, A, l, u, plot=PLOT, eps_abs=EPS_ABS, eps_rel=EPS_ABS, max_iter=100, **current_set)
         
         
         # # Using CVXPY
@@ -827,9 +830,9 @@ def problem_solver(
         
         # print('Setup time:', res.info.setup_time)
         # print('Solve time:', res.info.solve_time)
-        print('Problem name:', name)
-        print('Run time:', res.info.run_time)
-        print('Status:', res.info.status)
+        print('Problem name:', name, flush=True)
+        print('Run time:', res.info.run_time, flush=True)
+        print('Status:', res.info.status, flush=True)
         # print('Primal Residual:', res.info.prim_res)
         # print('Dual Residual:', res.info.dual_res)
         # print('Duality Gap:', res.info.duality_gap)
@@ -852,7 +855,7 @@ def problem_solver(
         prim_res_ratios.append(primal_ratio)
         dua_res_ratios.append(dua_ratio)
         duality_gap_res_ratios.append(duality_gap_ratio)
-        integral_sums.append(res.info.integral_sum)
+        integral_sums.append(res.info.total_integral)
         
         # Save result statistics
         # if save_stats:
@@ -913,14 +916,17 @@ def problem_solver(
         
         # Struggles to solve simple problems
         if (((res.info.iter >= 24900) or (res.info.status == 'unsolved')) and (path in PATH_LESS_200)):
+            print("pruned as iter >= 24900 or status == unsolved for an easy problem", flush=True)
             raise optuna.TrialPruned()
         
         # The run takes too long (over 5 times the pure OSQP implementation)
-        if time.time() - problem_time >= 2500:
+        if time.time() - problem_time >= TIME_THRESHOLD:
+            print(f"pruned as the run took too long. It took {time.time() - problem_time} seconds", flush=True)
             raise optuna.TrialPruned()
         
         # Tells that a problem is not convex (solver fail)
         if res.info.status == 'problem non convex':
+            print(f"pruned as status == prolem non convex", flush=True)
             raise optuna.TrialPruned()
 
 
@@ -967,7 +973,7 @@ def saving_stats_csv(name, res, current_comb, task_id, primal_ratio, dua_ratio, 
         "dual ratio": dua_ratio,
         "duality gap": res.info.duality_gap,
         "duality gap ratio": duality_gap_ratio,
-        "integral_sum": res.info.integral_sum,
+        "integral_sum": res.info.total_integral,
         "restart": res.info.restart,
         "iterations": res.info.iter,
         "task_id": task_id,
@@ -1066,58 +1072,73 @@ def objective(trial):
     if current_comb["pid_controller"] == 1:
         current_comb["KP"] = trial.suggest_float("KP", 0, 100)
         current_comb["KI"] = trial.suggest_float("KI", 0, 100)
-        current_comb["negate_K"] = trial.suggest_int("negate_K", 0, 1)
-        if current_comb["negate_K"]:
-            current_comb["KP"] = -current_comb["KP"]
-            current_comb["KI"] = -current_comb["KI"]
+        
+    current_comb["adapt_rho_on_restart"] = 1
+    current_comb["beta"] = trial.suggest_float("beta", 0 + small_num, 1 - small_num)
+    current_comb["ini_rest_len"] = trial.suggest_int("ini_rest_len", 25, 100, step=25)
+    current_comb["adaptive_rest"] = 1
+    current_comb["restart_necessary"] = trial.suggest_float("restart_necessary", 0 + small_num, 1)
+    current_comb["restart_artificial"] = trial.suggest_float("restart_artificial", 0 + small_num, 1)
+        # current_comb["negate_K"] = trial.suggest_int("negate_K", 0, 1)
+        # if current_comb["negate_K"]:
+        #     current_comb["KP"] = -current_comb["KP"]
+        #     current_comb["KI"] = -current_comb["KI"]
         # current_comb["pid_controller_sqrt"] = trial.suggest_int("pid_controller_sqrt", 0, 1)
         # current_comb["pid_controller_sqrt_mult"] = trial.suggest_int("pid_controller_sqrt_mult", 0, 1)
         # current_comb["pid_controller_sqrt_mult_2"] = trial.suggest_int("pid_controller_sqrt_mult_2", 0, 1)
         # current_comb["pid_controller_log"] = trial.suggest_int("pid_controller_log", 0, 1)
     
-    current_comb["rho_custom_condition"] = trial.suggest_int("rho_custom_condition", 0, 1)
-    if current_comb["rho_custom_condition"] == 1:
-        current_comb["rho_custom_tolerance"] = trial.suggest_float("rho_custom_tolerance", 0 + small_num, 100)
+    # current_comb["rho_custom_condition"] = trial.suggest_int("rho_custom_condition", 0, 1)
+    # if current_comb["rho_custom_condition"] == 1:
+    #     current_comb["rho_custom_tolerance"] = trial.suggest_float("rho_custom_tolerance", 0 + small_num, 100)
         
     # current_comb["restart_type"] = trial.suggest_categorical("restart_type", ["none", "halpern", "reflected halpern", "averaged"])
-    current_comb["restart_type"] = trial.suggest_categorical("restart_type", ["halpern", "reflected halpern", "averaged"])
-    if current_comb["restart_type"] == "halpern":
-        current_comb["adapt_rho_on_restart"] = trial.suggest_int("adapt_rho_on_restart", 0, 1)
-        current_comb["beta"] = trial.suggest_float("beta", 0 + small_num, 1 - small_num)
-        current_comb["ini_rest_len"] = trial.suggest_int("ini_rest_len", 1, 100)
-        current_comb["halpern_scheme"] = trial.suggest_categorical("halpern_scheme", ["none", "adaptive", "adaptive only before init_rest_len"])
+    # current_comb["restart_type"] = trial.suggest_categorical("restart_type", ["halpern", "reflected halpern", "averaged"])
+    current_comb["restart_type"] = trial.suggest_categorical("restart_type", ["reflected halpern", "averaged"])
+    # if current_comb["restart_type"] == "halpern":
+    #     # current_comb["adapt_rho_on_restart"] = trial.suggest_int("adapt_rho_on_restart", 0, 1) 
+    #     current_comb["adapt_rho_on_restart"] = 1
+    #     current_comb["beta"] = trial.suggest_float("beta", 0 + small_num, 1 - small_num)
+    #     # current_comb["ini_rest_len"] = trial.suggest_int("ini_rest_len", 1, 100)
+    #     current_comb["ini_rest_len"] = trial.suggest_int("ini_rest_len", 25, 100, step=25)
+    #     # current_comb["halpern_scheme"] = trial.suggest_categorical("halpern_scheme", ["none", "adaptive", "adaptive only before init_rest_len"])
+    #     # current_comb["halpern_scheme"] = trial.suggest_categorical("halpern_scheme", ["none", "adaptive"])
+    #     current_comb["halpern_scheme"] = trial.suggest_categorical("halpern_scheme", ["none"])
         
-        current_comb["adaptive_rest"] = trial.suggest_int("adaptive_rest", 0, 1)
-        if current_comb["adaptive_rest"] == 1:
-            current_comb["restart_necessary"] = trial.suggest_float("restart_necessary", 0 + small_num, 1)
-            current_comb["restart_artificial"] = trial.suggest_float("restart_artificial", 0 + small_num, 1)
-        current_comb["halpern_step_first_inner_iter"] = trial.suggest_int("halpern_step_first_inner_iter", 0, 1)
-    elif current_comb["restart_type"] == "reflected halpern":
-        current_comb["adapt_rho_on_restart"] = trial.suggest_int("adapt_rho_on_restart", 0, 1)
-        current_comb["beta"] = trial.suggest_float("beta", 0 + small_num, 1 - small_num)
-        current_comb["ini_rest_len"] = trial.suggest_int("ini_rest_len", 1, 100)
-        current_comb["halpern_scheme"] = trial.suggest_categorical("halpern_scheme", ["none", "adaptive", "adaptive only before init_rest_len"])
+    #     # current_comb["adaptive_rest"] = trial.suggest_int("adaptive_rest", 0, 1)
+    #     # if current_comb["adaptive_rest"] == 1:
+    #     #     current_comb["restart_necessary"] = trial.suggest_float("restart_necessary", 0 + small_num, 1)
+    #     #     current_comb["restart_artificial"] = trial.suggest_float("restart_artificial", 0 + small_num, 1)
+    #     current_comb["adaptive_rest"] = 1
+    #     current_comb["restart_necessary"] = trial.suggest_float("restart_necessary", 0 + small_num, 1)
+    #     current_comb["restart_artificial"] = trial.suggest_float("restart_artificial", 0 + small_num, 1)
+    #     current_comb["halpern_step_first_inner_iter"] = trial.suggest_int("halpern_step_first_inner_iter", 0, 1)
+    # elif current_comb["restart_type"] == "reflected halpern":
+    if current_comb["restart_type"] == "reflected halpern":
+        # current_comb["adapt_rho_on_restart"] = trial.suggest_int("adapt_rho_on_restart", 0, 1)
+        # current_comb["halpern_scheme"] = trial.suggest_categorical("halpern_scheme", ["none", "adaptive", "adaptive only before init_rest_len"])
+        current_comb["halpern_scheme"] = trial.suggest_categorical("halpern_scheme", ["none"])
         current_comb["lambd"] = trial.suggest_float("lambd", 0, max(0, min((2.0 / current_comb["alpha"]) - 1.0, 1)))
-        if current_comb["alpha"] > 1:
-            current_comb["alpha_adjustment_reflected_halpern"] = 1
-        else:
-            current_comb["alpha_adjustment_reflected_halpern"] = trial.suggest_int("alpha_adjustment_reflected_halpern", 0, 1)
-        current_comb["adaptive_rest"] = trial.suggest_int("adaptive_rest", 0, 1)
-        if current_comb["adaptive_rest"] == 1:
-            current_comb["restart_necessary"] = trial.suggest_float("restart_necessary", 0 + small_num, 1)
-            current_comb["restart_artificial"] = trial.suggest_float("restart_artificial", 0 + small_num, 1)
+        # if current_comb["alpha"] > 1:
+        #     current_comb["alpha_adjustment_reflected_halpern"] = 1
+        # else:
+        #     current_comb["alpha_adjustment_reflected_halpern"] = trial.suggest_int("alpha_adjustment_reflected_halpern", 0, 1)
+        current_comb["alpha_adjustment_reflected_halpern"] = 1
+        # current_comb["adaptive_rest"] = trial.suggest_int("adaptive_rest", 0, 1)
+        # if current_comb["adaptive_rest"] == 1:
+        #     current_comb["restart_necessary"] = trial.suggest_float("restart_necessary", 0 + small_num, 1)
+        #     current_comb["restart_artificial"] = trial.suggest_float("restart_artificial", 0 + small_num, 1)
         current_comb["halpern_step_first_inner_iter"] = trial.suggest_int("halpern_step_first_inner_iter", 0, 1)
     elif current_comb["restart_type"] == "averaged":
-        current_comb["adapt_rho_on_restart"] = trial.suggest_int("adapt_rho_on_restart", 0, 1)
-        current_comb["custom_average_rest"] = trial.suggest_int("custom_average_rest", 0, 1)
-        current_comb["beta"] = trial.suggest_float("beta", 0 + small_num, 1 - small_num)
-        current_comb["ini_rest_len"] = trial.suggest_int("ini_rest_len", 1, 100)
+        # current_comb["adapt_rho_on_restart"] = trial.suggest_int("adapt_rho_on_restart", 0, 1)
+        # current_comb["custom_average_rest"] = trial.suggest_int("custom_average_rest", 0, 1)
+        current_comb["custom_average_rest"] = 1
         current_comb["xi"] = trial.suggest_float("xi", 0 + small_num, 100)
         current_comb["vector_rho_in_averaged_KKT"] = trial.suggest_int("vector_rho_in_averaged_KKT", 0, 1)
-        current_comb["adaptive_rest"] = trial.suggest_int("adaptive_rest", 0, 1)
-        if current_comb["adaptive_rest"] == 1:
-            current_comb["restart_necessary"] = trial.suggest_float("restart_necessary", 0 + small_num, 1)
-            current_comb["restart_artificial"] = trial.suggest_float("restart_artificial", 0 + small_num, 1)
+        # current_comb["adaptive_rest"] = trial.suggest_int("adaptive_rest", 0, 1)
+        # if current_comb["adaptive_rest"] == 1:
+        #     current_comb["restart_necessary"] = trial.suggest_float("restart_necessary", 0 + small_num, 1)
+        #     current_comb["restart_artificial"] = trial.suggest_float("restart_artificial", 0 + small_num, 1)
     
     # Feeding the parameters to solve all of the desired problems
     res = problem_solver(
@@ -1179,37 +1200,84 @@ def objective(trial):
 
 
 def run_optimization(_):
-    print(f"run_optimization is ran in {START_TIMER - time.time()} seconds")
     if CLUSTER == "della_stellato":
-        journal_log_file_path = "./journal.log"
+        # journal_log_file_path = "./journal.log"
+        db_path = "./optuna_study.db"
     elif CLUSTER == "della":
-        journal_log_file_path = "./journal_della.log"
+        # journal_log_file_path = "./journal_della.log"
+        db_path = "./optuna_study_della.db"
     study = optuna.create_study(
         study_name="journal_storage_multiprocess",
-        storage=JournalStorage(JournalFileBackend(file_path=journal_log_file_path)),
+        # storage=JournalStorage(JournalFileBackend(file_path=journal_log_file_path)),
+        storage=f"sqlite:///{db_path}",
         load_if_exists=True, # Useful for multi-process or multi-node optimization.
         sampler=optuna.samplers.CmaEsSampler()
     )
     study.optimize(objective, n_trials=1)
 
 
-def run_optuna():
+def run_optuna(use_multiprocessing=True):
     # num_cpus = int(int(multiprocessing.cpu_count()) / 2.0)
     # num_cpus = max(1, int(multiprocessing.cpu_count()) - 2)
     if CLUSTER == "della_stellato":
-        num_cpus = 34
-        # num_cpus = 4
+        # num_cpus = 34
+        num_cpus = 1
     elif CLUSTER == "della":
-        num_cpus = 128
+        num_cpus = 1
     # print(f"Using {num_cpus} CPUs for {len(combination_array)} total tasks")
     
-    with multiprocessing.Pool(processes=num_cpus) as pool:
-        if CLUSTER == "della_stellato":
-            results = pool.map(run_optimization, range(250))
-            # results = pool.map(run_optimization, range(40))
-        elif CLUSTER == "della":
-            # results = pool.map(run_optimization, range(512))
-            results = pool.map(run_optimization, range(num_cpus * 4))
+    if use_multiprocessing:
+        with multiprocessing.Pool(processes=num_cpus) as pool:
+            if CLUSTER == "della_stellato":
+                # results = pool.map(run_optimization, range(250))
+                # results = pool.map(run_optimization, range(40))
+                results = run_optimization(1)
+            elif CLUSTER == "della":
+                results = pool.map(run_optimization, range(512))
+                # results = pool.map(run_optimization, range(1))
+            
+            # # Dynamically allocate jobs to ensure CPUs dont sit idly
+            # elif CLUSTER == "della":
+            #     results = []
+            #     active_tasks = []
+                
+            #     for i in range(num_cpus):
+            #         active_tasks.append(pool.apply_async(run_optimization, (i,)))
+                    
+            #     while active_tasks:
+            #         ready_task = next((task for task in active_tasks if task.ready()), None)
+                    
+            #         if ready_task:
+            #             try:
+            #                 result = ready_task.get()
+            #                 results.append(result)
+            #             except Exception as e:
+            #                 print(f"A task failed with an exception: {e}")
+            #             active_tasks.remove(ready_task)
+                        
+            #             elapsed_time = time.time() - START_TIMER
+                        
+            #             if elapsed_time < JOB_TIME_LIMIT - TIME_THRESHOLD:
+            #                 new_task_id = len(result) + len(active_tasks)
+            #                 active_tasks.append(pool.apply_async(run_optimization, (new_task_id,)))
+            #             else:
+            #                 print("Not enough time to start a new taks, waiting till all existing tasks finish")
+                            
+            #         else:
+            #             # Just wait
+            #             time.sleep(1)
+                        
+            #     # Save the number of tasks completed
+            #     stats_file = "../../osqp/plot/stats_orig_osqp_old.csv"
+            #     results_len = len(results)
+            #     file_exists = os.path.exists(stats_file)
+            #     with open(stats_file, mode='a', newline='', encoding='utf8') as csvfile:
+            #         writer = csv.writer(csvfile)
+            #         if not file_exists:
+            #             writer.writerow(['results_len'])
+            #         writer.writerow([results_len])
+    else:
+        results = run_optimization(1)
     
     return results
 
@@ -1218,7 +1286,7 @@ def run_optuna():
 if __name__ == '__main__':
     try:
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        print("script_dir =", script_dir)
+        print("script_dir =", script_dir, flush=True)
         
         # Check for command line argument
         # if len(sys.argv) != 2 and sys.argv[1] != "random":
@@ -1273,24 +1341,24 @@ if __name__ == '__main__':
         
         # if (save_stats != 0) and (save_stats != 1):
         if (SAVE_STATS != 0) and (SAVE_STATS != 1):
-            print(f"save_stats must be 0 or 1")
+            print(f"save_stats must be 0 or 1", flush=True)
             sys.exit(1)
             
         # if (save_all != 0) and (save_all != 1):
         if (SAVE_ALL != 0) and (SAVE_ALL != 1):
-            print(f"save_all must be 0 or 1")
+            print(f"save_all must be 0 or 1", flush=True)
             sys.exit(1)
             
         if (restart_comb != "none") and (restart_comb != "halpern") and (restart_comb != "reflected_halpern") and (restart_comb != "averaged"):
-            print(f"restart_comb must be either 'none', 'halpern', 'reflected_halpern', or 'averaged' ")
+            print(f"restart_comb must be either 'none', 'halpern', 'reflected_halpern', or 'averaged' ", flush=True)
             sys.exit(1)
         
         if (comb_count <= 0) and (comb_count != -1):
-            print(f"comb_count must be a positive integer or -1")
+            print(f"comb_count must be a positive integer or -1", flush=True)
             sys.exit(1)
             
         if (CLUSTER != "della") and (CLUSTER != "della_stellato"):
-            print(f"cluster must be either 'della' or 'della_stellato'")
+            print(f"cluster must be either 'della' or 'della_stellato'", flush=True)
             sys.exit(1)
         
         
@@ -1299,7 +1367,7 @@ if __name__ == '__main__':
         # if problem_name == "RANDOM":
         if PROBLEM_NAME == "RANDOM":
             # print(f"n: {n}, m: {m}, seed: {seed}, p_scale: {p_scale}, p_rank: {p_rank}")
-            print(f"n: {N}, m: {M}, seed: {SEED}, p_scale: {P_SCALE}, p_rank: {P_RANK}")
+            print(f"n: {N}, m: {M}, seed: {SEED}, p_scale: {P_SCALE}, p_rank: {P_RANK}", flush=True)
         
         # Construct path to the qpbenchmark data directory
         # Navigate from osqp-python/examples to qpbenchmark/maros_meszaros_qpbenchmark/data
@@ -1319,6 +1387,7 @@ if __name__ == '__main__':
                 exclude_probs = ['CONT-300.mat', 'CONT-201.mat', 'CONT-200.mat', 'BOYD2.mat']
                 
                 files = [f for f in os.listdir(qpbenchmark_data_dir) if (f.endswith('.mat')) and (f not in exclude_probs)]
+                files.sort()
                 
                 # paths = [os.path.join(qpbenchmark_data_dir, f) for f in files]
                 PATHS = [os.path.join(qpbenchmark_data_dir, f) for f in files]
@@ -1329,14 +1398,14 @@ if __name__ == '__main__':
                 
                 # Check if the problem file exists
                 if not os.path.exists(problem_path):
-                    print(f"Error: Problem file '{problem_path}' not found.")
-                    print(f"Available problems in '{qpbenchmark_data_dir}':")
+                    print(f"Error: Problem file '{problem_path}' not found.", flush=True)
+                    print(f"Available problems in '{qpbenchmark_data_dir}':", flush=True)
                     try:
                         files = [f for f in os.listdir(qpbenchmark_data_dir) if f.endswith('.mat')]
                         for f in sorted(files):
-                            print(f"  {f[:-4]}")  # Remove .mat extension for display
+                            print(f"  {f[:-4]}", flush=True)  # Remove .mat extension for display
                     except FileNotFoundError:
-                        print(f"  Directory not found: {qpbenchmark_data_dir}")
+                        print(f"  Directory not found: {qpbenchmark_data_dir}", flush=True)
                     sys.exit(1)
                 
                 # paths = [problem_path]
@@ -1354,7 +1423,7 @@ if __name__ == '__main__':
         # Generate the set of all possible combinations
         #       This requires a lot of free memory on the system 
         #       (my pc can't load all of these combinations, roughly 60 million comb.)
-        
+
         if (restart_comb == "halpern"):
             # Combinations 4700160 (if use 5 choices per hyperparemeter)
             # Combinations 80640 (if use 3 choices per hyperparemeter)
@@ -1401,7 +1470,7 @@ if __name__ == '__main__':
         
         if (comb_count > len(combination_array)):
             comb_count = len(combination_array)
-            print(f"comb_count is set to the len(combination_array) [{len(combination_array)}]")
+            print(f"comb_count is set to the len(combination_array) [{len(combination_array)}]", flush=True)
         
         if (comb_count == -1):
             comb_count = len(combination_array)
@@ -1414,12 +1483,13 @@ if __name__ == '__main__':
         # Run it in parallel
         if array_task_id is not None:
             # SLURM Mode: Run only one task
-            task_id = int(array_task_id)
-            results = dispatch(
-                # task_id, combination_array, paths, problem_name, n, m, p_scale, 
-                # p_rank, seed, plot, save_stats, save_all, all_param_dict
-                task_id, combination_array
-            )
+            # task_id = int(array_task_id)
+            # results = dispatch(
+            #     # task_id, combination_array, paths, problem_name, n, m, p_scale, 
+            #     # p_rank, seed, plot, save_stats, save_all, all_param_dict
+            #     task_id, combination_array
+            # )
+            results = run_optuna(use_multiprocessing=False)
         else:
             # # Multithreading
             # results = run_locally(
