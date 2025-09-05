@@ -1230,15 +1230,15 @@ def objective(trial):
 
 def run_optimization(_):
     if CLUSTER == "della_stellato":
-        # journal_log_file_path = "./journal.log"
-        db_path = "./optuna_study.db"
+        journal_log_file_path = "./journal.log"
+        # db_path = "./optuna_study.db"
     elif CLUSTER == "della":
-        # journal_log_file_path = "./journal_della.log"
-        db_path = "./optuna_study_della.db"
+        journal_log_file_path = "./journal_della.log"
+        # db_path = "./optuna_study_della.db"
     study = optuna.create_study(
         study_name="journal_storage_multiprocess",
-        # storage=JournalStorage(JournalFileBackend(file_path=journal_log_file_path)),
-        storage=f"sqlite:///{db_path}",
+        storage=JournalStorage(JournalFileBackend(file_path=journal_log_file_path)),
+        # storage=f"sqlite:///{db_path}",
         load_if_exists=True, # Useful for multi-process or multi-node optimization.
         sampler=optuna.samplers.CmaEsSampler()
     )
@@ -1315,7 +1315,8 @@ def run_optuna(use_multiprocessing=True):
 if __name__ == '__main__':
     try:
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        print("script_dir =", script_dir, flush=True)
+        print("test")
+        print("script_dir =", script_dir)
         
         # Check for command line argument
         # if len(sys.argv) != 2 and sys.argv[1] != "random":
@@ -1326,8 +1327,10 @@ if __name__ == '__main__':
         #     print("Available problems are .mat files in qpbenchmark/maros_meszaros_qpbenchmark/data/")
         #     sys.exit(1)
 
+        print("test")
         array_task_id = os.environ.get("SLURM_ARRAY_TASK_ID")
         # print(f"Current SLURM array task ID: {array_task_id}")
+        print("test 1")
         
         parser = argparse.ArgumentParser(description="Run Maros-Meszaros benchmarks.")
         parser.add_argument("problem_name", type=str, help="Name of the problem (e.g., HS21 or 'random').")
@@ -1368,6 +1371,7 @@ if __name__ == '__main__':
         comb_count = args.comb_count
         CLUSTER = args.cluster
         
+        print("test 2")
         # if (save_stats != 0) and (save_stats != 1):
         if (SAVE_STATS != 0) and (SAVE_STATS != 1):
             print(f"save_stats must be 0 or 1", flush=True)
@@ -1394,6 +1398,7 @@ if __name__ == '__main__':
         # print(f"problem_name {problem_name}")
         # print(f"problem_name {PROBLEM_NAME}")
         # if problem_name == "RANDOM":
+        print("test 3")
         if PROBLEM_NAME == "RANDOM":
             # print(f"n: {n}, m: {m}, seed: {seed}, p_scale: {p_scale}, p_rank: {p_rank}")
             print(f"n: {N}, m: {M}, seed: {SEED}, p_scale: {P_SCALE}, p_rank: {P_RANK}", flush=True)
@@ -1507,7 +1512,7 @@ if __name__ == '__main__':
             comb_count = len(combination_array)
             
         # Set the data frame for the pure OSQP implementation results
-        stat_file = "osqp/plot/stats_integral_full.csv"
+        stat_file = "../../osqp/plot/stats_integral_full.csv"
         PURE_OSQP_DF = pd.read_csv(stat_file)
         TOTAL_OSQP_RUN_TIME = PURE_OSQP_DF['run time'].sum()
 
