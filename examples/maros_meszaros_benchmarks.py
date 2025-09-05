@@ -52,10 +52,19 @@ PATH_LESS_200 = [
     "PRIMAL4.mat", "QAFIRO.mat", "QPTEST.mat", "QSC205.mat",
     "STCQP1.mat", "STCQP2.mat", "TAME.mat"
 ]
+HARD_PROB = [
+    "BOYD1", "LISWET12", "PRIMALC1", "PRIMALC2", "PRIMALC5",
+    "PRIMALC8", "QBORE3D", "QE226", "QSCAGR7", "QSCORPIO",
+    "QSCTAP1", "QSCTAP2", "QSCTAP3", "QSHARE2B", "STADAT1",
+    "STADAT2", "STADAT3", "YAO"
+]
 EPS_ABS         = 1e-6
 EPS_REL         = 1e-6
-EPS_PRIM_INF    = 1e-6
-EPS_DUAL_INF    = 1e-6
+EPS_PRIM_INF    = 1e-9
+EPS_DUAL_INF    = 1e-9
+
+PURE_OSQP_DF        = None
+TOTAL_OSQP_RUN_TIME = None
 
 
 def generate_random_qp(n, m, p_scale=0.1, p_rank=None, seed=42):
@@ -712,9 +721,13 @@ def problem_solver(
     dua_res_ratios = []
     duality_gap_res_ratios = []
     integral_sums = []
+    prim_normalized_vals = []
+    dual_normalized_vals = []
+    duality_gap_normalized_vals = []
     
     # for path in paths:
     for path in PATHS:
+        instance_time = time.time()
         # Problem Data
         # P, q, A, l, u, n, m, name = determine_prob_date(problem_name, path, n, m, p_scale, p_rank, seed)
         P, q, A, l, u, n, m, name = determine_prob_date(path)
@@ -796,9 +809,10 @@ def problem_solver(
         
         # prob.setup(P, q, A, l, u, plot=plot, scaling=0, eps_abs=1e-6, eps_rel=0, max_iter=25000, time_limit=1e3, **current_comb)
         # prob.setup(P, q, A, l, u, plot=plot, verbose=False, time_limit=1e3, **current_comb)
-        prob.setup(P, q, A, l, u, plot=PLOT, verbose=False, eps_abs=EPS_ABS, eps_rel=EPS_REL, eps_prim_inf=EPS_PRIM_INF, eps_dual_inf=EPS_DUAL_INF, time_limit=1e3, max_iter=25000, **current_comb)
+        # prob.setup(P, q, A, l, u, plot=PLOT, verbose=False, eps_abs=EPS_ABS, eps_rel=EPS_REL, eps_prim_inf=EPS_PRIM_INF, eps_dual_inf=EPS_DUAL_INF, time_limit=1e3, max_iter=25000, **current_comb)
+        prob.setup(P, q, A, l, u, plot=PLOT, verbose=True, eps_abs=EPS_ABS, eps_rel=EPS_REL, eps_prim_inf=EPS_PRIM_INF, eps_dual_inf=EPS_DUAL_INF, time_limit=420, max_iter=2000000000)
         # prob.setup(P, q, A, l, u, verbose=True, eps_abs=1e-6, eps_rel=1e-6, time_limit=1e3, pid_controller=1, pid_controller_log=1, max_iter=25000)
-        prob.setup(P, q, A, l, u, plot=PLOT, eps_abs=EPS_ABS, eps_rel=EPS_ABS, max_iter=100, **current_set)
+        # prob.setup(P, q, A, l, u, plot=PLOT, eps_abs=EPS_ABS, eps_rel=EPS_ABS, max_iter=25000, **current_set)
         
         
         # # Using CVXPY
@@ -856,7 +870,10 @@ def problem_solver(
         dua_res_ratios.append(dua_ratio)
         duality_gap_res_ratios.append(duality_gap_ratio)
         integral_sums.append(res.info.total_integral)
-        
+        prim_normalized_vals.append(res.info.prim_normalized)
+        dual_normalized_vals.append(res.info.dual_normalized)
+        duality_gap_normalized_vals.append(res.info.duality_gap_normalized)
+            
         # Save result statistics
         # if save_stats:
         if SAVE_STATS:
@@ -913,17 +930,26 @@ def problem_solver(
             #     df.to_csv(master_file, mode='a', header=True, index=False, float_format="%.3e")
             #     # df.to_csv(master_file, mode='a', header=True, index=False)
             
+        osqp_df_cur_prob = PURE_OSQP_DF.loc[PURE_OSQP_DF['problem name'] == name]
+            
         
         # Struggles to solve simple problems
-        if (((res.info.iter >= 24900) or (res.info.status == 'unsolved')) and (path in PATH_LESS_200)):
-            print("pruned as iter >= 24900 or status == unsolved for an easy problem", flush=True)
+        # if (((res.info.iter >= 24900) or (res.info.status == 'unsolved')) and (path in PATH_LESS_200)):
+        #     print("pruned as iter >= 24900 or status == unsolved for an easy problem", flush=True)
+        #     raise optuna.TrialPruned()
+        
+        # The run takes too long
+        # if time.time() - problem_time >= TIME_THRESHOLD:
+        #     print(f"pruned as the run took too long. It took {time.time() - problem_time} seconds", flush=True)
+        #     raise optuna.TrialPruned()
+        if (time.time() - instance_time >= 1.5 * osqp_df_cur_prob['run time'].iloc[0]):
+            print(f"pruned as problem {name} took too long", flush=True)
             raise optuna.TrialPruned()
         
-        # The run takes too long (over 5 times the pure OSQP implementation)
-        if time.time() - problem_time >= TIME_THRESHOLD:
-            print(f"pruned as the run took too long. It took {time.time() - problem_time} seconds", flush=True)
+        if (time.time() - problem_time >= 1.5 * TOTAL_OSQP_RUN_TIME):
+            print(f"pruned as the total run time of this parameter combintation took too long", flush=True)
             raise optuna.TrialPruned()
-        
+            
         # Tells that a problem is not convex (solver fail)
         if res.info.status == 'problem non convex':
             print(f"pruned as status == prolem non convex", flush=True)
@@ -945,7 +971,10 @@ def problem_solver(
         'prim_res_ratios': np.array(prim_res_ratios),
         'dua_res_ratios': np.array(dua_res_ratios),
         'duality_gap_res_ratios': np.array(duality_gap_res_ratios),
-        'integral_sums': np.array(integral_sums)
+        'integral_sums': np.array(integral_sums),
+        'prim_normalized_vals': np.array(prim_normalized_vals),
+        'dual_normalized_vals': np.array(dual_normalized_vals),
+        'duality_gap_normalized_vals': np.array(duality_gap_normalized_vals)
     }
     
     return results
@@ -954,7 +983,7 @@ def problem_solver(
 # def saving_stats_csv(name, res, combination_array, all_param_dict, task_id):
 def saving_stats_csv(name, res, current_comb, task_id, primal_ratio, dua_ratio, duality_gap_ratio):
     if CLUSTER == "della_stellato":
-        stat_file = "../../osqp/plot/stats.csv"
+        stat_file = "../../osqp/plot/stats_integral.csv"
     elif CLUSTER == "della":
         stat_file = "../../osqp/plot/stats_della.csv"
     
@@ -969,10 +998,13 @@ def saving_stats_csv(name, res, current_comb, task_id, primal_ratio, dua_ratio, 
         "status": res.info.status,
         "primal residual": res.info.prim_res,
         "primal ratio": primal_ratio,
+        "prim_normalized": res.info.prim_normalized,
         "dual residual": res.info.dual_res,
         "dual ratio": dua_ratio,
+        "dual_normalized": res.info.dual_normalized,
         "duality gap": res.info.duality_gap,
         "duality gap ratio": duality_gap_ratio,
+        "duality_gap_normalized": res.info.duality_gap_normalized,
         "integral_sum": res.info.total_integral,
         "restart": res.info.restart,
         "iterations": res.info.iter,
@@ -1150,8 +1182,7 @@ def objective(trial):
     # Geometric mean of solve time
     conditions = [
         res['status'] == 'solved',
-        res['status'] == 'problem non convex',
-        (res['status'] == 'maximum iterations reached') | (res['status'] == 'solved inaccurate')
+        (res['status'] == 'maximum iterations reached') | (res['status'] == 'solved inaccurate') | (res['status'] == 'run time limit reached')
     ]
     default = 1e6
     
@@ -1169,31 +1200,29 @@ def objective(trial):
     scaled_prim_dual = np.minimum(np.abs((res['prim_res'] + res['dual_res']) / (1e-3)), 1e10)
     # For pure OSQP solve_time_geom = 255.32010499705535
     solve_time_geom = geom_mean(np.select(conditions, [res['solve_time'], 
-                                                       1e15, 
                                                        1e4 + res['solve_time'] + scaled_prim_dual + np.abs(res['duality_gap'])],
                                           default=default))
     
     # Geometric mean of integral sum
-    integral_geom = geom_mean(np.select(conditions, [res['integral_sums'], 
-                                                       1e10, 
-                                                       1e2 + res['integral_sums']],
-                                          default=default))
+    integral_geom = geom_mean(np.log(np.select(conditions, [res['integral_sums'], 
+                                                       res['integral_sums'] + (res['prim_normalized_vals'] + res['dual_normalized_vals'] + res['duality_gap_normalized_vals']) * 1000  * 1000],
+                                          default=default)))
     
     # Geometric mean of primal residual
     # prim_res_geom = geom_mean(res['prim_res'])
-    prim_res_geom = geom_mean(np.select(conditions, [res['prim_res'], res['prim_res'] + 1e10, res['prim_res'] + 1e3], default=default))
+    prim_res_geom = geom_mean(np.select(conditions, [res['prim_res'], res['prim_res'] + 1e3], default=default))
     
     # Geometric mean of dual residual
     # dual_res_geom = geom_mean(res['dual_res'])
-    dual_res_geom = geom_mean(np.select(conditions, [res['dual_res'], res['dual_res'] + 1e10, res['dual_res'] + 1e3], default=default))
+    dual_res_geom = geom_mean(np.select(conditions, [res['dual_res'], res['dual_res'] + 1e3], default=default))
     
     # Geometric mean of duality gap
     # duality_gap_geom = geom_mean(np.abs(res['duality_gap']))
-    duality_gap_geom = geom_mean(np.select(conditions, [np.abs(res['duality_gap']), np.abs(res['duality_gap']) + 1e10, np.abs(res['duality_gap']) + 1e3], default=default))
+    duality_gap_geom = geom_mean(np.select(conditions, [np.abs(res['duality_gap']), np.abs(res['duality_gap']) + 1e3], default=default))
     
     # Geometric mean of iteration count
     # iterations_geom = geom_mean(res['iterations'])
-    iterations_geom = geom_mean(np.select(conditions, [res['iterations'], res['iterations'] + 1e10, res['iterations'] + 1e3], default=default))
+    iterations_geom = geom_mean(np.select(conditions, [res['iterations'], res['iterations'] + 1e3], default=default))
     
     # return solve_time_geom
     return integral_geom
@@ -1385,8 +1414,10 @@ if __name__ == '__main__':
             # if (problem_name == "ALL.mat"):
             if (PROBLEM_NAME == "ALL.mat"):
                 exclude_probs = ['CONT-300.mat', 'CONT-201.mat', 'CONT-200.mat', 'BOYD2.mat']
+                exclude_probs = exclude_probs + [f"{p}.mat" for p in HARD_PROB]
                 
                 files = [f for f in os.listdir(qpbenchmark_data_dir) if (f.endswith('.mat')) and (f not in exclude_probs)]
+                # files = ['QSCTAP3.mat', 'LISWET12.mat', 'PRIMALC1.mat', 'PRIMALC2.mat', 'PRIMALC5.mat', 'PRIMALC8.mat', 'QBORE3D.mat', 'QE226.mat', 'QSCAGR7.mat', 'QSCORPIO.mat', 'QSCTAP1.mat', 'QSCTAP2.mat', 'QSHARE2B.mat', 'STADAT1.mat', 'STADAT2.mat', 'STADAT3.mat', 'YAO.mat']
                 files.sort()
                 
                 # paths = [os.path.join(qpbenchmark_data_dir, f) for f in files]
@@ -1474,6 +1505,11 @@ if __name__ == '__main__':
         
         if (comb_count == -1):
             comb_count = len(combination_array)
+            
+        # Set the data frame for the pure OSQP implementation results
+        stat_file = "osqp/plot/stats_integral_full.csv"
+        PURE_OSQP_DF = pd.read_csv(stat_file)
+        TOTAL_OSQP_RUN_TIME = PURE_OSQP_DF['run time'].sum()
 
 
         # Time the execution process
