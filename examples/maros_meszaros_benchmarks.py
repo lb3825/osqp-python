@@ -22,6 +22,7 @@ import traceback
 import gurobipy as gp
 from gurobipy import GRB
 import cvxpy as cp
+import asyncio
 # import scs
 
 # Global configuration constants
@@ -57,6 +58,22 @@ HARD_PROB = [
     "PRIMALC8", "QBORE3D", "QE226", "QSCAGR7", "QSCORPIO",
     "QSCTAP1", "QSCTAP2", "QSCTAP3", "QSHARE2B", "STADAT1",
     "STADAT2", "STADAT3", "YAO"
+]
+MITTELMAN_LARGE_FILE = [
+    "neos-3025225_Mittelman.mps", "s82_Mittelman.mps",
+    "Primal2_1000_Mittelman.mps", "thk_48_Mittelman.mps",
+    "L2CTA3D_Mittelman.mps", "tpl-tub-ws1617_Mittelman.mps",
+    "netlarge1_Mittelman.mps", "thk_63_Mittelman.mps",
+    "fhnw-binschedule1_Mittelman.mps", "a2864_Mittelman.mps",
+    "netlarge6_Mittelman.mps", "Dual2_5000_Mittelman.mps",
+    "dlr2_Mittelman.mps", "dlr1_Mittelman.mps", 
+    "square41_Mittelman.mps", "bharat_Mittelman.mps",
+    "scpm1_Mittelman.mps", "netlarge3_Mittelman.mps",
+    "set-cover-model_Mittelman.mps", "supportcase19_Mittelman.mps",
+]
+MIPLIB_LARGE_FILE = [
+    "neos-3402454-bohle_MIPLIB.mps", "square41_MIPLIB.mps",
+    "square47_MIPLIB.mps", "neos-2075418-temuka_MIPLIB.mps"
 ]
 EPS_ABS         = 1e-6
 EPS_REL         = 1e-6
@@ -633,19 +650,26 @@ def determine_prob_date(path):
         # print(f"name: {name}")
         # print(f"Solving problem: {name}")
 
-        try:
-            mat_dict = spio.loadmat(path)
-        except Exception as e:
-            print(f"Error loading problem data: {e}")
+        if path.lower().endswith('.mat'):
+            P, q, A, l, u, n, m = determine_prob_date_mat(path)
+        elif path.lower().endswith('.mps'):
+            P, q, A, l, u, n, m = determine_prob_date_mps(path)
+        else:
+            print(f"Error the file is neither a .mat or a .mps file")
+            
+            # Saving failed problem path
+            failed_path = "../../osqp/plot/failed_path.csv"
+            file_exists = os.path.exists(failed_path)
+            file_is_empty = os.path.getsize(stat_file) == 0 if file_exists else True
+            
+            with open(failed_path, mode='a', newline='', encoding='utf8') as cvsfile:
+                writer = csv.writer(cvsfile)
+                if file_is_empty:
+                    writer.writerow(['failed_path'])
+                writer.writerow([path])
+            # Need to save the name of the problem for which this occures
             sys.exit(1)
             
-        P = mat_dict["P"].astype(float).tocsc()
-        q = mat_dict["q"].T.flatten().astype(float)
-        A = mat_dict["A"].astype(float).tocsc()
-        l = mat_dict["l"].T.flatten().astype(float)
-        u = mat_dict["u"].T.flatten().astype(float)
-        n = mat_dict["n"].T.flatten().astype(int)[0]
-        m = mat_dict["m"].T.flatten().astype(int)[0]
         assert A.shape == (m, n)
         
         # Infinity constant is 1e20
@@ -671,6 +695,114 @@ def determine_prob_date(path):
         )
         
     return P, q, A, l, u, n, m, name
+
+def determine_prob_date_mat(path):
+    try:
+        mat_dict = spio.loadmat(path)
+    except Exception as e:
+        print(f"Error loading problem data: {e}")
+        # Saving failed problem path
+        failed_load = "../../osqp/plot/failed_load.csv"
+        file_exists = os.path.exists(failed_load)
+        file_is_empty = os.path.getsize(stat_file) == 0 if file_exists else True
+        
+        with open(failed_load, mode='a', newline='', encoding='utf8') as cvsfile:
+            writer = csv.writer(cvsfile)
+            if file_is_empty:
+                writer.writerow(['failed_load_path'])
+            writer.writerow([path])
+        sys.exit(1)
+        
+    P = mat_dict["P"].astype(float).tocsc()
+    q = mat_dict["q"].T.flatten().astype(float)
+    A = mat_dict["A"].astype(float).tocsc()
+    l = mat_dict["l"].T.flatten().astype(float)
+    u = mat_dict["u"].T.flatten().astype(float)
+    
+    n = mat_dict["n"].T.flatten().astype(int)[0]
+    m = mat_dict["m"].T.flatten().astype(int)[0]
+    
+    return P, q, A, l, u, n, m
+    
+def determine_prob_date_mps(path):
+    '''
+    Unlike the .mat files, .mps files may contain mixed integer problems
+    and therefore need to be taken care of differently
+    '''
+    try:
+        model = gp.read(path)
+    except Exception as e:
+        print(f"Error loading problem data: {e}")
+        
+        # Saving failed problem path
+        failed_load = "../../osqp/plot/failed_load.csv"
+        file_exists = os.path.exists(failed_load)
+        file_is_empty = os.path.getsize(stat_file) == 0 if file_exists else True
+        
+        with open(failed_load, mode='a', newline='', encoding='utf8') as cvsfile:
+            writer = csv.writer(cvsfile)
+            if file_is_empty:
+                writer.writerow(['failed_load_path'])
+            writer.writerow([path])
+            
+        sys.exit(1)
+        
+    
+    variables = model.getVars()
+    constraints = model.getConstrs()
+    
+    A = model.getA()
+    
+    q = np.array([var.Obj for var in variables])
+    if model.ModelSense == GRB.MAXIMIZE:
+        q = -q
+    
+    l_const = []
+    u_const = []
+    
+    for constr in constraints:
+        if constr.Sense == gp.GRB.EQUAL:
+            l_const.append(constr.RHS)
+            u_const.append(constr.RHS)
+        elif constr.Sense == gp.GRB.LESS_EQUAL:
+            l_const.append(-np.inf)
+            u_const.append(constr.RHS)
+        elif constr.Sense == gp.GRB.GREATER_EQUAL:
+            l_const.append(constr.RHS)
+            u_const.append(np.inf)
+           
+    l_vars = []
+    u_vars = []
+     
+    for var in variables:
+        if var.VType == gp.GRB.BINARY:
+            l_vars.append(max(0.0, var.LB))
+            u_vars.append(min(1.0, var.UB))
+        else:
+            l_vars.append(var.LB if var.LB > -1e20 else -np.inf)
+            u_vars.append(var.UB if var.UB < 1e20 else np.inf)
+            
+    l = np.concatenate([l_const, l_vars])
+    u = np.concatenate([u_const, u_vars])
+    
+    I = sparse.identity(len(variables), format='csc')
+    A_full = sparse.vstack([A, I], format='csc')
+    
+    P = sparse.csc_matrix((len(variables), len(variables)))
+    
+    n = model.NumVars
+    m = model.NumConstrs
+    
+    # Just in case, to be consistent we do the flattening and conversion operations
+    return (
+        P.astype(float).tocsc(),
+        q.flatten().astype(float),
+        A_full.astype(float).tocsc(),
+        l.flatten().astype(float),
+        u.flatten().astype(float),
+        n.flatten().astype(int),
+        m.flatten().astype(int)
+    )
 
 def get_problem_path(problem_name):
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -705,6 +837,8 @@ def problem_solver(
 ):
     problem_time = time.time()
     prob = osqp.OSQP()
+    
+    total_run_time = 0.0
     
     # Prepare lists for each metric
     setup_times = []
@@ -810,7 +944,8 @@ def problem_solver(
         # prob.setup(P, q, A, l, u, plot=plot, scaling=0, eps_abs=1e-6, eps_rel=0, max_iter=25000, time_limit=1e3, **current_comb)
         # prob.setup(P, q, A, l, u, plot=plot, verbose=False, time_limit=1e3, **current_comb)
         # prob.setup(P, q, A, l, u, plot=PLOT, verbose=False, eps_abs=EPS_ABS, eps_rel=EPS_REL, eps_prim_inf=EPS_PRIM_INF, eps_dual_inf=EPS_DUAL_INF, time_limit=1e3, max_iter=25000, **current_comb)
-        prob.setup(P, q, A, l, u, plot=PLOT, verbose=True, eps_abs=EPS_ABS, eps_rel=EPS_REL, eps_prim_inf=EPS_PRIM_INF, eps_dual_inf=EPS_DUAL_INF, time_limit=420, max_iter=2000000000)
+        # prob.setup(P, q, A, l, u, plot=PLOT, verbose=False, eps_abs=EPS_ABS, eps_rel=EPS_REL, eps_prim_inf=EPS_PRIM_INF, eps_dual_inf=EPS_DUAL_INF, time_limit=630, max_iter=2000000000, **current_comb)
+        prob.setup(P, q, A, l, u, plot=PLOT, verbose=False, eps_abs=EPS_ABS, eps_rel=EPS_REL, eps_prim_inf=EPS_PRIM_INF, eps_dual_inf=EPS_DUAL_INF, time_limit=600, max_iter=2000000000)
         # prob.setup(P, q, A, l, u, verbose=True, eps_abs=1e-6, eps_rel=1e-6, time_limit=1e3, pid_controller=1, pid_controller_log=1, max_iter=25000)
         # prob.setup(P, q, A, l, u, plot=PLOT, eps_abs=EPS_ABS, eps_rel=EPS_ABS, max_iter=25000, **current_set)
         
@@ -931,6 +1066,8 @@ def problem_solver(
             #     # df.to_csv(master_file, mode='a', header=True, index=False)
             
         osqp_df_cur_prob = PURE_OSQP_DF.loc[PURE_OSQP_DF['problem name'] == name]
+        
+        total_run_time += res.info.run_time
             
         
         # Struggles to solve simple problems
@@ -942,12 +1079,16 @@ def problem_solver(
         # if time.time() - problem_time >= TIME_THRESHOLD:
         #     print(f"pruned as the run took too long. It took {time.time() - problem_time} seconds", flush=True)
         #     raise optuna.TrialPruned()
-        if (time.time() - instance_time >= 1.5 * osqp_df_cur_prob['run time'].iloc[0]):
+
+        if (res.info.run_time >= 2.5 * osqp_df_cur_prob['run time'].iloc[0]):
             print(f"pruned as problem {name} took too long", flush=True)
+            print(f"It took {res.info.run_time}, the allowed time is {2.5 * osqp_df_cur_prob['run time'].iloc[0]}", flush=True)
             raise optuna.TrialPruned()
         
-        if (time.time() - problem_time >= 1.5 * TOTAL_OSQP_RUN_TIME):
+        # if (time.time() - problem_time >= 2.5 * TOTAL_OSQP_RUN_TIME):
+        if (total_run_time >= 2.5 * TOTAL_OSQP_RUN_TIME):
             print(f"pruned as the total run time of this parameter combintation took too long", flush=True)
+            print(f"It took {total_run_time}, the allowed time is {2.5 * TOTAL_OSQP_RUN_TIME}")
             raise optuna.TrialPruned()
             
         # Tells that a problem is not convex (solver fail)
@@ -983,7 +1124,8 @@ def problem_solver(
 # def saving_stats_csv(name, res, combination_array, all_param_dict, task_id):
 def saving_stats_csv(name, res, current_comb, task_id, primal_ratio, dua_ratio, duality_gap_ratio):
     if CLUSTER == "della_stellato":
-        stat_file = "../../osqp/plot/stats_integral.csv"
+        # stat_file = "../../osqp/plot/stats_integral.csv"
+        stat_file = "../../osqp/plot/stats_integral_Maros_MIPLIB_Mittelman.csv"
     elif CLUSTER == "della":
         stat_file = "../../osqp/plot/stats_della.csv"
     
@@ -1315,7 +1457,6 @@ def run_optuna(use_multiprocessing=True):
 if __name__ == '__main__':
     try:
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        print("test")
         print("script_dir =", script_dir)
         
         # Check for command line argument
@@ -1327,10 +1468,8 @@ if __name__ == '__main__':
         #     print("Available problems are .mat files in qpbenchmark/maros_meszaros_qpbenchmark/data/")
         #     sys.exit(1)
 
-        print("test")
         array_task_id = os.environ.get("SLURM_ARRAY_TASK_ID")
         # print(f"Current SLURM array task ID: {array_task_id}")
-        print("test 1")
         
         parser = argparse.ArgumentParser(description="Run Maros-Meszaros benchmarks.")
         parser.add_argument("problem_name", type=str, help="Name of the problem (e.g., HS21 or 'random').")
@@ -1343,7 +1482,7 @@ if __name__ == '__main__':
         parser.add_argument("--save_all", type=int, default=0, help="Store all of the iterations for each problem ran (For usecase where problem_name = 'ALL'). This is a binary either 0 or 1.")
         parser.add_argument("--restart_comb", type=str, default="none", help="Restart framework used for the combination generation (e.g. 'none', 'halpern', 'reflected_halpern', or 'averaged').")
         parser.add_argument("--comb_count", type=int, default=1, help="Number of combinations to try (-1 means all).")
-        parser.add_argument("--cluster", type=str, help="Name of the cluster used, either 'della' or 'della_stellato'")
+        parser.add_argument("--cluster", type=str, default="della_stellato", help="Name of the cluster used, either 'della' or 'della_stellato'")
         
         # Parse arguments
         args = parser.parse_args()
@@ -1371,7 +1510,6 @@ if __name__ == '__main__':
         comb_count = args.comb_count
         CLUSTER = args.cluster
         
-        print("test 2")
         # if (save_stats != 0) and (save_stats != 1):
         if (SAVE_STATS != 0) and (SAVE_STATS != 1):
             print(f"save_stats must be 0 or 1", flush=True)
@@ -1398,15 +1536,22 @@ if __name__ == '__main__':
         # print(f"problem_name {problem_name}")
         # print(f"problem_name {PROBLEM_NAME}")
         # if problem_name == "RANDOM":
-        print("test 3")
         if PROBLEM_NAME == "RANDOM":
             # print(f"n: {n}, m: {m}, seed: {seed}, p_scale: {p_scale}, p_rank: {p_rank}")
             print(f"n: {N}, m: {M}, seed: {SEED}, p_scale: {P_SCALE}, p_rank: {P_RANK}", flush=True)
         
         # Construct path to the qpbenchmark data directory
-        # Navigate from osqp-python/examples to qpbenchmark/maros_meszaros_qpbenchmark/data
+        # Navigate from osqp-python/examples to maros_meszaros_qpbenchmark/data
         qpbenchmark_data_dir = os.path.join(script_dir, "..", "..", "maros_meszaros_qpbenchmark", "data")
         qpbenchmark_data_dir = os.path.abspath(qpbenchmark_data_dir)
+        
+        # Navigate from osqp-python/examples to MIPLIB
+        MIPLIB_data_dir = os.path.join(script_dir, "..", "..", "MIPLIB")
+        MIPLIB_data_dir = os.path.abspath(MIPLIB_data_dir)
+        
+        # Navigate from osqp-python/examples to Mittelman
+        Mittelman_data_dir = os.path.join(script_dir, "..", "..", "Mittelman")
+        Mittelman_data_dir = os.path.abspath(Mittelman_data_dir)
         
         # if problem_name != "RANDOM":
         if PROBLEM_NAME != "RANDOM":
@@ -1500,9 +1645,6 @@ if __name__ == '__main__':
             "KI": -1,
             "negate_K": -1
         }
-
-        # Create an OSQP object
-        prob = osqp.OSQP()
         
         if (comb_count > len(combination_array)):
             comb_count = len(combination_array)
@@ -1512,7 +1654,7 @@ if __name__ == '__main__':
             comb_count = len(combination_array)
             
         # Set the data frame for the pure OSQP implementation results
-        stat_file = "../../osqp/plot/stats_integral_full.csv"
+        stat_file = "../../osqp/plot/stats_integral_easy_full.csv"
         PURE_OSQP_DF = pd.read_csv(stat_file)
         TOTAL_OSQP_RUN_TIME = PURE_OSQP_DF['run time'].sum()
 
