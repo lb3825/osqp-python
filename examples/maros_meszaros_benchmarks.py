@@ -59,6 +59,10 @@ HARD_PROB = [
     "QSCTAP1", "QSCTAP2", "QSCTAP3", "QSHARE2B", "STADAT1",
     "STADAT2", "STADAT3", "YAO"
 ]
+MIPLIB_LARGE_FILE = [
+    "neos-3402454-bohle_MIPLIB.mps", "square41_MIPLIB.mps",
+    "square47_MIPLIB.mps", "neos-2075418-temuka_MIPLIB.mps"
+]
 MITTELMAN_LARGE_FILE = [
     "neos-3025225_Mittelman.mps", "s82_Mittelman.mps",
     "Primal2_1000_Mittelman.mps", "thk_48_Mittelman.mps",
@@ -70,10 +74,6 @@ MITTELMAN_LARGE_FILE = [
     "square41_Mittelman.mps", "bharat_Mittelman.mps",
     "scpm1_Mittelman.mps", "netlarge3_Mittelman.mps",
     "set-cover-model_Mittelman.mps", "supportcase19_Mittelman.mps",
-]
-MIPLIB_LARGE_FILE = [
-    "neos-3402454-bohle_MIPLIB.mps", "square41_MIPLIB.mps",
-    "square47_MIPLIB.mps", "neos-2075418-temuka_MIPLIB.mps"
 ]
 EPS_ABS         = 1e-6
 EPS_REL         = 1e-6
@@ -1566,12 +1566,23 @@ if __name__ == '__main__':
                 exclude_probs = ['CONT-300.mat', 'CONT-201.mat', 'CONT-200.mat', 'BOYD2.mat']
                 exclude_probs = exclude_probs + [f"{p}.mat" for p in HARD_PROB]
                 
-                files = [f for f in os.listdir(qpbenchmark_data_dir) if (f.endswith('.mat')) and (f not in exclude_probs)]
+                files_qp = [f for f in os.listdir(qpbenchmark_data_dir) if (f.endswith('.mat')) and (f not in exclude_probs)]
+                files_qp.sort()
+                files_miplib = [f for f in os.listdir(MIPLIB_data_dir) if (f.endswith('.mps')) and (f not in MIPLIB_LARGE_FILE)]
+                files_miplib.sort()
+                files_mittelman = [f for f in os.listdir(Mittelman_data_dir) if (f.endswith('.mps')) and (f not in MITTELMAN_LARGE_FILE)]
+                files_mittelman.sort()
                 # files = ['QSCTAP3.mat', 'LISWET12.mat', 'PRIMALC1.mat', 'PRIMALC2.mat', 'PRIMALC5.mat', 'PRIMALC8.mat', 'QBORE3D.mat', 'QE226.mat', 'QSCAGR7.mat', 'QSCORPIO.mat', 'QSCTAP1.mat', 'QSCTAP2.mat', 'QSHARE2B.mat', 'STADAT1.mat', 'STADAT2.mat', 'STADAT3.mat', 'YAO.mat']
-                files.sort()
+                # files.sort()
+                files = files_qp + files_miplib + files_mittelman
                 
                 # paths = [os.path.join(qpbenchmark_data_dir, f) for f in files]
-                PATHS = [os.path.join(qpbenchmark_data_dir, f) for f in files]
+                # PATHS = [os.path.join(qpbenchmark_data_dir, f) for f in files]
+                PATHS = (
+                    [os.path.join(qpbenchmark_data_dir, f) for f in files_qp] +
+                    [os.path.join(MIPLIB_data_dir, f) for f in files_miplib] +
+                    [os.path.join(Mittelman_data_dir, f) for f in files_mittelman]
+                )
             
             else:
                 # problem_path = os.path.join(qpbenchmark_data_dir, problem_name)
