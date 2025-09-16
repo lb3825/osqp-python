@@ -42,6 +42,22 @@ SAVE_STATS = None
 SAVE_ALL = None
 ALL_PARAM_DICT = None
 CLUSTER = None
+
+# Absolute path to the long-running problems CSV (safe relative path from this file)
+_LONG_RUNNING_PROBLEMS_FILE = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), '..', '..', 'osqp', 'plot', 'long_running_problems.csv')
+)
+
+# Global constant: list of problem names with run time >= 300
+try:
+    if os.path.exists(_LONG_RUNNING_PROBLEMS_FILE):
+        _df_long_running = pd.read_csv(_LONG_RUNNING_PROBLEMS_FILE, usecols=['problem name'])
+        LONG_RUNNING_PROBLEMS = _df_long_running['problem name'].dropna().astype(str).tolist()
+    else:
+        LONG_RUNNING_PROBLEMS = []
+except Exception:
+    LONG_RUNNING_PROBLEMS = []
+
 PATH_LESS_200 = [
     "AUG2D.mat", "AUG2DC.mat", "AUG3D.mat", "AUG3DC.mat",
     "AUG3DCQP.mat", "AUG3DQP.mat","CVXQP2_M.mat", "CVXQP2_S.mat",
@@ -54,10 +70,10 @@ PATH_LESS_200 = [
     "STCQP1.mat", "STCQP2.mat", "TAME.mat"
 ]
 HARD_PROB = [
-    "BOYD1", "LISWET12", "PRIMALC1", "PRIMALC2", "PRIMALC5",
-    "PRIMALC8", "QBORE3D", "QE226", "QSCAGR7", "QSCORPIO",
-    "QSCTAP1", "QSCTAP2", "QSCTAP3", "QSHARE2B", "STADAT1",
-    "STADAT2", "STADAT3", "YAO"
+    "BOYD1_Maros_Meszaros", "LISWET12_Maros_Meszaros", "PRIMALC1_Maros_Meszaros", "PRIMALC2_Maros_Meszaros", "PRIMALC5_Maros_Meszaros",
+    "PRIMALC8_Maros_Meszaros", "QBORE3D_Maros_Meszaros", "QE226_Maros_Meszaros", "QSCAGR7_Maros_Meszaros", "QSCORPIO_Maros_Meszaros",
+    "QSCTAP1_Maros_Meszaros", "QSCTAP2_Maros_Meszaros", "QSCTAP3_Maros_Meszaros", "QSHARE2B_Maros_Meszaros", "STADAT1_Maros_Meszaros",
+    "STADAT2_Maros_Meszaros", "STADAT3_Maros_Meszaros", "YAO_Maros_Meszaros", "L1_sixm1000obs_Mittelman", "L1_sixm250obs_Mittelman"
 ]
 MIPLIB_LARGE_FILE = [
     "neos-3402454-bohle_MIPLIB.mps", "square41_MIPLIB.mps",
@@ -75,6 +91,7 @@ MITTELMAN_LARGE_FILE = [
     "scpm1_Mittelman.mps", "netlarge3_Mittelman.mps",
     "set-cover-model_Mittelman.mps", "supportcase19_Mittelman.mps",
 ]
+NETLIB_LARG_FILES = []
 EPS_ABS         = 1e-6
 EPS_REL         = 1e-6
 EPS_PRIM_INF    = 1e-9
@@ -791,7 +808,7 @@ def determine_prob_date_mps(path):
     P = sparse.csc_matrix((len(variables), len(variables)))
     
     n = model.NumVars
-    m = model.NumConstrs
+    m = model.NumConstrs + n
     
     # Just in case, to be consistent we do the flattening and conversion operations
     return (
@@ -800,32 +817,52 @@ def determine_prob_date_mps(path):
         A_full.astype(float).tocsc(),
         l.flatten().astype(float),
         u.flatten().astype(float),
-        n.flatten().astype(int),
-        m.flatten().astype(int)
+        n,
+        m
     )
 
 def get_problem_path(problem_name):
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    qpbenchmark_data_dir = os.path.join(script_dir, "..", "..", "maros_meszaros_qpbenchmark", "data")
-    qpbenchmark_data_dir = os.path.abspath(qpbenchmark_data_dir)
+    if problem_name.endswith('_Maros_Meszaros'):
+        data_dir = os.path.join(script_dir, "..", "..", "maros_meszaros_qpbenchmark", "data")
+        if not problem_name.endswith('.mat'):
+            problem_name = problem_name + '.mat'
+    elif problem_name.endswith('_NetLib'):
+        data_dir = os.path.join(script_dir, "..", "..", "NetLib")
+        if not problem_name.endswith('.mps'):
+            problem_name = problem_name + '.mps'
+    elif problem_name.endswith('_Mittelman'):
+        data_dir = os.path.join(script_dir, "..", "..", "Mittelman")
+        if not problem_name.endswith('.mps'):
+            problem_name = problem_name + '.mps'
+    elif problem_name.endswith('_MIPLIB'):
+        data_dir = os.path.join(script_dir, "..", "..", "MIPLIB")
+        if not problem_name.endswith('.mps'):
+            problem_name = problem_name + '.mps'
     
-    if not problem_name.upper().endswith('.mat'):
-        problem_name = problem_name.upper() + '.mat'
-    else:
-        problem_name = problem_name.upper()
+    data_dir = os.path.abspath(data_dir)
+    # if not problem_name.upper().endswith('.mat'):
+    #     problem_name = problem_name.upper() + '.mat'
+    # else:
+    #     problem_name = problem_name.upper()
+    
+    # if not problem_name.endswith('.mat'):
+    #     problem_name = problem_name + '.mat'
+    # elif problem_name.endswith('qp'):
+    #     problem_name = problem_name
         
-    problem_path = os.path.join(qpbenchmark_data_dir, problem_name)
+    problem_path = os.path.join(data_dir, problem_name)
     
     if not os.path.exists(problem_path):
         try:
-            files = [f for f in os.listdir(qpbenchmark_data_dir) if f.endswith('.mat')]
+            files = [f for f in os.listdir(data_dir) if f.endswith('.mat')]
             available = sorted([f[:-4] for f in files])  # Remove .mat extension
             raise FileNotFoundError(
                 f"Problem '{problem_name[:-4]}' not found. "
                 f"Available problems: {available}"
             )
         except OSError:
-            raise FileNotFoundError(f"Problem directory not found: {qpbenchmark_data_dir}")
+            raise FileNotFoundError(f"Problem directory not found: {data_dir}")
         
     return problem_path
 
@@ -945,7 +982,7 @@ def problem_solver(
         # prob.setup(P, q, A, l, u, plot=plot, verbose=False, time_limit=1e3, **current_comb)
         # prob.setup(P, q, A, l, u, plot=PLOT, verbose=False, eps_abs=EPS_ABS, eps_rel=EPS_REL, eps_prim_inf=EPS_PRIM_INF, eps_dual_inf=EPS_DUAL_INF, time_limit=1e3, max_iter=25000, **current_comb)
         # prob.setup(P, q, A, l, u, plot=PLOT, verbose=False, eps_abs=EPS_ABS, eps_rel=EPS_REL, eps_prim_inf=EPS_PRIM_INF, eps_dual_inf=EPS_DUAL_INF, time_limit=630, max_iter=2000000000, **current_comb)
-        prob.setup(P, q, A, l, u, plot=PLOT, verbose=False, eps_abs=EPS_ABS, eps_rel=EPS_REL, eps_prim_inf=EPS_PRIM_INF, eps_dual_inf=EPS_DUAL_INF, time_limit=600, max_iter=2000000000)
+        prob.setup(P, q, A, l, u, plot=PLOT, verbose=False, eps_abs=EPS_ABS, eps_rel=EPS_REL, eps_prim_inf=EPS_PRIM_INF, eps_dual_inf=EPS_DUAL_INF, time_limit=300, max_iter=2000000000)
         # prob.setup(P, q, A, l, u, verbose=True, eps_abs=1e-6, eps_rel=1e-6, time_limit=1e3, pid_controller=1, pid_controller_log=1, max_iter=25000)
         # prob.setup(P, q, A, l, u, plot=PLOT, eps_abs=EPS_ABS, eps_rel=EPS_ABS, max_iter=25000, **current_set)
         
@@ -1080,21 +1117,25 @@ def problem_solver(
         #     print(f"pruned as the run took too long. It took {time.time() - problem_time} seconds", flush=True)
         #     raise optuna.TrialPruned()
 
-        if (res.info.run_time >= 2.5 * osqp_df_cur_prob['run time'].iloc[0]):
-            print(f"pruned as problem {name} took too long", flush=True)
-            print(f"It took {res.info.run_time}, the allowed time is {2.5 * osqp_df_cur_prob['run time'].iloc[0]}", flush=True)
-            raise optuna.TrialPruned()
+
+
+
+
+        # if (res.info.run_time >= 2.5 * osqp_df_cur_prob['run time'].iloc[0]):
+        #     print(f"pruned as problem {name} took too long", flush=True)
+        #     print(f"It took {res.info.run_time}, the allowed time is {2.5 * osqp_df_cur_prob['run time'].iloc[0]}", flush=True)
+        #     raise optuna.TrialPruned()
         
-        # if (time.time() - problem_time >= 2.5 * TOTAL_OSQP_RUN_TIME):
-        if (total_run_time >= 2.5 * TOTAL_OSQP_RUN_TIME):
-            print(f"pruned as the total run time of this parameter combintation took too long", flush=True)
-            print(f"It took {total_run_time}, the allowed time is {2.5 * TOTAL_OSQP_RUN_TIME}")
-            raise optuna.TrialPruned()
+        # # if (time.time() - problem_time >= 2.5 * TOTAL_OSQP_RUN_TIME):
+        # if (total_run_time >= 2.5 * TOTAL_OSQP_RUN_TIME):
+        #     print(f"pruned as the total run time of this parameter combintation took too long", flush=True)
+        #     print(f"It took {total_run_time}, the allowed time is {2.5 * TOTAL_OSQP_RUN_TIME}")
+        #     raise optuna.TrialPruned()
             
-        # Tells that a problem is not convex (solver fail)
-        if res.info.status == 'problem non convex':
-            print(f"pruned as status == prolem non convex", flush=True)
-            raise optuna.TrialPruned()
+        # # Tells that a problem is not convex (solver fail)
+        # if res.info.status == 'problem non convex':
+        #     print(f"pruned as status == prolem non convex", flush=True)
+        #     raise optuna.TrialPruned()
 
 
     # Convert lists to numpy arrays
@@ -1553,6 +1594,10 @@ if __name__ == '__main__':
         Mittelman_data_dir = os.path.join(script_dir, "..", "..", "Mittelman")
         Mittelman_data_dir = os.path.abspath(Mittelman_data_dir)
         
+        # Navigate from osqp-python/examples to NetLib
+        NetLib_data_dir = os.path.join(script_dir, "..", "..", "NetLib")
+        NetLib_data_dir = os.path.abspath(NetLib_data_dir)
+        
         # if problem_name != "RANDOM":
         if PROBLEM_NAME != "RANDOM":
             # Add .mat extension if not provided
@@ -1563,25 +1608,70 @@ if __name__ == '__main__':
                 
             # if (problem_name == "ALL.mat"):
             if (PROBLEM_NAME == "ALL.mat"):
-                exclude_probs = ['CONT-300.mat', 'CONT-201.mat', 'CONT-200.mat', 'BOYD2.mat']
+                exclude_probs = ['CONT-300_Maros_Meszaros.mat', 'CONT-201_Maros_Meszaros.mat', 'CONT-200_Maros_Meszaros.mat', 'BOYD2_Maros_Meszaros.mat']
                 exclude_probs = exclude_probs + [f"{p}.mat" for p in HARD_PROB]
-                
+
+                exclude_probs = exclude_probs + [f"{p}.mps" for p in LONG_RUNNING_PROBLEMS]
+
                 files_qp = [f for f in os.listdir(qpbenchmark_data_dir) if (f.endswith('.mat')) and (f not in exclude_probs)]
                 files_qp.sort()
-                files_miplib = [f for f in os.listdir(MIPLIB_data_dir) if (f.endswith('.mps')) and (f not in MIPLIB_LARGE_FILE)]
+                files_miplib = [f for f in os.listdir(MIPLIB_data_dir) if (f.endswith('.mps')) and (f not in MIPLIB_LARGE_FILE)and (f not in exclude_probs)]
                 files_miplib.sort()
-                files_mittelman = [f for f in os.listdir(Mittelman_data_dir) if (f.endswith('.mps')) and (f not in MITTELMAN_LARGE_FILE)]
+                files_mittelman = [f for f in os.listdir(Mittelman_data_dir) if (f.endswith('.mps')) and (f not in MITTELMAN_LARGE_FILE)and (f not in exclude_probs)]
                 files_mittelman.sort()
+                files_netlib = [f for f in os.listdir(NetLib_data_dir) if (f.endswith('.mps')) and (f not in NETLIB_LARG_FILES)and (f not in exclude_probs)]
+                files_netlib.sort()
                 # files = ['QSCTAP3.mat', 'LISWET12.mat', 'PRIMALC1.mat', 'PRIMALC2.mat', 'PRIMALC5.mat', 'PRIMALC8.mat', 'QBORE3D.mat', 'QE226.mat', 'QSCAGR7.mat', 'QSCORPIO.mat', 'QSCTAP1.mat', 'QSCTAP2.mat', 'QSHARE2B.mat', 'STADAT1.mat', 'STADAT2.mat', 'STADAT3.mat', 'YAO.mat']
                 # files.sort()
-                files = files_qp + files_miplib + files_mittelman
+                files = files_qp + files_miplib + files_mittelman + files_netlib
                 
                 # paths = [os.path.join(qpbenchmark_data_dir, f) for f in files]
                 # PATHS = [os.path.join(qpbenchmark_data_dir, f) for f in files]
+
                 PATHS = (
                     [os.path.join(qpbenchmark_data_dir, f) for f in files_qp] +
                     [os.path.join(MIPLIB_data_dir, f) for f in files_miplib] +
-                    [os.path.join(Mittelman_data_dir, f) for f in files_mittelman]
+                    [os.path.join(Mittelman_data_dir, f) for f in files_mittelman] +
+                    [os.path.join(NetLib_data_dir, f) for f in files_netlib]
+                    # ['/scratch/gpfs/lb3825/Mittelman/Linf_520c_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/bdry2_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/cont1_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/cont11_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/cont11_l_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/cont1_l_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/cont4_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/fome11_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/fome12_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/fome13_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/fome21_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/neos_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/neos1_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/neos2_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/neos3_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/ns1687037_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/ns1688926_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/nug08-3rd_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/nug20_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/nug30_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/pds-100_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/pds-20_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/pds-30_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/pds-40_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/pds-50_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/pds-60_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/pds-70_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/pds-80_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/pds-90_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/rail2586_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/rail4284_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/rail507_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/rail516_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/rail582_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/sgpf5y6_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/spal_004_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/stormG2_1000_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/watson_1_Mittelman.mps',
+                    #  '/scratch/gpfs/lb3825/Mittelman/watson_2_Mittelman.mps',]
                 )
             
             else:
