@@ -99,13 +99,8 @@ EPS_REL         = 1e-6
 EPS_PRIM_INF    = 1e-9
 EPS_DUAL_INF    = 1e-9
 
-PURE_OSQP_DF            = None
-TOTAL_OSQP_RUN_TIME     = None
-FIRST_50_OSQP_RUN_TIME  = None
-FIRST_100_OSQP_RUN_TIME = None
-FIRST_150_OSQP_RUN_TIME = None
-FIRST_200_OSQP_RUN_TIME = None
-FIRST_250_OSQP_RUN_TIME = None
+PURE_OSQP_DF        = None
+TOTAL_OSQP_RUN_TIME = None
 
 
 def generate_random_qp(n, m, p_scale=0.1, p_rank=None, seed=42):
@@ -891,18 +886,7 @@ def problem_solver(
     problem_time = time.time()
     prob = osqp.OSQP()
     
-    total_run_time      = 0.0
-    first_50_run_time   = 0.0
-    first_100_run_time  = 0.0
-    first_150_run_time  = 0.0
-    first_200_run_time  = 0.0
-    first_250_run_time  = 0.0
-    
-    first_50_osqp_time_ratio_sum   = 0.0
-    first_100_osqp_time_ratio_sum  = 0.0
-    first_150_osqp_time_ratio_sum  = 0.0
-    first_200_osqp_time_ratio_sum  = 0.0
-    first_250_osqp_time_ratio_sum  = 0.0
+    total_run_time = 0.0
     
     # Prepare lists for each metric
     setup_times = []
@@ -925,25 +909,12 @@ def problem_solver(
     
     print(f"current_comb: {current_comb}")
     
-    prob_counter        = 0
-    prob_counter_50     = 0
-    prob_counter_100    = 0
-    prob_counter_150    = 0
-    prob_counter_200    = 0
-    prob_counter_250    = 0
-    
-    first_50_above_5_min    = 0
-    first_100_above_5_min   = 0
-    
-    alpha_val=1.6
-    
     # for path in paths:
     for path in PATHS:
         instance_time = time.time()
         # Problem Data
         # P, q, A, l, u, n, m, name = determine_prob_date(problem_name, path, n, m, p_scale, p_rank, seed)
         P, q, A, l, u, n, m, name = determine_prob_date(path)
-        prob_counter += 1
             
         # Setup workspace
         """
@@ -992,6 +963,7 @@ def problem_solver(
         #            adapt_rho_on_restart=0, rho_custom_tolerance=0.8, xi=1.0
         #            scaling=0)
         
+        alpha_val=1.6
         
         # prob.setup(P, q, A, l, u, plot=1, alpha=alpha_val, lambd=max(min((2. / alpha_val) - 1., 1), 0),
         #            restart_type="reflected halpern", alpha_adjustment_reflected_halpern=1, adapt_rho_on_restart=1,
@@ -1024,14 +996,9 @@ def problem_solver(
         # prob.setup(P, q, A, l, u, plot=PLOT, verbose=False, eps_abs=EPS_ABS, eps_rel=EPS_REL, eps_prim_inf=EPS_PRIM_INF, eps_dual_inf=EPS_DUAL_INF, time_limit=1e3, max_iter=25000, **current_comb)
         
         # prob.setup(P, q, A, l, u, plot=PLOT, verbose=False, eps_abs=EPS_ABS, eps_rel=EPS_REL, eps_prim_inf=EPS_PRIM_INF, eps_dual_inf=EPS_DUAL_INF, time_limit=300, max_iter=2000000000, **current_comb)
-        # prob.setup(P, q, A, l, u, plot=PLOT, verbose=True, eps_abs=EPS_ABS, eps_rel=EPS_REL, eps_prim_inf=EPS_PRIM_INF, eps_dual_inf=EPS_DUAL_INF, time_limit=360, max_iter=2000000000, **current_comb)
-        
-        prob.setup(P, q, A, l, u, alpha=alpha_val, plot=PLOT, verbose=True, eps_abs=EPS_ABS, eps_rel=EPS_REL, eps_prim_inf=EPS_PRIM_INF, eps_dual_inf=EPS_DUAL_INF, time_limit=120, max_iter=2000000000, 
-                   halpern_anchor=current_comb['halpern_anchor'], ini_rest_len=current_comb['ini_rest_len'], restart_type=current_comb["restart_type"], halpern_scheme=current_comb["halpern_scheme"],
-                   lambd=max(0, min((2.0 / alpha_val) - 1.0, 1)), alpha_adjustment_reflected_halpern=current_comb['alpha_adjustment_reflected_halpern'],
-                   halpern_step_first_inner_iter=0)
-        # prob.setup(P, q, A, l, u, plot=PLOT, verbose=True, eps_abs=EPS_ABS, eps_rel=EPS_REL, eps_prim_inf=EPS_PRIM_INF, eps_dual_inf=EPS_DUAL_INF, time_limit=300, max_iter=2000000000)
+        prob.setup(P, q, A, l, u, plot=PLOT, verbose=False, eps_abs=EPS_ABS, eps_rel=EPS_REL, eps_prim_inf=EPS_PRIM_INF, eps_dual_inf=EPS_DUAL_INF, time_limit=360, max_iter=2000000000)
         # prob.setup(P, q, A, l, u, verbose=False, eps_abs=EPS_ABS, eps_rel=EPS_REL, eps_prim_inf=EPS_PRIM_INF, eps_dual_inf=EPS_DUAL_INF, time_limit=300, max_iter=2000000000)
+        
         # prob.setup(P, q, A, l, u, verbose=True, eps_abs=1e-6, eps_rel=1e-6, time_limit=1e3, pid_controller=1, pid_controller_log=1, max_iter=25000)
         # prob.setup(P, q, A, l, u, plot=PLOT, eps_abs=EPS_ABS, eps_rel=EPS_ABS, max_iter=25000, **current_set)
         
@@ -1153,62 +1120,6 @@ def problem_solver(
             
         osqp_df_cur_prob = PURE_OSQP_DF.loc[PURE_OSQP_DF['problem name'] == name]
         
-        is_in_first_50  = name in PURE_OSQP_DF['problem name'].iloc[:50].astype(str).values
-        is_in_first_100 = name in PURE_OSQP_DF['problem name'].iloc[:100].astype(str).values
-        is_in_first_150 = name in PURE_OSQP_DF['problem name'].iloc[:150].astype(str).values
-        is_in_first_200 = name in PURE_OSQP_DF['problem name'].iloc[:200].astype(str).values
-        is_in_first_250 = name in PURE_OSQP_DF['problem name'].iloc[:250].astype(str).values
-        
-        
-        if is_in_first_50:
-            prob_counter_50 += 1
-            first_50_run_time += res.info.run_time
-            first_50_osqp_time_ratio_sum += ((res.info.run_time - osqp_df_cur_prob['run time'].iloc[0]) / osqp_df_cur_prob['run time'].iloc[0])
-            if (res.info.run_time >= 300):
-                first_50_above_5_min += 1
-        if (prob_counter < 50) and (prob_counter != prob_counter_50):
-            print(f"One of the first 50 problems tested is not in our PURE_OSQP_DF", flush=True)
-            raise
-        
-        
-        if is_in_first_100:
-            prob_counter_100 += 1
-            first_100_run_time += res.info.run_time
-            first_100_osqp_time_ratio_sum += ((res.info.run_time - osqp_df_cur_prob['run time'].iloc[0]) / osqp_df_cur_prob['run time'].iloc[0])
-            if (res.info.run_time >= 300):
-                first_100_above_5_min += 1
-        if (prob_counter < 100) and (prob_counter != prob_counter_100):
-            print(f"One of the first 100 problems tested is not in our PURE_OSQP_DF", flush=True)
-            raise
-        
-        
-        if is_in_first_150:
-            prob_counter_150 += 1
-            first_150_run_time += res.info.run_time
-            first_150_osqp_time_ratio_sum += ((res.info.run_time - osqp_df_cur_prob['run time'].iloc[0]) / osqp_df_cur_prob['run time'].iloc[0])
-        if (prob_counter < 150) and (prob_counter != prob_counter_150):
-            print(f"One of the first 150 problems tested is not in our PURE_OSQP_DF", flush=True)
-            raise
-        
-        
-        if is_in_first_200:
-            prob_counter_200 += 1
-            first_200_run_time += res.info.run_time
-            first_200_osqp_time_ratio_sum += ((res.info.run_time - osqp_df_cur_prob['run time'].iloc[0]) / osqp_df_cur_prob['run time'].iloc[0])
-        if (prob_counter < 200) and (prob_counter != prob_counter_200):
-            print(f"One of the first 200 problems tested is not in our PURE_OSQP_DF", flush=True)
-            raise
-        
-        
-        if is_in_first_250:
-            prob_counter_250 += 1
-            first_250_run_time += res.info.run_time
-            first_250_osqp_time_ratio_sum += ((res.info.run_time - osqp_df_cur_prob['run time'].iloc[0]) / osqp_df_cur_prob['run time'].iloc[0])
-        if (prob_counter < 250) and (prob_counter != prob_counter_250):
-            print(f"One of the first 250 problems tested is not in our PURE_OSQP_DF", flush=True)
-            raise
-        
-        
         total_run_time += res.info.run_time
             
         
@@ -1225,58 +1136,25 @@ def problem_solver(
 
 
 
-        cut_off_multiple = 3.0
+        cut_off_multiple = 3
 
         # if (res.info.run_time >= 2 * osqp_df_cur_prob['run time'].iloc[0]):
         # Added half a second as there is overhead variability
-        # if (res.info.run_time >= cut_off_multiple * (osqp_df_cur_prob['run time'].iloc[0] + 0.5)):
-        #     print(f"pruned as problem {name} took too long", flush=True)
-        #     print(f"It took {res.info.run_time}, the allowed time is {cut_off_multiple * osqp_df_cur_prob['run time'].iloc[0]}", flush=True)
-        #     raise optuna.TrialPruned()
+        if (res.info.run_time >= cut_off_multiple * (osqp_df_cur_prob['run time'].iloc[0] + 0.5)):
+            print(f"pruned as problem {name} took too long", flush=True)
+            print(f"It took {res.info.run_time}, the allowed time is {cut_off_multiple * osqp_df_cur_prob['run time'].iloc[0]}", flush=True)
+            raise optuna.TrialPruned()
         
-        # if ((prob_counter == 50) and (first_50_osqp_time_ratio_sum / prob_counter > cut_off_multiple)):
-        #     print(f"pruned as after 50 iterations the average increase in time compared to OSQP is larger than 3", flush=True)
-        #     print(f"The first 50 problems took {first_50_run_time} seconds for this conbination where as OSQP took {FIRST_50_OSQP_RUN_TIME}")
-        #     raise optuna.TrialPruned()
-        
-        # if ((prob_counter == 100) and (first_100_osqp_time_ratio_sum / prob_counter > cut_off_multiple)):
-        #     print(f"pruned as after 100 iterations the average increase in time compared to OSQP is larger than 3", flush=True)
-        #     print(f"The first 100 problems took {first_100_run_time} seconds for this conbination where as OSQP took {FIRST_100_OSQP_RUN_TIME}")
-        #     raise optuna.TrialPruned()
-        
-        # if ((prob_counter == 150) and (first_150_osqp_time_ratio_sum / prob_counter > cut_off_multiple)):
-        #     print(f"pruned as after 150 iterations the average increase in time compared to OSQP is larger than 3", flush=True)
-        #     print(f"The first 150 problems took {first_150_run_time} seconds for this conbination where as OSQP took {FIRST_150_OSQP_RUN_TIME}")
-        #     raise optuna.TrialPruned()
-        
-        # if ((prob_counter == 200) and (first_200_osqp_time_ratio_sum / prob_counter > cut_off_multiple)):
-        #     print(f"pruned as after 200 iterations the average increase in time compared to OSQP is larger than 3", flush=True)
-        #     print(f"The first 200 problems took {first_200_run_time} seconds for this conbination where as OSQP took {FIRST_200_OSQP_RUN_TIME}")
-        #     raise optuna.TrialPruned()
-        
-        # if ((prob_counter == 250) and (first_250_osqp_time_ratio_sum / prob_counter > cut_off_multiple)):
-        #     print(f"pruned as after 250 iterations the average increase in time compared to OSQP is larger than 3", flush=True)
-        #     print(f"The first 250 problems took {first_250_run_time} seconds for this conbination where as OSQP took {FIRST_250_OSQP_RUN_TIME}")
-        #     raise optuna.TrialPruned()
-        
-        # if ((prob_counter <= 50) and (first_50_above_5_min >= 15)):
-        #     print(f"pruned as at least 15 of the first 50 problems took 5 minutes or more to run")
-        #     raise optuna.TrialPruned()
-        
-        # if ((prob_counter <= 100) and (first_100_above_5_min >= 30)):
-        #     print(f"pruned as at least 30 of the first 100 problems took 5 minutes or more to run")
-        #     raise optuna.TrialPruned()
-        
-        # # if (time.time() - problem_time >= 2 * TOTAL_OSQP_RUN_TIME):
-        # if (total_run_time >= cut_off_multiple * TOTAL_OSQP_RUN_TIME):
-        #     print(f"pruned as the total run time of this parameter combintation took too long", flush=True)
-        #     print(f"It took {total_run_time}, the allowed time is {cut_off_multiple * TOTAL_OSQP_RUN_TIME}")
-        #     raise optuna.TrialPruned()
+        # if (time.time() - problem_time >= 2 * TOTAL_OSQP_RUN_TIME):
+        if (total_run_time >= cut_off_multiple * TOTAL_OSQP_RUN_TIME):
+            print(f"pruned as the total run time of this parameter combintation took too long", flush=True)
+            print(f"It took {total_run_time}, the allowed time is {cut_off_multiple * TOTAL_OSQP_RUN_TIME}")
+            raise optuna.TrialPruned()
             
-        # # Tells that a problem is not convex (solver fail)
-        # if res.info.status == 'problem non convex':
-        #     print(f"pruned as status == prolem non convex", flush=True)
-        #     raise optuna.TrialPruned()
+        # Tells that a problem is not convex (solver fail)
+        if res.info.status == 'problem non convex':
+            print(f"pruned as status == prolem non convex", flush=True)
+            raise optuna.TrialPruned()
 
 
     # Convert lists to numpy arrays
@@ -1307,8 +1185,7 @@ def problem_solver(
 def saving_stats_csv(name, res, current_comb, task_id, primal_ratio, dua_ratio, duality_gap_ratio):
     if CLUSTER == "della_stellato":
         # stat_file = "../../osqp/plot/stats_integral.csv"
-        # stat_file = "../../osqp/plot/stats_integral_Maros_MIPLIB_Mittelman.csv"
-        stat_file = "../../osqp/plot/stats_della.csv"
+        stat_file = "../../osqp/plot/stats_integral_Maros_MIPLIB_Mittelman.csv"
     elif CLUSTER == "della":
         stat_file = "../../osqp/plot/stats_della.csv"
     
@@ -1487,10 +1364,7 @@ def objective(trial):
         
     current_comb["adapt_rho_on_restart"] = 1
     current_comb["beta"] = trial.suggest_float("beta", 0 + small_num, 1 - small_num)
-    
     current_comb["ini_rest_len"] = trial.suggest_int("ini_rest_len", 25, 100, step=25)
-    current_comb['ini_rest_len'] = 25
-    
     current_comb["adaptive_rest"] = 1
     current_comb["restart_necessary"] = trial.suggest_float("restart_necessary", 0 + small_num, 1)
     current_comb["restart_artificial"] = trial.suggest_float("restart_artificial", 0 + small_num, 1)
@@ -1506,38 +1380,11 @@ def objective(trial):
     # current_comb["rho_custom_condition"] = trial.suggest_int("rho_custom_condition", 0, 1)
     # if current_comb["rho_custom_condition"] == 1:
     #     current_comb["rho_custom_tolerance"] = trial.suggest_float("rho_custom_tolerance", 0 + small_num, 100)
-    
-    halpern_anchor = trial.suggest_categorical("halpern_anchor", 
-                                               [int(osqp.ext_builtin.OSQP_HALPERN_ANCHOR_INITIAL_POINT), int(osqp.ext_builtin.OSQP_HALPERN_ANCHOR_FIRST_ITER), 
-                                                int(osqp.ext_builtin.OSQP_HALPERN_ANCHOR_TAU_NOT), int(osqp.ext_builtin.OSQP_HALPERN_ANCHOR_INIT_REST)])
-    
-    if halpern_anchor == int(osqp.ext_builtin.OSQP_HALPERN_ANCHOR_INITIAL_POINT):
-        current_comb['halpern_anchor'] = osqp.ext_builtin.OSQP_HALPERN_ANCHOR_INITIAL_POINT
-    elif halpern_anchor == int(osqp.ext_builtin.OSQP_HALPERN_ANCHOR_FIRST_ITER):
-        current_comb['halpern_anchor'] = osqp.ext_builtin.OSQP_HALPERN_ANCHOR_FIRST_ITER
-    elif halpern_anchor == int(osqp.ext_builtin.OSQP_HALPERN_ANCHOR_TAU_NOT):
-        current_comb['halpern_anchor'] = osqp.ext_builtin.OSQP_HALPERN_ANCHOR_TAU_NOT
-    elif halpern_anchor == int(osqp.ext_builtin.OSQP_HALPERN_ANCHOR_INIT_REST):
-        current_comb['halpern_anchor'] = osqp.ext_builtin.OSQP_HALPERN_ANCHOR_INIT_REST
-        
-    current_comb['halpern_anchor'] = osqp.ext_builtin.OSQP_HALPERN_ANCHOR_INIT_REST
         
     # current_comb["restart_type"] = trial.suggest_categorical("restart_type", ["none", "halpern", "reflected halpern", "averaged"])
     # current_comb["restart_type"] = trial.suggest_categorical("restart_type", ["halpern", "reflected halpern", "averaged"])
     # current_comb["restart_type"] = trial.suggest_categorical("restart_type", ["reflected halpern", "averaged"])
-    
-    # restart_type_int = trial.suggest_categorical("restart_type", [int(osqp.ext_builtin.OSQP_RESTART_AVERAGED), int(osqp.ext_builtin.OSQP_RESTART_REFLECTED_HALPERN)])
-    restart_type_int = trial.suggest_categorical("restart_type", [int(osqp.ext_builtin.OSQP_RESTART_REFLECTED_HALPERN)])
-    
-    # print(f"restart_type_int: {restart_type_int}")
-    # print(f"int(osqp.ext_builtin.OSQP_RESTART_AVERAGED): {int(osqp.ext_builtin.OSQP_RESTART_AVERAGED)}")
-    # print(f"int(osqp.ext_builtin.OSQP_RESTART_REFLECTED_HALPERN): {int(osqp.ext_builtin.OSQP_RESTART_REFLECTED_HALPERN)}")
-    if restart_type_int == int(osqp.ext_builtin.OSQP_RESTART_AVERAGED):
-        current_comb["restart_type"] = osqp.ext_builtin.OSQP_RESTART_AVERAGED
-    elif restart_type_int == int(osqp.ext_builtin.OSQP_RESTART_REFLECTED_HALPERN):
-        current_comb["restart_type"] = osqp.ext_builtin.OSQP_RESTART_REFLECTED_HALPERN
-    else:
-        print("error in determining restart_type_int")
+    current_comb["restart_type"] = trial.suggest_int("restart_type",  1, 3)
     # if current_comb["restart_type"] == "halpern":
     #     # current_comb["adapt_rho_on_restart"] = trial.suggest_int("adapt_rho_on_restart", 0, 1) 
     #     current_comb["adapt_rho_on_restart"] = 1
@@ -1558,13 +1405,11 @@ def objective(trial):
     #     current_comb["halpern_step_first_inner_iter"] = trial.suggest_int("halpern_step_first_inner_iter", 0, 1)
     # elif current_comb["restart_type"] == "reflected halpern":
     # if current_comb["restart_type"] == "reflected halpern":
-    # if current_comb["restart_type"] == osqp.ext_builtin.OSQP_RESTART_REFLECTED_HALPERN:
-    if restart_type_int == int(osqp.ext_builtin.OSQP_RESTART_REFLECTED_HALPERN):
+    if current_comb["restart_type"] == 3:
         # current_comb["adapt_rho_on_restart"] = trial.suggest_int("adapt_rho_on_restart", 0, 1)
         # current_comb["halpern_scheme"] = trial.suggest_categorical("halpern_scheme", ["none", "adaptive", "adaptive only before init_rest_len"])
         # current_comb["halpern_scheme"] = trial.suggest_categorical("halpern_scheme", ["none"])
-        # current_comb["halpern_scheme"] = 0
-        current_comb["halpern_scheme"] = osqp.ext_builtin.OSQP_ADAPTIVE_HALPERN_NONE
+        current_comb["halpern_scheme"] = trial.suggest_int("halpern_scheme", 0)
         current_comb["lambd"] = trial.suggest_float("lambd", 0, max(0, min((2.0 / current_comb["alpha"]) - 1.0, 1)))
         # if current_comb["alpha"] > 1:
         #     current_comb["alpha_adjustment_reflected_halpern"] = 1
@@ -1577,8 +1422,7 @@ def objective(trial):
         #     current_comb["restart_artificial"] = trial.suggest_float("restart_artificial", 0 + small_num, 1)
         current_comb["halpern_step_first_inner_iter"] = trial.suggest_int("halpern_step_first_inner_iter", 0, 1)
     # elif current_comb["restart_type"] == "averaged":
-    # elif current_comb["restart_type"] == osqp.ext_builtin.OSQP_RESTART_AVERAGED:
-    if restart_type_int == int(osqp.ext_builtin.OSQP_RESTART_AVERAGED):
+    elif current_comb["restart_type"] == 1:
         # current_comb["adapt_rho_on_restart"] = trial.suggest_int("adapt_rho_on_restart", 0, 1)
         # current_comb["custom_average_rest"] = trial.suggest_int("custom_average_rest", 0, 1)
         current_comb["custom_average_rest"] = 1
@@ -1646,8 +1490,8 @@ def objective(trial):
 
 def run_optimization(_):
     if CLUSTER == "della_stellato":
-        # journal_log_file_path = "./journal.log"
-        journal_log_file_path = "./journal_della.log"
+        journal_log_file_path = "./journal.log"
+        # journal_log_file_path = "./journal_della.log"
         # db_path = "./optuna_study.db"
     elif CLUSTER == "della":
         journal_log_file_path = "./journal_della.log"
@@ -1674,7 +1518,6 @@ def run_optuna(use_multiprocessing=True):
     # num_cpus = max(1, int(multiprocessing.cpu_count()) - 2)
     if CLUSTER == "della_stellato":
         # num_cpus = 34
-        # num_cpus = 26
         num_cpus = 1
     elif CLUSTER == "della":
         num_cpus = 1
@@ -1684,8 +1527,7 @@ def run_optuna(use_multiprocessing=True):
         with multiprocessing.Pool(processes=num_cpus) as pool:
             if CLUSTER == "della_stellato":
                 # results = pool.map(run_optimization, range(250))
-                # results = pool.map(run_optimization, range(72))
-                # results = pool.map(run_optimization, range(num_cpus*400))
+                # results = pool.map(run_optimization, range(20))
                 results = run_optimization(1)
             elif CLUSTER == "della":
                 results = pool.map(run_optimization, range(512))
@@ -1850,11 +1692,11 @@ if __name__ == '__main__':
                 PROBLEM_NAME += '.mat'
                 
             # if (problem_name == "ALL.mat"):
-            if (PROBLEM_NAME == "ALL.mat"):                
+            if (PROBLEM_NAME == "ALL.mat"):
                 probs_above_100_sec = ['CVXQP3_L_Maros_Meszaros', 'QPILOTNO_Maros_Meszaros', 'cmflsp50-24-8-8_MIPLIB', 
                                        'neos-3555904-turama_MIPLIB', 'neos-3988577-wolgan_MIPLIB',
                                        'fome11_Mittelman', 'boeing1_NetLib', 'pilotnov_NetLib',
-                                       'stair_NetLib']  
+                                       'stair_NetLib']                 
                 exclude_probs = ['CONT-300_Maros_Meszaros.mat', 'CONT-201_Maros_Meszaros.mat', 'CONT-200_Maros_Meszaros.mat', 'BOYD2_Maros_Meszaros.mat']
                 exclude_probs = exclude_probs + [f"{p}.mps" for p in HARD_PROB] + [f"{p}.mat" for p in HARD_PROB]
 
@@ -1880,12 +1722,10 @@ if __name__ == '__main__':
                 # PATHS = [os.path.join(qpbenchmark_data_dir, f) for f in files]
 
                 PATHS = (
-                    # [os.path.join(qpbenchmark_data_dir, f) for f in files_qp] +
-                    # [os.path.join(MIPLIB_data_dir, f) for f in files_miplib] +
-                    # [os.path.join(Mittelman_data_dir, f) for f in files_mittelman] +
-                    # [os.path.join(NetLib_data_dir, f) for f in files_netlib]
-                    # [os.path.join(qpbenchmark_data_dir, "AUG2D_Maros_Meszaros.mat")]
-                    [os.path.join(qpbenchmark_data_dir, f) for f in files_qp]
+                    [os.path.join(qpbenchmark_data_dir, f) for f in files_qp] +
+                    [os.path.join(MIPLIB_data_dir, f) for f in files_miplib] +
+                    [os.path.join(Mittelman_data_dir, f) for f in files_mittelman] +
+                    [os.path.join(NetLib_data_dir, f) for f in files_netlib]
                 )
             
             else:
@@ -1972,20 +1812,8 @@ if __name__ == '__main__':
         # stat_file = "../../osqp/plot/stats_integral_easy_full.csv"
         stat_file = "../../osqp/plot/stats_integral_Maros_MIPLIB_Mittelman_all_easy_probs_mat.csv"
         PURE_OSQP_DF = pd.read_csv(stat_file)
-        TOTAL_OSQP_RUN_TIME     = PURE_OSQP_DF['run time'].sum()
-        FIRST_50_OSQP_RUN_TIME  = PURE_OSQP_DF['run time'].iloc[:50].sum()
-        FIRST_100_OSQP_RUN_TIME = PURE_OSQP_DF['run time'].iloc[:100].sum()
-        FIRST_150_OSQP_RUN_TIME = PURE_OSQP_DF['run time'].iloc[:150].sum()
-        FIRST_200_OSQP_RUN_TIME = PURE_OSQP_DF['run time'].iloc[:200].sum()
-        FIRST_250_OSQP_RUN_TIME = PURE_OSQP_DF['run time'].iloc[:250].sum()
-        
+        TOTAL_OSQP_RUN_TIME = PURE_OSQP_DF['run time'].sum()
         print(f"TOTAL_OSQP_RUN_TIME: {TOTAL_OSQP_RUN_TIME}")
-        print(f"FIRST_50_OSQP_RUN_TIME: {FIRST_50_OSQP_RUN_TIME}")
-        print(f"FIRST_100_OSQP_RUN_TIME: {FIRST_100_OSQP_RUN_TIME}")
-        print(f"FIRST_150_OSQP_RUN_TIME: {FIRST_150_OSQP_RUN_TIME}")
-        print(f"FIRST_200_OSQP_RUN_TIME: {FIRST_200_OSQP_RUN_TIME}")
-        print(f"FIRST_250_OSQP_RUN_TIME: {FIRST_250_OSQP_RUN_TIME}")
-
 
 
         # Time the execution process

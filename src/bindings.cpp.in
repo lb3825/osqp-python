@@ -377,6 +377,26 @@ PYBIND11_MODULE(@OSQP_EXT_MODULE_NAME@, m) {
     .value("OSQP_DIAGONAL_PRECONDITIONER", OSQP_DIAGONAL_PRECONDITIONER)
     .export_values();
 
+    py::enum_<osqp_restart_type>(m, "osqp_restart_type", py::module_local())
+    .value("OSQP_RESTART_NONE", OSQP_RESTART_NONE)
+    .value("OSQP_RESTART_AVERAGED", OSQP_RESTART_AVERAGED)
+    .value("OSQP_RESTART_HALPERN", OSQP_RESTART_HALPERN)
+    .value("OSQP_RESTART_REFLECTED_HALPERN", OSQP_RESTART_REFLECTED_HALPERN)
+    .export_values();
+
+    py::enum_<osqp_halpern_adaptive_type>(m, "osqp_halpern_adaptive_type", py::module_local())
+    .value("OSQP_ADAPTIVE_HALPERN_NONE", OSQP_ADAPTIVE_HALPERN_NONE)
+    .value("OSQP_ADAPTIVE_HALPERN", OSQP_ADAPTIVE_HALPERN)
+    .value("OSQP_ADAPTIVE_HALPERN_BEFORE_INI_REST_LEN", OSQP_ADAPTIVE_HALPERN_BEFORE_INI_REST_LEN)
+    .export_values();
+
+    py::enum_<osqp_halpern_anchor_point>(m, "osqp_halpern_anchor_point", py::module_local())
+    .value("OSQP_HALPERN_ANCHOR_INITIAL_POINT", OSQP_HALPERN_ANCHOR_INITIAL_POINT)
+    .value("OSQP_HALPERN_ANCHOR_FIRST_ITER", OSQP_HALPERN_ANCHOR_FIRST_ITER)
+    .value("OSQP_HALPERN_ANCHOR_TAU_NOT", OSQP_HALPERN_ANCHOR_TAU_NOT)
+    .value("OSQP_HALPERN_ANCHOR_INIT_REST", OSQP_HALPERN_ANCHOR_INIT_REST)
+    .export_values();
+
     // CSC
     py::class_<CSC>(m, "CSC", py::module_local())
     .def(py::init<py::object>())
@@ -420,20 +440,9 @@ PYBIND11_MODULE(@OSQP_EXT_MODULE_NAME@, m) {
     .def_readwrite("restart_necessary", &OSQPSettings::restart_necessary)
     .def_readwrite("restart_artificial", &OSQPSettings::restart_artificial)
     .def_readwrite("ini_rest_len", &OSQPSettings::ini_rest_len)
-    .def_property("restart_type",
-        [](const OSQPSettings& s) { return std::string(s.restart_type); },
-        [](OSQPSettings& s, const std::string& value) {
-            strncpy(s.restart_type, value.c_str(), OSQP_MAX_RESTART_TYPE_LEN - 1);
-            s.restart_type[OSQP_MAX_RESTART_TYPE_LEN - 1] = '\0';
-        }
-    )
-    .def_property("halpern_scheme",
-        [](const OSQPSettings& s) { return std::string(s.halpern_scheme); },
-        [](OSQPSettings& s, const std::string& value) {
-            strncpy(s.halpern_scheme, value.c_str(), OSQP_MAX_HALPERN_SCHEME_LEN - 1);
-            s.halpern_scheme[OSQP_MAX_HALPERN_SCHEME_LEN - 1] = '\0';
-        }
-    )
+    .def_readwrite("restart_type", &OSQPSettings::restart_type)
+    .def_readwrite("halpern_scheme", &OSQPSettings::halpern_scheme)
+    .def_readwrite("halpern_anchor", &OSQPSettings::halpern_anchor)
     .def_readwrite("adaptive_rho_tolerance_greater", &OSQPSettings::adaptive_rho_tolerance_greater)
     .def_readwrite("adaptive_rho_tolerance_less", &OSQPSettings::adaptive_rho_tolerance_less)
     .def_readwrite("adaptive_rest", &OSQPSettings::adaptive_rest)

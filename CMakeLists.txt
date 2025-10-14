@@ -3,7 +3,8 @@ project(ext)
 
 set(PYTHON "ON")
 set(OSQP_BUILD_UNITTESTS "OFF")
-set(OSQP_USE_LONG "OFF")
+# set(OSQP_USE_LONG "OFF")
+set(OSQP_USE_LONG "ON")
 set(OSQP_CUSTOM_PRINTING "${CMAKE_CURRENT_SOURCE_DIR}/cmake/printing.h")
 set(OSQP_CUSTOM_MEMORY "${CMAKE_CURRENT_SOURCE_DIR}/cmake/memory.h")
 set(OSQP_CODEGEN_INSTALL_DIR "codegen/codegen_src" CACHE PATH "" FORCE)
@@ -45,12 +46,12 @@ list(APPEND CMAKE_MESSAGE_INDENT "  ")
 FetchContent_Declare(
   osqp
 #   GIT_REPOSITORY https://github.com/osqp/osqp.git
-  GIT_REPOSITORY https://github.com/lb3825/osqp.git
+#   GIT_REPOSITORY https://github.com/lb3825/osqp.git
     # SOURCE_DIR "C:/Users/baice/Documents/GitHub/osqp"
-    # SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../osqp"
+    SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../osqp"
 #   GIT_TAG v1.0.0
 #   GIT_TAG restarts
-  GIT_TAG plot
+#   GIT_TAG plot
 )
 list(POP_BACK CMAKE_MESSAGE_INDENT)
 FetchContent_MakeAvailable(osqp)
