@@ -448,12 +448,13 @@ PYBIND11_MODULE(@OSQP_EXT_MODULE_NAME@, m) {
     .def_readwrite("adaptive_rest", &OSQPSettings::adaptive_rest)
     .def_readwrite("alpha_adjustment_reflected_halpern", &OSQPSettings::alpha_adjustment_reflected_halpern)
     .def_readwrite("rho_custom_condition", &OSQPSettings::rho_custom_condition)
-    .def_readwrite("custom_average_rest", &OSQPSettings::custom_average_rest)
+    //.def_readwrite("custom_average_rest", &OSQPSettings::custom_average_rest)
     .def_readwrite("adapt_rho_on_restart", &OSQPSettings::adapt_rho_on_restart)
-    .def_readwrite("vector_rho_in_averaged_KKT", &OSQPSettings::vector_rho_in_averaged_KKT)
+    //.def_readwrite("vector_rho_in_averaged_KKT", &OSQPSettings::vector_rho_in_averaged_KKT)
     .def_readwrite("rho_custom_tolerance", &OSQPSettings::rho_custom_tolerance)
-    .def_readwrite("xi", &OSQPSettings::xi)
+    //.def_readwrite("xi", &OSQPSettings::xi)
     .def_readwrite("plot", &OSQPSettings::plot)
+    .def_readwrite("integral", &OSQPSettings::integral)
     .def_readwrite("halpern_step_first_inner_iter", &OSQPSettings::halpern_step_first_inner_iter)
 
     // Settings - CG
@@ -465,6 +466,7 @@ PYBIND11_MODULE(@OSQP_EXT_MODULE_NAME@, m) {
     // Settings - Adaptive rho
     .def_readwrite("adaptive_rho", &OSQPSettings::adaptive_rho)
     .def_readwrite("adaptive_rho_interval", &OSQPSettings::adaptive_rho_interval)
+    .def_readwrite("restart_check_interval", &OSQPSettings::restart_check_interval)
     .def_readwrite("adaptive_rho_fraction", &OSQPSettings::adaptive_rho_fraction)
     .def_readwrite("adaptive_rho_tolerance", &OSQPSettings::adaptive_rho_tolerance)
     .def_readwrite("pid_controller", &OSQPSettings::pid_controller)
