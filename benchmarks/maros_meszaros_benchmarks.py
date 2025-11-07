@@ -1676,14 +1676,15 @@ def objective(trial):
                                           default=default))
     
     # Geometric mean of integral sum
-    integral_geom = geom_mean(np.log(np.select(conditions, [res['integral_sums'], 
+    integral_geom = geom_mean(np.log(np.select(conditions, [res['integral_sums'] + 1e-7, 
                                                        res['integral_sums'] + (res['prim_normalized_vals'] + res['dual_normalized_vals'] + res['duality_gap_normalized_vals']) * 1000.0  * 1000.0],
                                           default=default)))
     # print(f"res['solve_time'] {res['solve_time']}")
-    # print(f"np.sum(res['solve_time']) {np.sum(res['solve_time'])}")
-    # print(f"integral_geom: {integral_geom}")
+    print(f"Total run-time: {np.sum(res['solve_time'])}")
+    print(f"Integral_geom: {integral_geom}")
     # print(f"np.exp(integral_geom) * np.sum(res['solve_time']) {np.exp(integral_geom) * np.sum(res['solve_time'])}")
     integral_geom_scalled = np.exp(integral_geom) * np.sum(res['solve_time'])
+    print(f"Optuna objective value: {integral_geom_scalled}")
     
     # Geometric mean of primal residual
     # prim_res_geom = geom_mean(res['prim_res'])
