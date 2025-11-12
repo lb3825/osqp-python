@@ -1026,7 +1026,8 @@ def problem_solver(
         # prob.setup(P, q, A, l, u, plot=PLOT, verbose=False, eps_abs=EPS_ABS, eps_rel=EPS_REL, eps_prim_inf=EPS_PRIM_INF, eps_dual_inf=EPS_DUAL_INF, time_limit=1e3, max_iter=25000, **current_comb)
         
         # prob.setup(P, q, A, l, u, plot=PLOT, verbose=False, eps_abs=EPS_ABS, eps_rel=EPS_REL, eps_prim_inf=EPS_PRIM_INF, eps_dual_inf=EPS_DUAL_INF, time_limit=300, max_iter=2000000000, **current_comb)
-        prob.setup(P, q, A, l, u, verbose=True, integral=True, eps_abs=EPS_ABS, eps_rel=EPS_REL, eps_prim_inf=EPS_PRIM_INF, eps_dual_inf=EPS_DUAL_INF, time_limit=360, max_iter=2000000000, **current_comb)
+        
+        prob.setup(P, q, A, l, u, verbose=False, integral=True, eps_abs=EPS_ABS, eps_rel=EPS_REL, eps_prim_inf=EPS_PRIM_INF, eps_dual_inf=EPS_DUAL_INF, time_limit=360, max_iter=2000000000, **current_comb)
         
         # prob.setup(P, q, A, l, u, alpha=alpha_val, plot=PLOT, verbose=True, eps_abs=EPS_ABS, eps_rel=EPS_REL, eps_prim_inf=EPS_PRIM_INF, eps_dual_inf=EPS_DUAL_INF, time_limit=120, max_iter=2000000000, 
         #            halpern_anchor=current_comb['halpern_anchor'], ini_rest_len=current_comb['ini_rest_len'], restart_type=current_comb["restart_type"], halpern_scheme=current_comb["halpern_scheme"],
@@ -1254,31 +1255,31 @@ def problem_solver(
         #     raise optuna.TrialPruned()
         
         # if ((prob_counter == 50) and (first_50_osqp_time_ratio_sum / prob_counter > cut_off_multiple)):
-        if ((prob_counter == 50) and (first_50_osqp_time_ratio_sum / prob_counter > cut_off_multiple)):
+        if ((prob_counter == 50) and (first_50_osqp_time_ratio_sum / prob_counter > cut_off_multiple) and (first_50_run_time > FIRST_50_OSQP_RUN_TIME)):
             print(f"pruned as after 50 iterations the average increase in time compared to OSQP is larger than 3", flush=True)
             print(f"The first 50 problems took {first_50_run_time} seconds for this conbination where as OSQP took {FIRST_50_OSQP_RUN_TIME}")
             raise optuna.TrialPruned()
         
         # if ((prob_counter == 100) and (first_100_osqp_time_ratio_sum / prob_counter > cut_off_multiple)):
-        if ((prob_counter == 100) and (first_100_osqp_time_ratio_sum / 50 > cut_off_multiple)):
+        if ((prob_counter == 100) and (first_100_osqp_time_ratio_sum / 50 > cut_off_multiple) and (first_100_run_time > FIRST_100_OSQP_RUN_TIME)):
             print(f"pruned as after 100 iterations the average increase in time compared to OSQP is larger than 3", flush=True)
             print(f"The first 100 problems took {first_100_run_time} seconds for this conbination where as OSQP took {FIRST_100_OSQP_RUN_TIME}")
             raise optuna.TrialPruned()
         
         # if ((prob_counter == 150) and (first_150_osqp_time_ratio_sum / prob_counter > cut_off_multiple)):
-        if ((prob_counter == 150) and (first_150_osqp_time_ratio_sum / 50 > cut_off_multiple)):
+        if ((prob_counter == 150) and (first_150_osqp_time_ratio_sum / 50 > cut_off_multiple) and (first_150_run_time > FIRST_150_OSQP_RUN_TIME)):
             print(f"pruned as after 150 iterations the average increase in time compared to OSQP is larger than 3", flush=True)
             print(f"The first 150 problems took {first_150_run_time} seconds for this conbination where as OSQP took {FIRST_150_OSQP_RUN_TIME}")
             raise optuna.TrialPruned()
         
         # if ((prob_counter == 200) and (first_200_osqp_time_ratio_sum / prob_counter > cut_off_multiple)):
-        if ((prob_counter == 200) and (first_200_osqp_time_ratio_sum / 50 > cut_off_multiple)):
+        if ((prob_counter == 200) and (first_200_osqp_time_ratio_sum / 50 > cut_off_multiple) and (first_200_run_time > FIRST_200_OSQP_RUN_TIME)):
             print(f"pruned as after 200 iterations the average increase in time compared to OSQP is larger than 3", flush=True)
             print(f"The first 200 problems took {first_200_run_time} seconds for this conbination where as OSQP took {FIRST_200_OSQP_RUN_TIME}")
             raise optuna.TrialPruned()
         
         # if ((prob_counter == 250) and (first_250_osqp_time_ratio_sum / prob_counter > cut_off_multiple)):
-        if ((prob_counter == 250) and (first_250_osqp_time_ratio_sum / 50 > cut_off_multiple)):
+        if ((prob_counter == 250) and (first_250_osqp_time_ratio_sum / 50 > cut_off_multiple) and (first_250_run_time > FIRST_250_OSQP_RUN_TIME)):
             print(f"pruned as after 250 iterations the average increase in time compared to OSQP is larger than 3", flush=True)
             print(f"The first 250 problems took {first_250_run_time} seconds for this conbination where as OSQP took {FIRST_250_OSQP_RUN_TIME}")
             raise optuna.TrialPruned()
@@ -1619,7 +1620,8 @@ def objective(trial):
         # From testing we have found that OSQP_HALPERN_ANCHOR_INIT_REST performs best and OSQP_HALPERN_ANCHOR_FIRST_ITER is second best (the difference between the
         #       two is much smaller if alpha_adjustment_reflected_halpern=1)
         halpern_anchor = trial.suggest_categorical("halpern_anchor", 
-                                                [int(osqp.ext_builtin.OSQP_HALPERN_ANCHOR_FIRST_ITER), int(osqp.ext_builtin.OSQP_HALPERN_ANCHOR_INIT_REST)])
+                                                [int(osqp.ext_builtin.OSQP_HALPERN_ANCHOR_FIRST_ITER), int(osqp.ext_builtin.OSQP_HALPERN_ANCHOR_INIT_REST),
+                                                 int(osqp.ext_builtin.OSQP_HALPERN_ANCHOR_INITIAL_POINT), int(osqp.ext_builtin.OSQP_HALPERN_ANCHOR_TAU_NOT)])
         
         if halpern_anchor == int(osqp.ext_builtin.OSQP_HALPERN_ANCHOR_INITIAL_POINT):
             current_comb['halpern_anchor'] = osqp.ext_builtin.OSQP_HALPERN_ANCHOR_INITIAL_POINT
@@ -1676,13 +1678,13 @@ def objective(trial):
                                           default=default))
     
     # Geometric mean of integral sum
-    integral_geom = geom_mean(np.log(np.select(conditions, [res['integral_sums'] + 1e-7, 
-                                                       res['integral_sums'] + (res['prim_normalized_vals'] + res['dual_normalized_vals'] + res['duality_gap_normalized_vals']) * 1000.0  * 1000.0],
-                                          default=default)))
-    # print(f"res['solve_time'] {res['solve_time']}")
+    sel = np.select(conditions, [res['integral_sums'], 
+                                res['integral_sums'] + (res['prim_normalized_vals'] + res['dual_normalized_vals'] + res['duality_gap_normalized_vals']) * 1000.0  * 1000.0],
+                    default=default)
+    integral_geom = geom_mean(np.log(np.maximum(sel, 1e-12)))
+
     print(f"Total run-time: {np.sum(res['solve_time'])}")
     print(f"Integral_geom: {integral_geom}")
-    # print(f"np.exp(integral_geom) * np.sum(res['solve_time']) {np.exp(integral_geom) * np.sum(res['solve_time'])}")
     integral_geom_scalled = np.exp(integral_geom) * np.sum(res['solve_time'])
     print(f"Optuna objective value: {integral_geom_scalled}")
     
