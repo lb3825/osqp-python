@@ -50,7 +50,7 @@ FetchContent_Declare(
     # SOURCE_DIR "C:/Users/baice/Documents/GitHub/osqp"
     # SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../osqp"
 #   GIT_TAG v1.0.0
-  GIT_TAG im/cudss-rebased
+  GIT_TAG b/develop-halpern-ci-fixes
 #   GIT_TAG plot
 )
 list(POP_BACK CMAKE_MESSAGE_INDENT)
