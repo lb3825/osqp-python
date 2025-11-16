@@ -35,7 +35,8 @@ endif()
 # find_package(pybind11 CONFIG REQUIRED)
 
 # Find Python before configuring OSQP
-find_package(Python COMPONENTS Interpreter Development REQUIRED)
+# Use Development.Module for better CMake 4.0+ compatibility
+find_package(Python COMPONENTS Interpreter Development.Module REQUIRED)
 
 # 03/05/24 - Workaround because OSQP CMakeLists.txt is using old variable names
 set(PYTHON_FOUND "ON")
