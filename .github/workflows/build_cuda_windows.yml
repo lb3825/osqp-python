@@ -2,13 +2,11 @@ name: Build CUDA Windows
 
 on:
   push:
-    branches:
-      - master
+    branches: [ master, develop**, ci ]
     tags:
       - '*'
   pull_request:
-    branches:
-      - master
+    branches: [ master, develop** ]
 
 env:
   CUDATOOLKIT_URL: https://developer.download.nvidia.com/compute/cuda/12.6.3/local_installers/cuda_12.6.3_561.17_windows.exe

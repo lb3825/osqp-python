@@ -2,13 +2,11 @@ name: Build MKL Windows
 
 on:
   push:
-    branches:
-      - master
+    branches: [ master, develop**, ci ]
     tags:
       - '*'
   pull_request:
-    branches:
-      - master
+    branches: [ master, develop** ]
 
 env:
   # update urls for oneapi packages according to

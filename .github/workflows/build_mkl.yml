@@ -2,13 +2,11 @@ name: Build MKL Mac/Linux
 
 on:
   push:
-    branches:
-      - master
+    branches: [ master, develop**, ci ]
     tags:
       - '*'
   pull_request:
-    branches:
-      - master
+    branches: [ master, develop** ]
 
 jobs:
   build_wheels:
