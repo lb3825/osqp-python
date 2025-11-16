@@ -142,3 +142,4 @@ ext.sln
 ext_builtin.vcxproj
 ext_builtin.vcxproj.filters
 src/bindings.cpp
+CLAUDE.md
