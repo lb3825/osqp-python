@@ -525,7 +525,7 @@ PYBIND11_MODULE(@OSQP_EXT_MODULE_NAME@, m) {
     .def_readonly("status_polish", &OSQPInfo::status_polish)
     // obj_val is readwrite because Python wrappers may overwrite this value based on status_val
     .def_readwrite("obj_val", &OSQPInfo::obj_val)
-    .def_readwrite("dual_obj_val", &OSQPInfo::dual_obj_val)
+    //.def_readwrite("dual_obj_val", &OSQPInfo::dual_obj_val)
     .def_readonly("prim_res", &OSQPInfo::prim_res)
     .def_readonly("dual_res", &OSQPInfo::dual_res)
     .def_readonly("duality_gap", &OSQPInfo::duality_gap)
