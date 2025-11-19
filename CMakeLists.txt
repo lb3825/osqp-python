@@ -48,11 +48,7 @@ FetchContent_Declare(
   osqp
 #   GIT_REPOSITORY https://github.com/osqp/osqp.git
   GIT_REPOSITORY https://github.com/lb3825/osqp.git
-    # SOURCE_DIR "C:/Users/baice/Documents/GitHub/osqp"
-    # SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../osqp"
-#   GIT_TAG v1.0.0
-  GIT_TAG b/develop-halpern-ci-fixes
-#   GIT_TAG plot
+  GIT_TAG b/cudss-polish-fix
 )
 list(POP_BACK CMAKE_MESSAGE_INDENT)
 FetchContent_MakeAvailable(osqp)
