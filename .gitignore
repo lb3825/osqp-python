@@ -132,6 +132,8 @@ src/osqp/bindings.cpp
 
 
 
+codegen_vec_out/
+codegen_mat_out/
 CMakeFiles/
 INSTALL.vcxproj
 INSTALL.vcxproj.filters

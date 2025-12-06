@@ -23,7 +23,11 @@ def pytest_generate_tests(metafunc):
         values.append(
             ('mkl', 'indirect', 1e-3, 1e-4, 3),
         )
-    if algebra_available('cuda') and 'cuda' in algebras:
+    if algebra_available('cuda') and 'cuda-direct' in algebras:
+        values.append(
+            ('cuda', 'direct', 1e-2, 1e-3, 2),
+        )
+    if algebra_available('cuda') and 'cuda-indirect' in algebras:
         values.append(
             ('cuda', 'indirect', 1e-2, 1e-3, 2),
         )
