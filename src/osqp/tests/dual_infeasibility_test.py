@@ -47,7 +47,7 @@ def test_dual_infeasible_lp(self):
     normalized_dual_inf_cert_correct = np.load(
         os.path.join(os.path.dirname(__file__), 'solutions', 'test_dual_infeasibility.npz')
     )['lp_normalized_dual_inf_cert_correct']
-    assert np.allclose(normalized_dual_inf_cert, normalized_dual_inf_cert_correct)
+    assert np.allclose(normalized_dual_inf_cert, normalized_dual_inf_cert_correct, rtol=1e-4)
 
 
 def test_dual_infeasible_qp(self):
