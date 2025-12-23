@@ -24,11 +24,19 @@ Each backend compiles to a separate extension module:
 - `osqp_cuda` (in osqp-cu12 package)
 
 ### Build Configuration
-The root `CMakeLists.txt` fetches OSQP from https://github.com/lb3825/osqp.git (branch: `b/diagonal_step_sizes`), not the official repo. Custom memory/printing routines are injected via `cmake/printing.h` and `cmake/memory.h`.
+The root `CMakeLists.txt` fetches OSQP from https://github.com/lb3825/osqp.git (branch: `b/cuda-13-blackwell-support`), not the official repo. Custom memory/printing routines are injected via `cmake/printing.h` and `cmake/memory.h`.
 
 The `bindings.cpp.in` template is configured at build time to create `src/bindings.cpp`, which is the pybind11 module source.
 
 ## Development Commands
+
+### Important: Always activate venv before using uv pip
+When using `uv pip`, you MUST first activate the virtual environment. Otherwise `uv pip` may install to a different environment (e.g., conda).
+
+```bash
+source .venv/bin/activate        # ALWAYS do this first
+uv pip install .                 # Then run uv pip commands
+```
 
 ### Installing from Source
 The recommended approach is to use `uv` for environment management and installation. Avoid editable installs (`-e`) as they can break other parts of the build system.
@@ -36,22 +44,49 @@ The recommended approach is to use `uv` for environment management and installat
 ```bash
 # Recommended: use uv
 uv venv                          # Create virtual environment
-source .venv/bin/activate        # Activate it
+source .venv/bin/activate        # Activate it (REQUIRED before uv pip)
 uv pip install .                 # Install main package with builtin backend
 uv pip install .[dev]            # Install with development dependencies
 
-# Alternative: standard pip
+# Alternative: standard pip (after activating venv)
 pip install .                    # Install main package with builtin backend
 pip install .[dev]               # Install with development dependencies
 ```
 
 ### Building Backend Packages
-```bash
-# Build MKL backend
-cd backend/mkl && pip install .
 
-# Build CUDA backend
-cd backend/cuda && pip install .
+#### Building Wheels
+Use `uv build` to create wheel files:
+
+```bash
+# Build main package wheel
+uv build --wheel --out-dir dist
+
+# Build CUDA backend wheel (requires CUDA toolkit)
+uv build backend/cuda --wheel --out-dir dist
+
+# Build MKL backend wheel (requires Intel MKL)
+uv build backend/mkl --wheel --out-dir dist
+```
+
+#### Installing Backend Wheels
+After building wheels, install them:
+
+```bash
+source .venv/bin/activate
+uv pip install dist/osqp_cu12-*.whl    # Install CUDA wheel
+uv pip install dist/osqp_mkl-*.whl     # Install MKL wheel
+```
+
+#### Direct Installation (for development)
+```bash
+source .venv/bin/activate
+
+# Install MKL backend directly
+uv pip install backend/mkl
+
+# Install CUDA backend directly
+uv pip install backend/cuda
 ```
 
 ### Testing
