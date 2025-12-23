@@ -284,7 +284,19 @@ class OSQP:
         renamed_settings = {
             'polish': 'polishing',
             'warm_start': 'warm_starting',
+            'rho': 'rho_init',
+            'sigma': 'sigma_init',
         }
+
+        # Step size settings that have been removed - warn and ignore
+        removed_step_size_settings = {'rho_is_vec'}
+        for k in list(kwargs.keys()):
+            if k in removed_step_size_settings:
+                warnings.warn(
+                    f'"{k}" has been removed (step sizes are now always vectorized). This setting will be ignored.',
+                    DeprecationWarning,
+                )
+                del kwargs[k]
         for k, v in renamed_settings.items():
             if k in kwargs:
                 warnings.warn(
@@ -296,8 +308,8 @@ class OSQP:
 
         settings_changed = False
 
-        if 'rho' in kwargs and self._solver is not None:
-            self._solver.update_rho(kwargs.pop('rho'))
+        if 'rho_init' in kwargs and self._solver is not None:
+            self.update_step_sizes(rho_init=kwargs.pop('rho_init'))
         if 'solver_type' in kwargs:
             value = kwargs.pop('solver_type')
             assert value in ('direct', 'indirect')
@@ -394,12 +406,25 @@ class OSQP:
             self.n,
             self.settings,
         )
-        if 'rho' in settings:
-            self._solver.update_rho(settings['rho'])
+        if 'rho_init' in settings:
+            self.update_step_sizes(rho_init=settings['rho_init'])
 
     def warm_start(self, x=None, y=None):
         # TODO: sanity checks on types/dimensions
         return self._solver.warm_start(x, y)
+
+    def update_step_sizes(self, rho_init=None, sigma_init=None):
+        """
+        Update the step sizes (rho and/or sigma) for the solver.
+
+        Parameters
+        ----------
+        rho_init : float, optional
+            New value for rho step size. If None, rho is not updated.
+        sigma_init : float, optional
+            New value for sigma step size. If None, sigma is not updated.
+        """
+        return self._solver.update_step_sizes(rho_init, sigma_init)
 
     def solve(self, raise_error=None):
         if raise_error is None:

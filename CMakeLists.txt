@@ -48,7 +48,7 @@ FetchContent_Declare(
   osqp
 #   GIT_REPOSITORY https://github.com/osqp/osqp.git
   GIT_REPOSITORY https://github.com/lb3825/osqp.git
-  GIT_TAG develop-halpern
+  GIT_TAG b/diagonal_step_sizes
 )
 list(POP_BACK CMAKE_MESSAGE_INDENT)
 FetchContent_MakeAvailable(osqp)
