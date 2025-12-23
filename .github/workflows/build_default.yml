@@ -2,11 +2,11 @@ name: Build Default
 
 on:
   push:
-    branches: [ master, develop**, ci ]
+    branches: [master, develop**, ci]
     tags:
-      - '*'
+      - "*"
   pull_request:
-    branches: [ master, develop** ]
+    branches: [master, develop**]
 
 jobs:
   build_sdist:
@@ -15,21 +15,21 @@ jobs:
     strategy:
       fail-fast: false
     steps:
-    - uses: actions/checkout@master
-      with:
-        submodules: 'recursive'
+      - uses: actions/checkout@master
+        with:
+          submodules: "recursive"
 
-    - name: Build source
-      run: |
-        python -m pip install build
-        python -m build --sdist --outdir=wheelhouse
+      - name: Build source
+        run: |
+          python -m pip install build
+          python -m build --sdist --outdir=wheelhouse
 
-    - name: Upload sdist to github
-      uses: actions/upload-artifact@v5
-      with:
-        name: wheels-sdist
-        path: wheelhouse/*.tar.gz
-        if-no-files-found: error
+      - name: Upload sdist to github
+        uses: actions/upload-artifact@v5
+        with:
+          name: wheels-sdist
+          path: wheelhouse/*.tar.gz
+          if-no-files-found: error
 
   build_wheels:
     name: Build wheel on ${{ matrix.os }} for ${{ matrix.cibw_archs }}
@@ -44,29 +44,29 @@ jobs:
             cibw_archs: "auto"
           - os: windows-2022
             cibw_archs: "auto64"
-          # Include macos-13 to get Intel x86_64 macs and maos-latest to get the Aaarch64 macs
-          - os: macos-13
+          # Include macos-15 to get Intel x86_64 macs and maos-latest to get the Aaarch64 macs
+          - os: macos-15-intel
             cibw_archs: "x86_64"
           - os: macos-latest
             cibw_archs: "arm64"
 
     steps:
-    - uses: actions/checkout@master
+      - uses: actions/checkout@master
 
-    - name: Build wheels
-      uses: pypa/cibuildwheel@v2.23
-      with:
-        config-file: cibuildwheel.toml
-        output-dir: wheelhouse
-      env:
-        CIBW_ENVIRONMENT_MACOS: CMAKE_OSX_ARCHITECTURES=${{ matrix.cibw_archs }}
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.23
+        with:
+          config-file: cibuildwheel.toml
+          output-dir: wheelhouse
+        env:
+          CIBW_ENVIRONMENT_MACOS: CMAKE_OSX_ARCHITECTURES=${{ matrix.cibw_archs }}
 
-    - name: Upload artifacts to github
-      uses: actions/upload-artifact@v5
-      with:
-        name: wheels-${{ runner.os }}-${{ matrix.cibw_archs }}
-        path: ./wheelhouse/*.whl
-        if-no-files-found: error
+      - name: Upload artifacts to github
+        uses: actions/upload-artifact@v5
+        with:
+          name: wheels-${{ runner.os }}-${{ matrix.cibw_archs }}
+          path: ./wheelhouse/*.whl
+          if-no-files-found: error
 
   publish_to_pypi:
     name: Publish wheels to PyPi
