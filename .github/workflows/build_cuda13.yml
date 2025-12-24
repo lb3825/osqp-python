@@ -10,8 +10,7 @@ on:
 
 env:
   CUDATOOLKIT_URL: https://developer.download.nvidia.com/compute/cuda/13.1.0/local_installers/cuda_13.1.0_windows.exe
-  # CUDA 13 components - use cudart (includes crt headers)
-  CUDATOOLKIT_COMPONENTS: nvcc_13.1 cudart_13.1 cublas_13.1 cublas_dev_13.1 curand_13.1 curand_dev_13.1 cusparse_13.1 cusparse_dev_13.1 thrust_13.1 visual_studio_integration_13.1
+  CUDATOOLKIT_COMPONENTS: nvcc_13.1 nvvm_13.1 crt_13.1 cudart_13.1 cublas_13.1 cublas_dev_13.1 curand_13.1 curand_dev_13.1 cusparse_13.1 cusparse_dev_13.1 thrust_13.1 visual_studio_integration_13.1
 
 jobs:
   build_wheels_linux:

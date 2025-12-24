@@ -1,6 +1,5 @@
 [tool.cibuildwheel]
 build = "cp3*"
-# CUDA 13 requires C++17, skip Python 3.8 which uses older compilers in manylinux2014
 skip = ["cp36-*", "cp37-*", "cp38-*", "*-win32", "*-manylinux_i686", "*-musllinux_*"]
 build-verbosity = 1
 before-build = "rm -rf {package}/osqp_sources/build"
@@ -16,5 +15,5 @@ before-all = [
 environment = { CMAKE_CUDA_COMPILER = "/usr/local/cuda-13.1/bin/nvcc", CMAKE_CUDA_STANDARD = "17", CMAKE_CXX_STANDARD = "17" }
 
 [tool.cibuildwheel.windows]
-# CUDA 13 requires C++17; removed CMAKE_GENERATOR_TOOLSET to let CMake auto-detect
-environment = { CMAKE_CUDA_COMPILER = "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.1/bin/nvcc.exe", CUDA_TOOLKIT_ROOT_DIR = "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.1", CMAKE_CUDA_STANDARD = "17", CMAKE_CXX_STANDARD = "17" }
+# CUDA 13 requires C++17
+environment = { CMAKE_CUDA_COMPILER = "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.1/bin/nvcc.exe", CUDA_TOOLKIT_ROOT_DIR = "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.1", CMAKE_GENERATOR_TOOLSET = "cuda=C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.1", CMAKE_CUDA_STANDARD = "17", CMAKE_CXX_STANDARD = "17" }
