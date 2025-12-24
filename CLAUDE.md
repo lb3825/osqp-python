@@ -12,7 +12,7 @@ This is the Python wrapper for OSQP (Operator Splitting Quadratic Program solver
 OSQP supports multiple algebra backends with different performance characteristics:
 - **builtin**: Default CPU backend, always available (built into main package)
 - **mkl**: Intel MKL-accelerated backend (separate package: `osqp-mkl`)
-- **cuda**: CUDA GPU backend (separate package: `osqp-cu12`)
+- **cuda**: CUDA GPU backend (separate packages: `osqp-cu12` for CUDA 12.x, `osqp-cu13` for CUDA 13.x)
 
 The backend selection happens at runtime via:
 1. `OSQP_ALGEBRA_BACKEND` environment variable (if set)
@@ -21,7 +21,7 @@ The backend selection happens at runtime via:
 Each backend compiles to a separate extension module:
 - `ext_builtin` (in osqp package)
 - `osqp_mkl` (in osqp-mkl package)
-- `osqp_cuda` (in osqp-cu12 package)
+- `osqp_cuda` (in osqp-cu12 or osqp-cu13 packages - mutually exclusive)
 
 ### Build Configuration
 The root `CMakeLists.txt` fetches OSQP from https://github.com/lb3825/osqp.git (branch: `b/cuda-13-blackwell-support`), not the official repo. Custom memory/printing routines are injected via `cmake/printing.h` and `cmake/memory.h`.
@@ -62,8 +62,11 @@ Use `uv build` to create wheel files:
 # Build main package wheel
 uv build --wheel --out-dir dist
 
-# Build CUDA backend wheel (requires CUDA toolkit)
-uv build backend/cuda --wheel --out-dir dist
+# Build CUDA 12 backend wheel (requires CUDA 12.x toolkit)
+uv build backend/cuda12 --wheel --out-dir dist
+
+# Build CUDA 13 backend wheel (requires CUDA 13.x toolkit)
+uv build backend/cuda13 --wheel --out-dir dist
 
 # Build MKL backend wheel (requires Intel MKL)
 uv build backend/mkl --wheel --out-dir dist
@@ -74,9 +77,12 @@ After building wheels, install them:
 
 ```bash
 source .venv/bin/activate
-uv pip install dist/osqp_cu12-*.whl    # Install CUDA wheel
+uv pip install dist/osqp_cu12-*.whl    # Install CUDA 12 wheel
+uv pip install dist/osqp_cu13-*.whl    # Install CUDA 13 wheel (mutually exclusive with cu12)
 uv pip install dist/osqp_mkl-*.whl     # Install MKL wheel
 ```
+
+**Note:** `osqp-cu12` and `osqp-cu13` both provide the same `osqp_cuda` module and cannot be installed simultaneously. Choose the one matching your CUDA version.
 
 #### Direct Installation (for development)
 ```bash
@@ -85,8 +91,11 @@ source .venv/bin/activate
 # Install MKL backend directly
 uv pip install backend/mkl
 
-# Install CUDA backend directly
-uv pip install backend/cuda
+# Install CUDA 12 backend directly
+uv pip install backend/cuda12
+
+# Install CUDA 13 backend directly
+uv pip install backend/cuda13
 ```
 
 ### Testing
@@ -158,7 +167,7 @@ Key CMake defines (set in `pyproject.toml` or backend-specific configs):
 - `src/bindings.cpp.in`: Pybind11 binding template (becomes src/bindings.cpp)
 - `CMakeLists.txt`: Root CMake configuration
 - `src/osqp/tests/conftest.py`: Pytest parametrization for multi-backend testing
-- `backend/{cuda,mkl}/pyproject.toml`: Backend-specific build configs
+- `backend/{cuda12,cuda13,mkl}/pyproject.toml`: Backend-specific build configs
 - `pyproject.toml`: Main package configuration
 
 ## Notes on Current Branch
