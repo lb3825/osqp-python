@@ -22,7 +22,7 @@ def self(algebra, solver_type, atol, rtol, decimal_tol):
         "eps_abs": 1e-09,
         "eps_rel": 1e-09,
         "max_iter": 2500,
-        "rho": 0.1,
+        "rho_init": 0.1,
         "adaptive_rho": False,
         "polishing": False,
         "check_termination": 1,
@@ -110,15 +110,15 @@ def test_update_check_termination(self):
     assert res.info.iter == self.opts["max_iter"]
 
 
-def test_update_rho(self):
+def test_update_step_sizes(self):
     res_default = self.model.solve()
 
-    # Setup with different rho and update
+    # Setup with different rho_init and update using update_step_sizes
     default_opts = self.opts.copy()
-    default_opts["rho"] = 0.7
+    default_opts["rho_init"] = 0.7
     model = OSQP(algebra=self.model.algebra)
     model.setup(P=self.P, q=self.q, A=self.A, l=self.l, u=self.u, **default_opts)
-    model.update_settings(rho=self.opts["rho"])
+    model.update_step_sizes(rho_init=self.opts["rho_init"])
     res_updated_rho = model.solve()
 
     # Assert same number of iterations
