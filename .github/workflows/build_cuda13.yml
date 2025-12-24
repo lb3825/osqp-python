@@ -10,7 +10,8 @@ on:
 
 env:
   CUDATOOLKIT_URL: https://developer.download.nvidia.com/compute/cuda/13.1.0/local_installers/cuda_13.1.0_windows.exe
-  CUDATOOLKIT_COMPONENTS: nvcc_13.1 cudart_13.1 cuda_runtime_13.1 cublas_13.1 cublas_dev_13.1 curand_13.1 curand_dev_13.1 cusparse_13.1 cusparse_dev_13.1 thrust_13.1 visual_studio_integration_13.1
+  # Install all CUDA components (no -s component filter) since component names changed in CUDA 13
+  CUDATOOLKIT_INSTALL_ARGS: -s
 
 jobs:
   build_wheels_linux:
@@ -52,14 +53,14 @@ jobs:
       id: cache-install
       uses: actions/cache@v4
       with:
-        path: C:\Program Files (x86)\Intel\oneAPI\
-        key: install-${{ env.CUDATOOLKIT_URL }}-${{ env.CUDATOOLKIT_COMPONENTS }}
+        path: C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1
+        key: install-cuda-13.1.0
 
     - name: install cuda
       if: steps.cache-install.outputs.cache-hit != 'true'
       run: |
         curl.exe --output %TEMP%\cuda.exe --url %CUDATOOLKIT_URL% --retry 5 --retry-delay 5
-        start /b /wait %TEMP%\cuda.exe -s %CUDATOOLKIT_COMPONENTS%
+        start /b /wait %TEMP%\cuda.exe %CUDATOOLKIT_INSTALL_ARGS%
         del %TEMP%\cuda.exe
 
     - name: Build wheels
