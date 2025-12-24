@@ -35,7 +35,7 @@ jobs:
 
   build_wheels_windows:
     name: Build wheel on Windows
-    runs-on: windows-2022
+    runs-on: windows-2025
     defaults:
       run:
         shell: cmd
