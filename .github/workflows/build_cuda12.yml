@@ -52,8 +52,8 @@ jobs:
       id: cache-install
       uses: actions/cache@v4
       with:
-        path: C:\Program Files (x86)\Intel\oneAPI\
-        key: install-${{ env.CUDATOOLKIT_URL }}-${{ env.CUDATOOLKIT_COMPONENTS }}
+        path: C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.9
+        key: install-cuda-12.9.0
 
     - name: install cuda
       if: steps.cache-install.outputs.cache-hit != 'true'
