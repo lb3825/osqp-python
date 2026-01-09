@@ -47,8 +47,22 @@ list(APPEND CMAKE_MESSAGE_INDENT "  ")
 FetchContent_Declare(
   osqp
 #   GIT_REPOSITORY https://github.com/osqp/osqp.git
-  GIT_REPOSITORY https://github.com/lb3825/osqp.git
-  GIT_TAG b/cuda-13-blackwell-support
+#   GIT_REPOSITORY https://github.com/lb3825/osqp.git
+#   GIT_TAG b/cuda-13-blackwell-support
+  #   GIT_REPOSITORY https://github.com/osqp/osqp.git
+#   GIT_TAG v1.0.0
+#   GIT_REPOSITORY https://github.com/osqp/osqp.git
+#   GIT_REPOSITORY https://github.com/lb3825/osqp.git
+#   GIT_TAG b/cuda-13-blackwell-support
+  SOURCE_DIR "/scratch/gpfs/BSTELLATO/osqp/restarts/restart_folder/osqp"
+#   GIT_TAG v1.0.0
+#   GIT_TAG b/develop-halpern-ci-fixes
+#   GIT_TAG develop-halpern
+#   GIT_TAG b/cuda_improvements
+#   GIT_TAG b/batch_support
+#   GIT_TAG b/cuda_formkkt
+#   GIT_TAG b/diagonal_step_sizes
+#   GIT_TAG 310d8cfbc2cb00df9ceb4829c78bfeac41f2cab7
 )
 list(POP_BACK CMAKE_MESSAGE_INDENT)
 FetchContent_MakeAvailable(osqp)
