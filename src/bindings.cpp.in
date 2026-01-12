@@ -414,16 +414,32 @@ PYBIND11_MODULE(@OSQP_EXT_MODULE_NAME@, m) {
     .export_values();
 
     py::enum_<osqp_rho_norm_scheme>(m, "osqp_rho_norm_scheme", py::module_local())
-    .value("OSQP_NO_ADAPTATION", OSQP_NO_ADAPTATION)
-    .value("OSQP_FIXED_VALUE", OSQP_FIXED_VALUE)
-    .value("OSQP_FIXED_RATIO", OSQP_FIXED_RATIO)
-    .value("OSQP_ADAPTIVE", OSQP_ADAPTIVE)
+    .value("OSQP_NO_ADAPTATION_RHO", OSQP_NO_ADAPTATION_RHO)
+    .value("OSQP_FIXED_VALUE_RHO", OSQP_FIXED_VALUE_RHO)
+    .value("OSQP_FIXED_RATIO_RHO", OSQP_FIXED_RATIO_RHO)
+    .value("OSQP_ADAPTIVE_RHO", OSQP_ADAPTIVE_RHO)
+    .export_values();
 
     py::enum_<osqp_rho_norm_metric>(m, "osqp_rho_norm_metric", py::module_local())
-    .value("OSQP_NO_ADAPTATION", OSQP_NO_ADAPTATION)    
+    .value("OSQP_NO_ADAPTATION_RHO_METRIC", OSQP_NO_ADAPTATION_RHO_METRIC)    
     .value("OSQP_PROJECTION_BOUNDS", OSQP_PROJECTION_BOUNDS)    
     .value("OSQP_POLISH", OSQP_POLISH)    
-    .value("OSQP_CONVEX_COMB", OSQP_CONVEX_COMB)    
+    .value("OSQP_CONVEX_COMB_RHO", OSQP_CONVEX_COMB_RHO)
+    .export_values();
+
+    py::enum_<osqp_sigma_norm_scheme>(m, "osqp_sigma_norm_scheme", py::module_local())
+    .value("OSQP_NO_ADAPTATION_SIGMA", OSQP_NO_ADAPTATION_SIGMA)
+    .value("OSQP_FIXED_VALUE_SIGMA", OSQP_FIXED_VALUE_SIGMA)
+    .value("OSQP_FIXED_RATIO_SIGMA", OSQP_FIXED_RATIO_SIGMA)
+    .value("OSQP_ADAPTIVE_SIGMA", OSQP_ADAPTIVE_SIGMA)
+    .export_values();
+
+    py::enum_<osqp_sigma_norm_metric>(m, "osqp_sigma_norm_metric", py::module_local())
+    .value("OSQP_NO_ADAPTATION_SIGMA_METRIC", OSQP_NO_ADAPTATION_SIGMA_METRIC)    
+    .value("OSQP_DUALITY_GAP", OSQP_DUALITY_GAP)    
+    .value("OSQP_SIMPLEX", OSQP_SIMPLEX)    
+    .value("OSQP_CONVEX_COMB_SIGMA", OSQP_CONVEX_COMB_SIGMA)
+    .export_values();   
 
     // CSC
     py::class_<CSC>(m, "CSC", py::module_local())
@@ -470,6 +486,17 @@ PYBIND11_MODULE(@OSQP_EXT_MODULE_NAME@, m) {
     .def_readwrite("restart_type", &OSQPSettings::restart_type)
     //.def_readwrite("halpern_scheme", &OSQPSettings::halpern_scheme)
     .def_readwrite("halpern_anchor", &OSQPSettings::halpern_anchor)
+
+    .def_readwrite("norm_rho_scheme", &OSQPSettings::norm_rho_scheme)
+    .def_readwrite("norm_rho_metric", &OSQPSettings::norm_rho_metric)
+    .def_readwrite("norm_rho_multiple", &OSQPSettings::norm_rho_multiple)
+
+    .def_readwrite("norm_sigma_scheme", &OSQPSettings::norm_sigma_scheme)
+    .def_readwrite("norm_sigma_metric", &OSQPSettings::norm_sigma_metric)
+    .def_readwrite("norm_sigma_multiple", &OSQPSettings::norm_sigma_multiple)
+    .def_readwrite("sigma_tol", &OSQPSettings::sigma_tol)
+
+
     .def_readwrite("adaptive_rest", &OSQPSettings::adaptive_rest)
     //.def_readwrite("alpha_adjustment_reflected_halpern", &OSQPSettings::alpha_adjustment_reflected_halpern)
     //.def_readwrite("rho_custom_condition", &OSQPSettings::rho_custom_condition)
@@ -496,6 +523,7 @@ PYBIND11_MODULE(@OSQP_EXT_MODULE_NAME@, m) {
     .def_readwrite("adaptive_rho_tolerance", &OSQPSettings::adaptive_rho_tolerance)
     .def_readwrite("adaptive_rho_tolerance_greater", &OSQPSettings::adaptive_rho_tolerance_greater)
     .def_readwrite("adaptive_rho_tolerance_less", &OSQPSettings::adaptive_rho_tolerance_less)
+    .def_readwrite("norm_rho_multiple", &OSQPSettings::norm_rho_multiple)
 
 
     // Settings - Termination parameters
